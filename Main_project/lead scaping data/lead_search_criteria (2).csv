@@ -1,0 +1,7 @@
+business_type,location,search_radius_km,min_rating,max_rating,min_reviews,website_required,phone_required,keywords,notes
+,,,,,,,,,
+Restaurants,"Chennai, Tamil Nadu",10,3.5,4.8,20,No,Yes,"family dining, budget friendly","Target leads with weak online presence for chatbot/upgrade pitch"
+Gyms,"Coimbatore, Tamil Nadu",8,3.0,4.5,10,No,Yes,"fitness center, personal training","No website - pitch new site + AI chatbot"
+Dentists,"Bengaluru, Karnataka",15,4.0,5.0,15,Either,Yes,"dental clinic, orthodontist","High-value niche, check for outdated website design"
+Real Estate Agencies,"Chennai, Tamil Nadu",20,3.5,4.8,25,Yes,Yes,"property dealer, real estate broker","Has website - pitch SEO/mobile upgrade + chatbot"
+Salons,"Madurai, Tamil Nadu",5,3.0,4.5,5,No,No,"beauty salon, hair spa","Low review count acceptable, small local businesses"
