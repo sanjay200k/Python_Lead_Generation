@@ -6,6 +6,11 @@ open-source, locally-run Google Maps scraper) query, runs it via Docker,
 then filters the raw results against the row's criteria and writes a
 "qualified leads" CSV.
 
+Each run is self-contained: it only outputs leads found in THAT run.
+Nothing is merged, deduped, or carried over from previous runs. If you
+rerun the same ROW_NUMBER, the output file for that row is simply
+overwritten with fresh results.
+
 Requirements:
     - Docker Desktop installed and RUNNING
     - pandas installed in your venv (pip install pandas)
@@ -22,15 +27,26 @@ import subprocess
 import pandas as pd
 
 # ---------------- CONFIG ----------------
-CSV_PATH = "lead scaping data/lead_search_criteria (2).csv"
-ROW_NUMBER = 5          # 1 = first row, 2 = second row, etc.
+CSV_PATH = r"F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\lead scaping data\lead_search_criteria (2).csv"
+ROW_NUMBER = 1          # 1 = first row, 2 = second row, etc.
 DEPTH = 5               # gosom scroll depth -> roughly controls result count
 EXIT_ON_INACTIVITY = "3m"
-WORK_DIR = os.path.abspath("gosom_run")   # where queries.txt + results.csv live
+WORK_DIR = os.path.abspath("gosom_run")   # where queries.txt + raw results live
 DOCKER_IMAGE = "gosom/google-maps-scraper"
-CACHE_VOLUME = "gmaps-playwright-cache"   # named volume, reused across runs
-MASTER_LEADS_PATH = os.path.abspath("master_qualified_leads.csv")  # accumulates across every run
+CACHE_VOLUME = "gmaps-playwright-cache"   # named volume (browser cache only, no lead data -- safe to keep)
+
+# Single output file. Cleared and refilled with ONLY this run's leads every
+# time you run the script -- never merged/appended with older runs.
+MASTER_LEADS_PATH = os.path.abspath("master_qualified_leads.csv")
 # -----------------------------------------
+
+
+def clear_master_file(master_path):
+    """Empty out the master leads file at the start of every run so it
+    never carries data from a previous run. The file itself is kept
+    (not deleted) -- it's just wiped back to empty."""
+    open(master_path, "w").close()
+    print(f"Cleared: {master_path}")
 
 
 def load_criteria_row(csv_path, row_number):
@@ -42,18 +58,30 @@ def load_criteria_row(csv_path, row_number):
     return df.iloc[row_number - 1]
 
 
+def build_location(row):
+    """Combine city_area, state_province, country (skipping any blanks)
+    into a single location string, e.g. 'New York City, New York, USA'."""
+    parts = []
+    for col in ("city_area", "state_province", "country"):
+        val = row.get(col)
+        if pd.notna(val) and str(val).strip():
+            parts.append(str(val).strip())
+    return ", ".join(parts)
+
+
 def build_queries(row):
-    """Turn business_type + keywords + location into one query per line."""
-    location = str(row["location"]).strip()
+    """Turn business_category + keywords + location into one query per line."""
+    location = build_location(row)
     terms = set()
 
-    business_type = row.get("business_type")
-    if pd.notna(business_type) and str(business_type).strip():
-        terms.add(str(business_type).strip())
+    business_category = row.get("business_category")
+    if pd.notna(business_category) and str(business_category).strip():
+        terms.add(str(business_category).strip())
 
     keywords = row.get("keywords")
     if pd.notna(keywords) and str(keywords).strip():
-        for kw in str(keywords).split(","):
+        # keywords are semicolon-separated in the new CSV, e.g. "dentist; dental clinic; orthodontist"
+        for kw in str(keywords).split(";"):
             kw = kw.strip()
             if kw:
                 terms.add(kw)
@@ -62,18 +90,16 @@ def build_queries(row):
     return queries
 
 
-def run_gosom(queries, work_dir):
+def run_gosom(queries, work_dir, row_number):
     os.makedirs(work_dir, exist_ok=True)
     queries_path = os.path.join(work_dir, "queries.txt")
-    results_path = os.path.join(work_dir, "raw_results.csv")
+    results_path = os.path.join(work_dir, f"raw_results_row{row_number}.csv")
 
     with open(queries_path, "w", encoding="utf-8") as f:
         f.write("\n".join(queries))
 
-    # Make sure a results.csv file exists before mounting (Docker will
-    # otherwise create it as a directory on some setups)
-    if not os.path.exists(results_path):
-        open(results_path, "w").close()
+    # Always start this file empty so old scrape data can't leak into it
+    open(results_path, "w").close()
 
     cmd = [
         "docker", "run", "--rm",
@@ -94,83 +120,85 @@ def run_gosom(queries, work_dir):
 
 
 def filter_leads(results_path, row):
-    df = pd.read_csv(results_path)
+    try:
+        df = pd.read_csv(results_path)
+    except pd.errors.EmptyDataError:
+        print("Warning: gosom produced no data for this run (empty raw results).")
+        return pd.DataFrame()
+
     if df.empty:
         return df
 
     min_rating = float(row["min_rating"])
-    max_rating = float(row["max_rating"])
     min_reviews = int(row["min_reviews"])
-    website_required = str(row["website_required"]).strip().lower() == "yes"
-    phone_required = str(row["phone_required"]).strip().lower() == "yes"
+
+    website_required = str(row.get("website_required", "")).strip().lower()
+    phone_required = str(row.get("phone_required", "")).strip().lower()
+    email_required = str(row.get("email_required", "")).strip().lower()
 
     df["review_rating"] = pd.to_numeric(df["review_rating"], errors="coerce")
     df["review_count"] = pd.to_numeric(df["review_count"], errors="coerce")
 
     mask = (
-        df["review_rating"].between(min_rating, max_rating)
+        (df["review_rating"] >= min_rating)
         & (df["review_count"] >= min_reviews)
     )
 
-    if website_required:
-        mask &= df["website"].notna() & (df["website"].astype(str).str.strip() != "")
-    if phone_required:
-        mask &= df["phone"].notna() & (df["phone"].astype(str).str.strip() != "")
+    def has_value(col):
+        return df[col].notna() & (df[col].astype(str).str.strip() != "")
+
+    # "Yes" = must have it, "No" = must NOT have it, "Either"/anything else = no filter
+    if website_required == "yes" and "website" in df.columns:
+        mask &= has_value("website")
+    elif website_required == "no" and "website" in df.columns:
+        mask &= ~has_value("website")
+
+    if phone_required == "yes" and "phone" in df.columns:
+        mask &= has_value("phone")
+    elif phone_required == "no" and "phone" in df.columns:
+        mask &= ~has_value("phone")
+
+    if email_required == "yes" and "email" in df.columns:
+        mask &= has_value("email")
+    elif email_required == "no" and "email" in df.columns:
+        mask &= ~has_value("email")
 
     filtered = df[mask].copy()
 
-    # Dedupe by cid (Google's stable place id) if present, else by link
+    # Dedupe only WITHIN this run's results (by cid if present, else link)
     dedupe_col = "cid" if "cid" in filtered.columns else "link"
-    filtered = filtered.drop_duplicates(subset=[dedupe_col])
+    if dedupe_col in filtered.columns:
+        filtered = filtered.drop_duplicates(subset=[dedupe_col])
+
+    # Respect max_leads cap from the criteria row, if present
+    max_leads = row.get("max_leads")
+    if pd.notna(max_leads):
+        filtered = filtered.head(int(max_leads))
 
     return filtered
 
 
-def save_to_master(qualified, row, row_number, master_path):
-    """Append this run's qualified leads to a master CSV that accumulates
-    across every run, tagging each lead with which criteria row/business_type
-    it came from, and deduping across ALL runs by cid (or link)."""
-    if qualified.empty:
-        return qualified
-
-    tagged = qualified.copy()
-    tagged.insert(0, "source_row", row_number)
-    tagged.insert(1, "source_business_type", row["business_type"])
-    tagged.insert(2, "source_location", row["location"])
-
-    dedupe_col = "cid" if "cid" in tagged.columns else "link"
-
-    if os.path.exists(master_path):
-        existing = pd.read_csv(master_path)
-        combined = pd.concat([existing, tagged], ignore_index=True)
-        combined = combined.drop_duplicates(subset=[dedupe_col], keep="first")
-    else:
-        combined = tagged
-
-    combined.to_csv(master_path, index=False)
-    return combined
-
-
 def main():
+    # Step 1: wipe the master file clean before doing anything else
+    clear_master_file(MASTER_LEADS_PATH)
+
     row = load_criteria_row(CSV_PATH, ROW_NUMBER)
-    print(f"--- Using row {ROW_NUMBER}: {row['business_type']} in {row['location']} ---")
+    print(f"--- Using row {ROW_NUMBER}: {row['business_category']} in {build_location(row)} ---")
 
     queries = build_queries(row)
     print("Queries to run:")
     for q in queries:
         print(" -", q)
 
-    raw_results_path = run_gosom(queries, WORK_DIR)
+    raw_results_path = run_gosom(queries, WORK_DIR, ROW_NUMBER)
 
     qualified = filter_leads(raw_results_path, row)
-    out_path = os.path.join(WORK_DIR, f"qualified_leads_row{ROW_NUMBER}.csv")
-    qualified.to_csv(out_path, index=False)
 
-    master = save_to_master(qualified, row, ROW_NUMBER, MASTER_LEADS_PATH)
+    # Step 2: write ONLY this run's leads into the (now-empty) master file
+    qualified.to_csv(MASTER_LEADS_PATH, index=False)
 
-    print(f"\nRaw results: {raw_results_path}")
-    print(f"Qualified leads this run ({len(qualified)}): {out_path}")
-    print(f"Master leads file ({len(master)} total, deduped): {MASTER_LEADS_PATH}")
+    print(f"\nRaw results (this run only): {raw_results_path}")
+    print(f"Qualified leads written ({len(qualified)}): {MASTER_LEADS_PATH}")
 
 
 if __name__ == "__main__":
