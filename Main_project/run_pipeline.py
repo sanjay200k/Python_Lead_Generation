@@ -80,7 +80,7 @@ import pandas as pd
 
 # ---------------- CONFIG ----------------
 CSV_PATH = r"F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\lead scaping data\lead_search_criteria (2).csv"
-ROW_NUMBER = 1          # 1 = first row, 2 = second row, etc.
+ROW_NUMBER = 3          # 1 = first row, 2 = second row, etc.
 BASE_DEPTH = 5          # gosom scroll depth baseline; scaled by `priority` per row
 EXIT_ON_INACTIVITY = "3m"
 WORK_DIR = os.path.abspath("gosom_run")             # per-run raw scrape + per-row output files
