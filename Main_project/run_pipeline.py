@@ -8,59 +8,18 @@ then filters the raw results against that row's criteria and writes:
   1) a per-row output, in TWO easy-to-read formats:
        - qualified_leads_row{N}.xlsx  (formatted spreadsheet -- open and go)
        - qualified_leads_row{N}.csv   (plain CSV, kept for compatibility)
-  2) an upsert into a PERSISTENT master SQLite database that accumulates
-     good leads across every row and every run you ever do (never wiped),
-     plus a master_qualified_leads.xlsx snapshot regenerated from it every
-     run so you always have a readable copy without opening a DB browser.
+  2) an upsert into a PERSISTENT master CSV that accumulates good leads
+     across every row and every run you ever do (never wiped), plus a
+     master_qualified_leads.xlsx snapshot regenerated from it every run
+     so you always have a readable, formatted copy too.
 
-WHAT CHANGED IN THIS VERSION (on top of the email/phone-filter fix,
-exclude_terms rework, priority-based depth, language flag, and
-max_leads-sorts-before-cap fix from the previous version):
-
-  1. OUTPUT FORMAT: swapped the master from a bare CSV to a SQLite
-     database (master_leads.db). Two concrete problems that solves:
-       - Your own raw_results_row1.csv sample turned out to contain
-         JSON blobs (full review objects, "about" option arrays) inside
-         individual cells. Round-tripping that through repeated
-         CSV read/write cycles for the master file is exactly the kind
-         of thing that eventually corrupts a row (a stray comma or
-         quote inside a blob gets misread) -- SQLite has no equivalent
-         failure mode, since it stores TEXT natively instead of playing
-         escaping games.
-       - "an easy to read file like SQL" was literally what you asked
-         for: master_leads.db opens in DB Browser for SQLite, or you
-         can now `SELECT * FROM qualified_leads WHERE review_rating >= 4.5`
-         directly instead of writing pandas filters. See query_master()
-         at the bottom for a ready-made example.
-     A formatted .xlsx snapshot (bold header, frozen header row,
-     autofit columns, clickable website/Google Maps links) is written
-     alongside it every run for quick eyeballing.
-
-  2. RAW-CSV SHAPE GUARD: your actual scraper output
-     (raw_results_row1.csv) turned out to be TRANSPOSED -- field names
-     running down column B, with each business's values spread across
-     dozens of repeated columns to the right (array fields like
-     "user_reviews" and "about" forced every scalar field to repeat
-     once per array element). A plain pd.read_csv() on that shape
-     silently produces garbage: fields become rows and businesses
-     become columns, so every filter in this script would either
-     KeyError or quietly compare the wrong axis. normalize_raw_csv()
-     now detects that shape and reshapes it back to one row per
-     business before anything else touches the data. If gosom is
-     writing normal tabular CSVs for you, this is a no-op.
-
-  3. search_radius_km and review_quality_filter: gosom takes a text
-     query, not a lat/long + radius, so search_radius_km can't be
-     applied without a geocoding step this script doesn't have.
-     review_quality_filter's format is inconsistent across rows
-     ("Outdated; average; good; none" isn't one filterable value).
-     Both are now printed per row (like toggle_1..5) instead of being
-     silently ignored, so you can see exactly what isn't being
-     enforced.
-
-  4. Safer numeric parsing: min_rating/min_reviews/max_leads no longer
-     raise an uncaught exception if a row has them blank or malformed
-     -- they fall back to "no filter" / "no cap" with a printed note.
+CHANGE IN THIS VERSION: SQLite has been removed entirely. The master
+store is now a single CSV (master_leads.csv) -- read with pandas,
+deduped by `cid` (newest wins), rewritten each run. No Docker/DB-browser
+dependency, no SQLite INTEGER overflow risk from large Google Maps `cid`
+values (they're just written as plain text in a CSV, no type coercion
+issue). If you ever want to query it, just `pd.read_csv(MASTER_CSV_PATH)`
+and filter with pandas, or open it in Excel.
 
 Requirements:
     - Docker Desktop installed and RUNNING
@@ -72,7 +31,6 @@ Usage:
 """
 
 import os
-import sqlite3
 import subprocess
 from datetime import datetime, timezone
 
@@ -88,9 +46,7 @@ DOCKER_IMAGE = "gosom/google-maps-scraper"
 CACHE_VOLUME = "gmaps-playwright-cache"             # named volume (browser cache only)
 
 # Persistent, NEVER wiped -- accumulates good leads across every row/run.
-# This is now the single source of truth (replaces the old master CSV).
-MASTER_DB_PATH = os.path.abspath("master_leads.db")
-MASTER_DB_TABLE = "qualified_leads"
+MASTER_CSV_PATH = os.path.abspath("master_leads.csv")
 MASTER_EXCEL_PATH = os.path.abspath("master_qualified_leads.xlsx")
 
 # Optional, user-maintained. Add a `cid` (preferred) or `business_name`
@@ -343,7 +299,7 @@ def apply_exclude_terms(filtered, row, master_history_cids, contacted_ids):
         if "cid" in filtered.columns:
             filtered = filtered[~filtered["cid"].astype(str).isin(master_history_cids)]
             print(f"exclude_terms 'duplicates' removed {before - len(filtered)} "
-                  f"lead(s) already present in {MASTER_DB_PATH}.")
+                  f"lead(s) already present in {MASTER_CSV_PATH}.")
         else:
             print("Warning: exclude_terms has 'duplicates' but no 'cid' column "
                   "exists in raw results -- skipped.")
@@ -363,18 +319,19 @@ def apply_exclude_terms(filtered, row, master_history_cids, contacted_ids):
     return filtered
 
 
-def load_master_from_db(db_path, table=MASTER_DB_TABLE):
-    if not os.path.exists(db_path):
+def load_master_csv(csv_path=MASTER_CSV_PATH):
+    """Load the persistent master CSV. Returns an empty DataFrame if it
+    doesn't exist yet or is empty/corrupt (never raises)."""
+    if not os.path.exists(csv_path):
         return pd.DataFrame()
-    with sqlite3.connect(db_path) as conn:
-        try:
-            return pd.read_sql(f"SELECT * FROM {table}", conn)
-        except (pd.errors.DatabaseError, sqlite3.OperationalError):
-            return pd.DataFrame()
+    try:
+        return pd.read_csv(csv_path)
+    except pd.errors.EmptyDataError:
+        return pd.DataFrame()
 
 
-def load_master_history_cids(db_path):
-    existing = load_master_from_db(db_path)
+def load_master_history_cids(csv_path=MASTER_CSV_PATH):
+    existing = load_master_csv(csv_path)
     if "cid" in existing.columns:
         return set(existing["cid"].dropna().astype(str))
     return set()
@@ -550,11 +507,11 @@ def write_excel(df, path, url_labels=None):
     print(f"Wrote {len(df)} row(s) to {path}")
 
 
-def upsert_master_db(filtered, row, row_number, db_path, table=MASTER_DB_TABLE):
-    """Add/refresh this run's qualified leads into the persistent SQLite
-    master, tagged with source info, deduped by cid (newest data wins)."""
+def upsert_master_csv(filtered, row, row_number, csv_path=MASTER_CSV_PATH):
+    """Add/refresh this run's qualified leads into the persistent master
+    CSV, tagged with source info, deduped by cid (newest data wins)."""
     if filtered.empty:
-        return load_master_from_db(db_path, table)
+        return load_master_csv(csv_path)
 
     tagged = filtered.copy()
     tagged.insert(0, "source_row", row_number)
@@ -562,32 +519,20 @@ def upsert_master_db(filtered, row, row_number, db_path, table=MASTER_DB_TABLE):
     tagged.insert(2, "source_location", build_location(row))
     tagged["added_at"] = datetime.now(timezone.utc).isoformat()
 
-    existing = load_master_from_db(db_path, table)
+    existing = load_master_csv(csv_path)
     dedupe_col = "cid" if "cid" in tagged.columns else "link"
     combined = pd.concat([existing, tagged], ignore_index=True, sort=False)
     if dedupe_col in combined.columns:
+        # Keep cid/link as plain strings -- these are opaque IDs, not
+        # numbers to do math on, and large Google Maps cid values can be
+        # far bigger than a normal int, so writing them as text avoids
+        # any type-conversion surprises when this CSV is reopened later.
+        combined[dedupe_col] = combined[dedupe_col].astype(str)
         combined = combined.drop_duplicates(subset=[dedupe_col], keep="last")
 
-    with sqlite3.connect(db_path) as conn:
-        combined.to_sql(table, conn, if_exists="replace", index=False)
-        if dedupe_col in combined.columns:
-            try:
-                conn.execute(f'CREATE UNIQUE INDEX IF NOT EXISTS idx_{table}_{dedupe_col} '
-                             f'ON {table} ("{dedupe_col}")')
-            except sqlite3.OperationalError:
-                pass  # duplicate/blank keys can exist pre-dedupe edge cases -- non-fatal
-
-    print(f"Master DB now has {len(combined)} total accumulated leads: {db_path} (table: {table})")
+    combined.to_csv(csv_path, index=False)
+    print(f"Master CSV now has {len(combined)} total accumulated leads: {csv_path}")
     return combined
-
-
-def query_master(sql, db_path=MASTER_DB_PATH):
-    """Handy helper for ad-hoc SQL against the master leads database, e.g.:
-        query_master("SELECT title, review_rating FROM qualified_leads "
-                     "WHERE review_rating >= 4.5 ORDER BY review_count DESC")
-    """
-    with sqlite3.connect(db_path) as conn:
-        return pd.read_sql(sql, conn)
 
 
 def run_one_row(row_number):
@@ -605,13 +550,13 @@ def run_one_row(row_number):
 
     raw_results_path = run_gosom(queries, WORK_DIR, row_number, depth, lang_code)
 
-    master_history_cids = load_master_history_cids(MASTER_DB_PATH)
+    master_history_cids = load_master_history_cids(MASTER_CSV_PATH)
     contacted_ids = load_contacted_ids(CONTACTED_LEADS_PATH)
 
     qualified = filter_leads(raw_results_path, row, master_history_cids, contacted_ids)
 
     # Master gets the full-detail upsert (needed for future dedupe/history)
-    master_df = upsert_master_db(qualified, row, row_number, MASTER_DB_PATH)
+    master_df = upsert_master_csv(qualified, row, row_number, MASTER_CSV_PATH)
     write_excel(master_df, MASTER_EXCEL_PATH, url_labels={"website", "link"})
 
     # Per-row output: reshaped, human-facing, in both xlsx and csv
