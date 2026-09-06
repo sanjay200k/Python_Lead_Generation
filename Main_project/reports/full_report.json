@@ -1,93 +1,190 @@
 {
   "url": "https://www.nymidtowndental.com/",
-  "score": 54.5,
-  "breakdown": {
-    "performance": 19.1,
-    "accessibility": 9.3,
-    "seo_technical": 7.5,
-    "security": 8.6,
-    "ai_chatbot": 0,
-    "broken_links": 10.0,
+  "health_score": 14.7,
+  "max_health_score": 65,
+  "health_breakdown": {
+    "performance": 0.0,
+    "accessibility": 0.0,
+    "seo_technical": 3.3,
+    "ux_technical": 0.0,
+    "security": 8.9,
+    "technical_health": 2.5,
     "local_schema": 0
   },
-  "lighthouse_mobile": {
-    "form_factor": "mobile",
-    "runs_completed": 3,
-    "scores_median": {
-      "performance": 68.0,
-      "accessibility": 93.0,
-      "best-practices": 96.0,
-      "seo": 40.0
-    },
-    "key_metrics": {
-      "First Contentful Paint": "1.0\u00a0s",
-      "Largest Contentful Paint": "3.2\u00a0s",
-      "Speed Index": "1.2\u00a0s",
-      "Total Blocking Time": "1,400\u00a0ms",
-      "Cumulative Layout Shift": "0.006",
-      "Time to Interactive": "3.9\u00a0s"
-    },
-    "opportunities": [
-      "Largest Contentful Paint: 3.2\u00a0s",
-      "Total Blocking Time: 1,400\u00a0ms",
-      "Max Potential First Input Delay: 610\u00a0ms",
-      "Time to Interactive: 3.9\u00a0s",
-      "Avoid multiple page redirects: Est savings of 770\u00a0ms",
-      "Minimize main-thread work: 3.3\u00a0s",
-      "Reduce JavaScript execution time: 1.9\u00a0s",
-      "Reduce unused JavaScript: Est savings of 22\u00a0KiB",
-      "Page has unsuccessful HTTP status code: 403",
-      "Page prevented back/forward cache restoration: 3 failure reasons",
-      "Document request latency: Est savings of 120\u00a0ms"
-    ],
-    "screenshot": "F:\\AI automation\\AI automation\\Python_Lead_Generation - Copy\\Python_Lead_Generation\\Main_project\\reports\\screenshots\\screenshot_mobile.png",
-    "raw_score_samples": {
-      "performance": [
-        66.0,
-        68.0,
-        76.0
-      ]
-    }
+  "untested_health_categories": [
+    "performance",
+    "accessibility"
+  ],
+  "opportunity_score": 0.0,
+  "max_opportunity_score": 100,
+  "opportunity_breakdown": {
+    "ai_chatbot_or_livechat": 0,
+    "lead_capture_form": 0,
+    "whatsapp_cta": 0,
+    "phone_cta": 0,
+    "appointment_booking": 0,
+    "trust_signals": 0,
+    "local_schema_completeness": 0.0
   },
-  "lighthouse_desktop": {
-    "form_factor": "desktop",
-    "runs_completed": 3,
-    "scores_median": {
-      "performance": 89.0,
-      "accessibility": 93.0,
-      "best-practices": 96.0,
-      "seo": 40.0
+  "issues": [
+    {
+      "category": "Security",
+      "problem": "Missing recommended security headers.",
+      "evidence": "Missing: Strict-Transport-Security.",
+      "why_it_matters": "These headers protect visitors from clickjacking, MIME-sniffing, and injection attacks, and are checked by some security-conscious visitors/tools.",
+      "fix": "Add the missing headers at the web server or CDN level.",
+      "priority": "HIGH"
     },
-    "key_metrics": {
-      "First Contentful Paint": "0.3\u00a0s",
-      "Largest Contentful Paint": "0.4\u00a0s",
-      "Speed Index": "0.7\u00a0s",
-      "Total Blocking Time": "280\u00a0ms",
-      "Cumulative Layout Shift": "0.001",
-      "Time to Interactive": "1.2\u00a0s"
+    {
+      "category": "Technical SEO",
+      "problem": "No robots.txt found.",
+      "evidence": "GET https://www.nymidtowndental.com/robots.txt did not return 200.",
+      "why_it_matters": "robots.txt helps search engines crawl the site efficiently; its absence isn't fatal but is a quick, free fix.",
+      "fix": "Add a simple robots.txt allowing crawlers and pointing to the sitemap.",
+      "priority": "LOW"
     },
-    "opportunities": [
-      "Total Blocking Time: 280\u00a0ms",
-      "Max Potential First Input Delay: 280\u00a0ms",
-      "Avoid multiple page redirects: Est savings of 210\u00a0ms",
-      "Page has unsuccessful HTTP status code: 403",
-      "Page prevented back/forward cache restoration: 1 failure reason",
-      "Document request latency: Est savings of 340\u00a0ms"
-    ],
-    "screenshot": "F:\\AI automation\\AI automation\\Python_Lead_Generation - Copy\\Python_Lead_Generation\\Main_project\\reports\\screenshots\\screenshot_desktop.png",
-    "raw_score_samples": {
-      "performance": [
-        82.0,
-        98.0,
-        89.0
-      ]
+    {
+      "category": "Technical SEO",
+      "problem": "No XML sitemap found.",
+      "evidence": "Checked https://www.nymidtowndental.com/sitemap.xml.",
+      "why_it_matters": "A sitemap helps search engines discover and index all pages, especially on smaller or newer sites with few external links.",
+      "fix": "Generate an XML sitemap and reference it in robots.txt.",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "Technical Health",
+      "problem": "No favicon found.",
+      "evidence": "No <link rel=\"icon\"> tag and no /favicon.ico.",
+      "why_it_matters": "A missing favicon looks unfinished in browser tabs, bookmarks, and search results.",
+      "fix": "Add a favicon.ico (and modern <link rel=\"icon\"> tags) in the site's <head>.",
+      "priority": "LOW"
+    },
+    {
+      "category": "SEO",
+      "problem": "No Open Graph tags found.",
+      "evidence": "og:title / og:description / og:image are all missing.",
+      "why_it_matters": "Links shared on social media or messaging apps show a blank/ugly preview, reducing click-through from shares.",
+      "fix": "Add og:title, og:description, and og:image meta tags.",
+      "priority": "LOW"
+    },
+    {
+      "category": "Automation Opportunity",
+      "problem": "No AI chatbot or live-chat widget detected.",
+      "evidence": "No known chat/AI widget signature found in the page HTML (detection is limited to static HTML \u2014 a widget could still load dynamically).",
+      "why_it_matters": "Visitors with quick questions, especially after hours, have no immediate way to get answers, which may cost leads to a competitor who responds faster.",
+      "fix": "Add an AI receptionist / live-chat widget to answer FAQs and qualify leads 24/7.",
+      "priority": "HIGH"
+    },
+    {
+      "category": "Automation Opportunity",
+      "problem": "No WhatsApp click-to-chat link detected.",
+      "evidence": "No wa.me/ or api.whatsapp.com/send link found in the page HTML.",
+      "why_it_matters": "In many markets, WhatsApp is visitors' preferred contact channel; its absence adds friction versus a competitor with one-tap WhatsApp contact.",
+      "fix": "Add a WhatsApp click-to-chat button (wa.me link) near the main CTA.",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "Conversion",
+      "problem": "No appointment/booking system detected.",
+      "evidence": "No known booking-widget signature or 'book an appointment' phrasing found.",
+      "why_it_matters": "Requiring visitors to call during business hours to book loses after-hours and phone-averse visitors.",
+      "fix": "Add an online booking widget (e.g. Calendly, Acuity, Setmore) to the site.",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "Conversion",
+      "problem": "No lead-capture form detected.",
+      "evidence": "No <form> with meaningful input fields found on this page.",
+      "why_it_matters": "Visitors who aren't ready to call have no low-friction way to leave their details, so interested visitors may simply leave.",
+      "fix": "Add a short contact/quote-request form (name, contact info, message) above the fold.",
+      "priority": "HIGH"
+    },
+    {
+      "category": "Conversion",
+      "problem": "No clickable phone (tel:) link detected.",
+      "evidence": "No <a href=\"tel:...\"> found.",
+      "why_it_matters": "On mobile, a non-clickable phone number requires visitors to copy/retype it, adding friction to the easiest possible conversion.",
+      "fix": "Wrap the phone number in a tel: link, especially in the header/footer.",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "SEO",
+      "problem": "Page is missing a <title> tag.",
+      "evidence": "No <title> found.",
+      "why_it_matters": "The title is the primary text shown in search results and browser tabs.",
+      "fix": "Add a unique, descriptive <title> (roughly 10-60 characters).",
+      "priority": "HIGH"
+    },
+    {
+      "category": "SEO",
+      "problem": "Page is missing a meta description.",
+      "evidence": "No <meta name=\"description\"> found.",
+      "why_it_matters": "Search engines often show the meta description as the search-result snippet; without one, Google picks arbitrary page text.",
+      "fix": "Write a compelling 50-160 character meta description.",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "Mobile",
+      "problem": "No mobile viewport meta tag.",
+      "evidence": "No <meta name=\"viewport\"> found.",
+      "why_it_matters": "Without it, mobile browsers render a desktop-width layout and zoom out, which is a major usability failure on phones.",
+      "fix": "Add <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">.",
+      "priority": "CRITICAL"
+    },
+    {
+      "category": "SEO",
+      "problem": "Page does not have exactly one H1.",
+      "evidence": "Found no H1 tag.",
+      "why_it_matters": "A single clear H1 helps both visitors and search engines understand the page's main topic at a glance.",
+      "fix": "Use exactly one H1 that states the page's main heading.",
+      "priority": "LOW"
+    },
+    {
+      "category": "SEO",
+      "problem": "No canonical tag found.",
+      "evidence": "No <link rel=\"canonical\"> found.",
+      "why_it_matters": "Without a canonical tag, duplicate/parameterized URLs can split ranking signals.",
+      "fix": "Add a self-referencing canonical tag to every indexable page.",
+      "priority": "LOW"
+    },
+    {
+      "category": "Local SEO",
+      "problem": "No LocalBusiness (or similar) structured data found.",
+      "evidence": "No JSON-LD node with a recognized local-business @type found.",
+      "why_it_matters": "Structured data helps Google show rich results (hours, ratings, address) directly in search, and powers map/voice-search discovery.",
+      "fix": "Add JSON-LD LocalBusiness schema with name, address, phone, and hours.",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "Conversion",
+      "problem": "No visible trust signals (testimonials/reviews) detected.",
+      "evidence": "No testimonial/review keywords and no AggregateRating schema found.",
+      "why_it_matters": "New visitors have no social proof that other customers had a good experience, which can slow down the decision to contact/buy.",
+      "fix": "Add a few real customer testimonials or reviews, ideally with review schema markup.",
+      "priority": "MEDIUM"
     }
+  ],
+  "manual_review_needed": [
+    "First impression / visual hierarchy",
+    "Branding and image quality",
+    "CTA placement and clarity (visual, above/below the fold)",
+    "Mobile layout rendering (overflow, spacing, sticky elements)",
+    "Navigation and menu usability as experienced by a real visitor",
+    "Competitor / modern-design comparison",
+    "Screenshots of concrete problems"
+  ],
+  "business_info": {
+    "name": null,
+    "telephone": null,
+    "address": null
   },
-  "ssl": {
+  "lighthouse_mobile": null,
+  "lighthouse_desktop": null,
+  "ssl_info": {
     "valid": true,
     "issuer": "Google Trust Services",
     "expires": "2026-10-23",
-    "days_left": 48,
+    "days_left": 47,
     "protocol": "TLSv1.3"
   },
   "security_headers": {
@@ -98,27 +195,67 @@
     "Referrer-Policy": true,
     "Permissions-Policy": true
   },
+  "mixed_content": {
+    "checked": true,
+    "insecure_reference_count": 0,
+    "sample": []
+  },
+  "http_to_https_redirect": true,
+  "robots_and_sitemap": {
+    "robots_txt_found": false,
+    "sitemap_found": false,
+    "sitemap_url": null
+  },
+  "favicon_found": false,
+  "open_graph": {
+    "og:title": false,
+    "og:description": false,
+    "og:image": false
+  },
   "chatbot": {
     "detected": false,
     "providers": []
   },
+  "whatsapp": {
+    "detected": false
+  },
+  "appointment_booking": {
+    "detected": false
+  },
+  "lead_capture_form": {
+    "detected": false,
+    "form_count": 0,
+    "fields_in_first_form": null
+  },
+  "phone_cta": {
+    "detected": false,
+    "count": 0
+  },
+  "trust_signals": {
+    "detected": false,
+    "keyword_match": false,
+    "rating_schema_found": false
+  },
   "seo": {
-    "title": "Just a moment...",
-    "title_length": 16,
+    "title": null,
+    "title_length": 0,
     "meta_description": null,
     "meta_description_length": 0,
-    "has_viewport_tag": true,
+    "has_viewport_tag": false,
     "has_canonical_tag": false,
     "h1_count": 0,
     "total_images": 0,
     "images_missing_alt": 0,
-    "robots_meta": "noindex,nofollow"
+    "robots_meta": null,
+    "noindex": false
   },
   "schema": {
     "schema_found": false,
     "schema_types": [],
     "phone_found": false,
-    "address_found": false
+    "address_found": false,
+    "has_aggregate_rating": false,
+    "has_opening_hours": false
   },
   "broken_links": {
     "checked_count": 0,
@@ -126,5 +263,6 @@
     "broken_count": 0,
     "rate_limited": [],
     "rate_limited_count": 0
-  }
+  },
+  "fetch_warning": null
 }

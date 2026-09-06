@@ -1,0 +1,10 @@
+Hi there,
+
+I was reviewing your website (https://www.nymidtowndental.com/) and noticed a few areas that could be improved, particularly no mobile viewport meta tag, missing recommended security headers, no ai chatbot or live-chat widget detected.
+
+I work on website performance, SEO, conversion optimization, and AI automation for local businesses, and I put together a quick audit showing what I'd change and why.
+
+If you're interested, I'd be happy to send over the full audit and recommendations.
+
+Best,
+[Your Name]
