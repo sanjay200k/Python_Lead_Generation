@@ -13,13 +13,39 @@ then filters the raw results against that row's criteria and writes:
      master_qualified_leads.xlsx snapshot regenerated from it every run
      so you always have a readable, formatted copy too.
 
-CHANGE IN THIS VERSION: SQLite has been removed entirely. The master
-store is now a single CSV (master_leads.csv) -- read with pandas,
-deduped by `cid` (newest wins), rewritten each run. No Docker/DB-browser
-dependency, no SQLite INTEGER overflow risk from large Google Maps `cid`
-values (they're just written as plain text in a CSV, no type coercion
-issue). If you ever want to query it, just `pd.read_csv(MASTER_CSV_PATH)`
-and filter with pandas, or open it in Excel.
+CHANGES IN THIS VERSION (all three fix known output-quality issues):
+
+  1. CATEGORY WHITELIST (new)
+     Previously the only category control was `exclude_terms`, a
+     substring blacklist. Blacklists always leak: "Bar", "Event planner",
+     "Boxing Coaching Center", "Kickboxing school" all slipped through a
+     "fitness" search because nothing said they weren't allowed. Add an
+     `allowed_categories` column to your criteria CSV (semicolon
+     separated) and only those exact categories survive. Leave it blank
+     to keep the old (looser) behavior.
+
+  2. URL CLEANING (new)
+     Website URLs often carry `?utm_source=...` tracking junk. Harmless
+     to click, but bad for deduping by domain or importing into a CRM.
+     Every website/link value is now stripped down to scheme+host+path
+     before anything else touches it.
+
+  3. max_leads ENFORCEMENT (now loud, with a safe fallback)
+     The capping logic already existed, but if `max_leads` was left
+     blank in the criteria CSV, the script would silently ship every
+     qualified lead (60+ rows is not unusual). It's now a visible
+     warning AND falls back to DEFAULT_MAX_LEADS_IF_BLANK so a forgotten
+     field can't accidentally dump an unbounded list on you.
+
+  4. EXCEL CELL-LENGTH SAFETY (new)
+     The persistent master file keeps every raw gosom column (unlike the
+     per-row output, which is reshaped to your chosen output_columns).
+     A raw field like `about` or `user_reviews` can carry a full JSON
+     blob of review text well past Excel's 32,767-character-per-cell
+     hard limit, which Excel then truncates silently. write_excel() now
+     truncates proactively with a visible "...[TRUNCATED]" marker and a
+     console note naming the offending column, instead of losing data
+     quietly.
 
 Requirements:
     - Docker Desktop installed and RUNNING
@@ -33,12 +59,17 @@ Usage:
 import os
 import subprocess
 from datetime import datetime, timezone
+from urllib.parse import urlsplit, urlunsplit
 
 import pandas as pd
 
-# ---------------- CONFIG ----------------
-CSV_PATH = r"F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\lead scaping data\lead_search_criteria (2).csv"
-ROW_NUMBER = 3          # 1 = first row, 2 = second row, etc.
+# =========================================================================
+# SEGMENT 1: CONFIG
+# Everything you're likely to tweak lives here, in one place.
+# =========================================================================
+
+CSV_PATH = r"F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\lead scaping data\fitness_leads.csv"
+ROW_NUMBER =1           # 1 = first row, 2 = second row, etc.
 BASE_DEPTH = 5          # gosom scroll depth baseline; scaled by `priority` per row
 EXIT_ON_INACTIVITY = "3m"
 WORK_DIR = os.path.abspath("gosom_run")             # per-run raw scrape + per-row output files
@@ -55,6 +86,10 @@ MASTER_EXCEL_PATH = os.path.abspath("master_qualified_leads.xlsx")
 CONTACTED_LEADS_PATH = os.path.abspath("contacted_leads.csv")
 
 PRIORITY_DEPTH_MAP = {"high": 7, "medium": 5, "low": 3}
+
+# NEW: fallback cap used when a criteria row leaves max_leads blank.
+# Prevents an unbounded "qualified leads" file from shipping silently.
+DEFAULT_MAX_LEADS_IF_BLANK = 25
 
 LANGUAGE_TO_CODE = {
     "english": "en", "arabic": "ar", "french": "fr", "spanish": "es",
@@ -79,8 +114,24 @@ OUTPUT_COLUMN_CANDIDATES = {
 URL_LABELS = {"website", "google maps url"}  # get hyperlinked in the Excel output
 NAME_LOOKUP_CANDIDATES = ["title", "name", "business_name"]
 CATEGORY_LOOKUP_CANDIDATES = ["category", "categories"]
-# -----------------------------------------
 
+# Columns that should have tracking junk (?utm_source=... etc.) stripped
+# off before anything else uses them.
+URL_COLUMNS_TO_CLEAN = ["website", "site", "link", "google_maps_link", "url"]
+
+# NEW: Excel hard-caps any single cell at 32,767 characters and silently
+# truncates anything longer (no error -- just a buried UserWarning and
+# quiet data loss). This showed up on the MASTER file once it accumulated
+# 170 rows: gosom's raw output can include huge fields like `about` or
+# `user_reviews` (full JSON blobs of review text), and one of those blew
+# past the limit. Keep a safety margin below the real 32,767 limit.
+EXCEL_CELL_CHAR_LIMIT = 32000
+
+
+# =========================================================================
+# SEGMENT 2: LOADING THE CRITERIA ROW
+# Reads your fitness_leads.csv and pulls out one row's targeting rules.
+# =========================================================================
 
 def load_criteria_row(csv_path, row_number):
     df = pd.read_csv(csv_path)
@@ -122,13 +173,6 @@ def build_queries(row):
     return [f"{term} in {location}" for term in terms]
 
 
-def resolve_column(df, candidates):
-    for c in candidates:
-        if c in df.columns:
-            return c
-    return None
-
-
 def resolve_depth_and_lang(row):
     priority = str(row.get("priority", "")).strip().lower()
     depth = PRIORITY_DEPTH_MAP.get(priority, BASE_DEPTH)
@@ -143,6 +187,17 @@ def resolve_depth_and_lang(row):
                   f"leaving -lang unset for this run.")
     return depth, lang_code
 
+
+def resolve_column(df, candidates):
+    for c in candidates:
+        if c in df.columns:
+            return c
+    return None
+
+
+# =========================================================================
+# SEGMENT 3: RUNNING GOSOM (Docker)
+# =========================================================================
 
 def run_gosom(queries, work_dir, row_number, depth, lang_code):
     os.makedirs(work_dir, exist_ok=True)
@@ -172,6 +227,11 @@ def run_gosom(queries, work_dir, row_number, depth, lang_code):
     subprocess.run(cmd, check=True)
     return results_path
 
+
+# =========================================================================
+# SEGMENT 4: NORMALIZING RAW GOSOM OUTPUT
+# Handles the "transposed CSV" shape gosom sometimes produces.
+# =========================================================================
 
 def normalize_raw_csv(results_path):
     """
@@ -231,6 +291,80 @@ def normalize_raw_csv(results_path):
     return pd.DataFrame(records)
 
 
+# =========================================================================
+# SEGMENT 5: URL CLEANING  ** NEW **
+# Strips ?utm_source=... tracking junk off website / Maps link columns
+# so downstream deduping and CRM import aren't matching on noisy URLs.
+# =========================================================================
+
+def clean_url(url):
+    """Strip the query string and fragment from a single URL.
+    'https://site.com/page?utm_source=x&utm_id=y' -> 'https://site.com/page'
+    Leaves non-string / blank / malformed values untouched rather than
+    raising, since this runs over scraped data that can be messy.
+    """
+    if not isinstance(url, str) or not url.strip():
+        return url
+    try:
+        parts = urlsplit(url.strip())
+        return urlunsplit((parts.scheme, parts.netloc, parts.path, "", ""))
+    except ValueError:
+        return url
+
+
+def clean_url_columns(df, columns=URL_COLUMNS_TO_CLEAN):
+    """Apply clean_url() to every URL-ish column that's actually present
+    in this dataframe. Safe to call even if some columns are missing."""
+    cleaned_any = False
+    for col in columns:
+        if col in df.columns:
+            df[col] = df[col].apply(clean_url)
+            cleaned_any = True
+    if cleaned_any:
+        print("Cleaned tracking parameters (utm_source etc.) from URL columns.")
+    return df
+
+
+# =========================================================================
+# SEGMENT 5b: EXCEL CELL-LENGTH SAFETY  ** NEW **
+# Fixes: "UserWarning: Cell contents too long (35747), truncated to 32767"
+# This hit the MASTER file because it keeps every raw gosom column
+# (unlike the per-row output, which is reshaped down to your chosen
+# output_columns). A raw field like `about` or `user_reviews` can carry a
+# full JSON blob of review text well past Excel's per-cell limit.
+# =========================================================================
+
+def truncate_for_excel(df, char_limit=EXCEL_CELL_CHAR_LIMIT):
+    """Proactively truncate any cell over char_limit, with a visible
+    '...[TRUNCATED]' marker, before Excel does it silently. Runs on every
+    object (text-like) column; numeric/date columns are untouched."""
+    df = df.copy()
+    for col in df.columns:
+        # Text-like columns can be pandas' classic 'object' dtype or, on
+        # newer pandas versions, a dedicated 'string' dtype -- check for
+        # either rather than assuming 'object', or string columns get
+        # silently skipped and the bug this function exists to fix comes
+        # right back.
+        if not (df[col].dtype == object or pd.api.types.is_string_dtype(df[col])):
+            continue
+        lengths = df[col].astype(str).str.len()
+        too_long = lengths > char_limit
+        if too_long.any():
+            print(f"Note: column '{col}' has {too_long.sum()} cell(s) over "
+                  f"{char_limit} characters -- truncating before writing to "
+                  f"Excel (Excel's real hard limit is 32,767/cell).")
+            df.loc[too_long, col] = (
+                df.loc[too_long, col].astype(str).str.slice(0, char_limit)
+                + " ...[TRUNCATED]"
+            )
+    return df
+
+
+# =========================================================================
+# SEGMENT 6: CONTACT-INFO REQUIREMENT FILTERS
+# website_required / phone_required / email_required from the criteria row.
+# =========================================================================
+
 def apply_contact_requirements(df, row):
     def has_value(col):
         return df[col].notna() & (df[col].astype(str).str.strip() != "")
@@ -262,6 +396,47 @@ def apply_contact_requirements(df, row):
 
     return mask
 
+
+# =========================================================================
+# SEGMENT 7: CATEGORY WHITELIST  ** NEW **
+# This is the fix for category noise (Bar, Event planner, Boxing Coaching
+# Center, Kickboxing school slipping into "fitness" results). Blacklists
+# (exclude_terms) can only ever catch categories you thought to name --
+# a whitelist only lets through categories you explicitly approved.
+# =========================================================================
+
+def apply_category_whitelist(df, row):
+    """If the criteria row sets `allowed_categories` (semicolon-separated,
+    e.g. 'Gym;Fitness center;Personal trainer'), keep only leads whose
+    category exactly matches one of those. Leave `allowed_categories`
+    blank in the CSV to skip this filter entirely (old behavior)."""
+    allowed_raw = row.get("allowed_categories")
+    if not (pd.notna(allowed_raw) and str(allowed_raw).strip()):
+        return df  # no whitelist configured -- don't filter
+
+    allowed = {c.strip().lower() for c in str(allowed_raw).split(";") if c.strip()}
+    cat_col = resolve_column(df, CATEGORY_LOOKUP_CANDIDATES)
+    if not cat_col:
+        print("Warning: allowed_categories is set but no category column "
+              "was found in the results -- whitelist skipped.")
+        return df
+
+    before = len(df)
+    mask = df[cat_col].astype(str).str.strip().str.lower().isin(allowed)
+    filtered = df[mask]
+    removed = before - len(filtered)
+    if removed:
+        dropped_categories = sorted(
+            set(df.loc[~mask, cat_col].astype(str).str.strip()) - {""}
+        )
+        print(f"allowed_categories whitelist removed {removed} lead(s) "
+              f"outside {sorted(allowed)}. Dropped categories seen: {dropped_categories}")
+    return filtered
+
+
+# =========================================================================
+# SEGMENT 8: EXCLUDE TERMS (blacklist, duplicates, already-contacted)
+# =========================================================================
 
 def apply_exclude_terms(filtered, row, master_history_cids, contacted_ids):
     exclude_terms_raw = row.get("exclude_terms")
@@ -319,6 +494,10 @@ def apply_exclude_terms(filtered, row, master_history_cids, contacted_ids):
     return filtered
 
 
+# =========================================================================
+# SEGMENT 9: MASTER CSV HISTORY HELPERS (dedupe / contacted lookups)
+# =========================================================================
+
 def load_master_csv(csv_path=MASTER_CSV_PATH):
     """Load the persistent master CSV. Returns an empty DataFrame if it
     doesn't exist yet or is empty/corrupt (never raises)."""
@@ -365,6 +544,12 @@ def safe_int(value, default=None):
         return default
 
 
+# =========================================================================
+# SEGMENT 10: MAIN FILTER PIPELINE
+# Runs every filter in order: rating/reviews -> contact requirements ->
+# dedupe -> category whitelist (NEW) -> exclude terms -> sort -> cap (NOW ENFORCED).
+# =========================================================================
+
 def filter_leads(results_path, row, master_history_cids, contacted_ids):
     try:
         df = normalize_raw_csv(results_path)
@@ -373,6 +558,9 @@ def filter_leads(results_path, row, master_history_cids, contacted_ids):
         return pd.DataFrame()
     if df.empty:
         return df
+
+    # NEW: clean tracking junk out of URLs before anything else touches them.
+    df = clean_url_columns(df)
 
     min_rating = safe_float(row.get("min_rating"), default=0.0)
     min_reviews = safe_int(row.get("min_reviews"), default=0)
@@ -395,6 +583,10 @@ def filter_leads(results_path, row, master_history_cids, contacted_ids):
     dedupe_col = "cid" if "cid" in filtered.columns else "link"
     if dedupe_col in filtered.columns:
         filtered = filtered.drop_duplicates(subset=[dedupe_col])
+
+    # NEW: category whitelist -- the real fix for "Bar"/"Event planner"/
+    # "Boxing Coaching Center"/"Kickboxing school" leaking into results.
+    filtered = apply_category_whitelist(filtered, row)
 
     filtered = apply_exclude_terms(filtered, row, master_history_cids, contacted_ids)
 
@@ -430,21 +622,35 @@ def filter_leads(results_path, row, master_history_cids, contacted_ids):
         filtered = filtered.sort_values(by=sort_cols, ascending=False)
 
     qualified_before_cap = len(filtered)
-    max_leads = safe_int(row.get("max_leads"), default=None)
-    if pd.notna(row.get("max_leads")) and max_leads is None:
-        print(f"Warning: max_leads value '{row.get('max_leads')}' isn't valid -- "
-              f"ignoring cap, returning all qualified leads.")
 
-    if max_leads is not None:
-        filtered = filtered.head(max_leads)
-    else:
-        print("Note: max_leads is blank/invalid -- no cap applied.")
+    # --- max_leads: NOW ENFORCED with a visible fallback -------------------
+    max_leads_raw = row.get("max_leads")
+    max_leads = safe_int(max_leads_raw, default=None)
 
-    print(f"Requested max_leads: {max_leads if max_leads is not None else 'none set'} "
+    if pd.notna(max_leads_raw) and max_leads is None:
+        print(f"Warning: max_leads value '{max_leads_raw}' isn't valid -- "
+              f"falling back to default cap of {DEFAULT_MAX_LEADS_IF_BLANK}.")
+        max_leads = DEFAULT_MAX_LEADS_IF_BLANK
+    elif not pd.notna(max_leads_raw):
+        print(f"*** max_leads was left BLANK for this row. Applying the default "
+              f"cap of {DEFAULT_MAX_LEADS_IF_BLANK} so the output doesn't ship "
+              f"unbounded. Set max_leads explicitly in the criteria CSV to "
+              f"control this. ***")
+        max_leads = DEFAULT_MAX_LEADS_IF_BLANK
+
+    filtered = filtered.head(max_leads)
+    # ------------------------------------------------------------------------
+
+    print(f"Requested max_leads: {max_leads} (source: "
+          f"{'CSV' if pd.notna(max_leads_raw) else 'default fallback'}) "
           f"| Qualified before cap: {qualified_before_cap} | Delivered: {len(filtered)}")
 
     return filtered
 
+
+# =========================================================================
+# SEGMENT 11: DISPLAY / OUTPUT SHAPING
+# =========================================================================
 
 def reshape_output_columns(filtered, row):
     """Build the DISPLAY dataframe per output_columns. The caller keeps the
@@ -474,6 +680,11 @@ def write_excel(df, path, url_labels=None):
     if df.empty:
         print(f"Note: nothing to write to {path} (0 rows).")
         return
+
+    # NEW: guard against Excel's 32,767-char-per-cell hard limit. Applied
+    # here so BOTH the master snapshot and every per-row output are
+    # protected automatically -- callers don't need to remember to do it.
+    df = truncate_for_excel(df)
 
     url_labels = url_labels or set()
     with pd.ExcelWriter(path, engine="openpyxl") as writer:
@@ -507,6 +718,10 @@ def write_excel(df, path, url_labels=None):
     print(f"Wrote {len(df)} row(s) to {path}")
 
 
+# =========================================================================
+# SEGMENT 12: MASTER CSV UPSERT
+# =========================================================================
+
 def upsert_master_csv(filtered, row, row_number, csv_path=MASTER_CSV_PATH):
     """Add/refresh this run's qualified leads into the persistent master
     CSV, tagged with source info, deduped by cid (newest data wins)."""
@@ -534,6 +749,10 @@ def upsert_master_csv(filtered, row, row_number, csv_path=MASTER_CSV_PATH):
     print(f"Master CSV now has {len(combined)} total accumulated leads: {csv_path}")
     return combined
 
+
+# =========================================================================
+# SEGMENT 13: ORCHESTRATION (one row / all rows / main)
+# =========================================================================
 
 def run_one_row(row_number):
     row = load_criteria_row(CSV_PATH, row_number)
