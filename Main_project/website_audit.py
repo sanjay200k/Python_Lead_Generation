@@ -44,6 +44,7 @@ CLI:
     python website_audit.py https://example.com
     python website_audit.py https://example.com --runs 5 --no-desktop
     python website_audit.py https://example.com --skip-lighthouse
+    python website_audit.py https://example.com --fast
 
 Run with no arguments (e.g. from an IDE's Run button) to be prompted for
 a URL interactively; this mode auto-skips Lighthouse.
@@ -96,6 +97,7 @@ DEFAULT_MAX_LINKS = 25                 # cap on internal links crawled
 DEFAULT_TIMEOUT = 12                   # seconds, per HTTP request
 DEFAULT_LINK_DELAY = 0.6               # seconds between internal link checks
 DEFAULT_RATE_LIMIT_RETRY_DELAY = 4.0   # seconds before retrying a 429
+DEFAULT_LIGHTHOUSE_TIMEOUT = 180       # seconds, per Lighthouse docker run
 
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -123,10 +125,6 @@ BLOCK_PAGE_SIGNATURES = (
     "ddos protection by", "this website is using a security service",
     "blocked by geolocation", "geo restricted", "geoblocked",
     "unusual traffic from your computer network",
-    # Generic "interstitial / verification" splash pages — not always a
-    # bot-block in the security-vendor sense, but equally not the real
-    # site content, and equally invisible to a plain HTTP GET if the
-    # actual redirect only happens via JavaScript or a manual click.
     "verifying your browser", "verifying you are human", "verifying your connection",
     "please wait while we verify", "please enable javascript to continue",
     "redirecting you", "you will be redirected", "you are being redirected",
@@ -134,15 +132,10 @@ BLOCK_PAGE_SIGNATURES = (
     "please wait...", "loading, please wait",
 )
 
-# Matches <meta http-equiv="refresh" content="3;url=/real-page"> style
-# redirects, which a browser follows automatically but requests does not.
 META_REFRESH_PATTERN = re.compile(
     r'<meta[^>]+http-equiv=["\']refresh["\'][^>]*content=["\'][^"\']*url=([^"\';]+)', re.IGNORECASE
 )
 
-# Inline "window.location = ..." / "location.replace(...)" redirects —
-# another common way an interstitial/verification page sends a real
-# browser onward, invisible to a plain HTTP GET.
 JS_REDIRECT_PATTERN = re.compile(r'(?:window\.location(?:\.href)?\s*=|location\.replace\s*\()', re.IGNORECASE)
 
 
@@ -167,11 +160,8 @@ CHATBOT_SIGNATURES: dict[str, tuple[str, ...]] = {
     "ManyChat": ("widget.manychat.com",),
     "Chatbot.com": ("chatbot.com/widget",),
     "Facebook Messenger Plugin": ("connect.facebook.net", "fb-customerchat"),
-    "Custom GPT/AI widget (generic)": ("chatgpt", "openai", "ai-chat", "aichat", "chatbot-widget"),
 }
 
-# Kept separate from CHATBOT_SIGNATURES: WhatsApp is a conversion CTA in its
-# own right even when it isn't functioning as a "chatbot".
 WHATSAPP_SIGNATURES = ("wa.me/", "api.whatsapp.com/send")
 
 APPOINTMENT_BOOKING_SIGNATURES = (
@@ -202,10 +192,16 @@ LOCAL_BUSINESS_SCHEMA_TYPES = (
 
 PHONE_PATTERN = re.compile(r"(\+?\d{1,3}[\s.-]?)?\(?\d{2,4}\)?[\s.-]\d{3,4}[\s.-]\d{3,4}")
 
-# --- Scoring: two independent scores, per the audit spec -------------------
-# A technically excellent site must never lose HEALTH points for lacking
-# automation, and a site full of AI widgets must never gain HEALTH points
-# for it either — that's what OPPORTUNITY is for.
+# Cloudflare's email-obfuscation rewrites mailto: links into
+# /cdn-cgi/l/email-protection#<hex>. These intentionally 404 for any
+# client that doesn't execute Cloudflare's JS to decode them (including
+# `requests` AND headless Playwright without a real click), so they are
+# NOT actually broken for a real visitor and must be excluded from the
+# broken-links check to avoid a false positive on every Cloudflare site
+# using obfuscated emails.
+IGNORED_LINK_PATTERNS = (
+    "/cdn-cgi/l/email-protection",
+)
 
 HEALTH_WEIGHTS = {
     "performance": 20,
@@ -229,13 +225,8 @@ OPPORTUNITY_WEIGHTS = {
 }
 MAX_OPPORTUNITY_SCORE = sum(OPPORTUNITY_WEIGHTS.values())  # 100
 
-# HEALTH categories that come purely from Lighthouse; "untested" (excluded
-# from the health total) rather than silently scored as 0 when Lighthouse
-# doesn't run.
 LIGHTHOUSE_ONLY_CATEGORIES = ("performance", "accessibility")
 
-# Things the spec asks for that genuinely need a human or a vision-capable
-# model looking at rendered pages/screenshots/competitors — never faked.
 MANUAL_REVIEW_ITEMS = (
     "First impression / visual hierarchy",
     "Branding and image quality",
@@ -260,6 +251,7 @@ class AuditConfig:
     request_timeout: int = DEFAULT_TIMEOUT
     link_check_delay: float = DEFAULT_LINK_DELAY
     rate_limit_retry_delay: float = DEFAULT_RATE_LIMIT_RETRY_DELAY
+    lighthouse_timeout: int = DEFAULT_LIGHTHOUSE_TIMEOUT
     reports_dir: str = field(default_factory=lambda: os.path.join(os.getcwd(), "reports"))
     skip_lighthouse: bool = False
 
@@ -270,15 +262,12 @@ class AuditConfig:
 
 @dataclass
 class Issue:
-    """One structured, report-ready finding: problem -> evidence -> why it
-    matters -> recommended fix -> priority. This is the shape the spec's
-    client report and outreach message are built from."""
-    category: str          # e.g. "SEO", "Security", "Conversion", "Performance"
+    category: str
     problem: str
     evidence: str
     why_it_matters: str
     fix: str
-    priority: str           # CRITICAL / HIGH / MEDIUM / LOW
+    priority: str
 
     def to_dict(self) -> dict[str, str]:
         return asdict(self)
@@ -320,6 +309,7 @@ class AuditResult:
     schema: dict[str, Any]
     broken_links: dict[str, Any]
     fetch_warning: str | None = None
+    lighthouse_errors: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         data = asdict(self)
@@ -350,12 +340,6 @@ def looks_like_block_page(title: str | None, body_text: str) -> str | None:
     return None
 
 
-# Anti-bot/CAPTCHA vendors leave technical fingerprints in the raw HTML
-# (script src attributes, hidden div ids, cookie-check tokens) that survive
-# even when the *visible* wording of the challenge page varies or hasn't
-# rendered yet — a plain header retry does not get past these, since they
-# require solving an actual JS/proof-of-work challenge, not just looking
-# like a browser. Checking raw HTML (not just get_text) catches these.
 CHALLENGE_MARKER_SIGNATURES = (
     "cdn-cgi/challenge-platform", "challenges.cloudflare.com", "cf_chl_opt",
     "cf-turnstile", "turnstile", "__cf_chl_rt_tk", "jschl_answer", "cf-please-wait",
@@ -365,9 +349,6 @@ CHALLENGE_MARKER_SIGNATURES = (
 
 
 def looks_like_challenge_page(raw_html: str) -> str | None:
-    """Raw-HTML check (script tags, hidden markup) for known anti-bot/
-    CAPTCHA vendors, independent of whatever visible text happens to be
-    rendered. Complements looks_like_block_page, which only sees text."""
     haystack = raw_html[:20000].lower()
     for marker in CHALLENGE_MARKER_SIGNATURES:
         if marker in haystack:
@@ -377,9 +358,6 @@ def looks_like_challenge_page(raw_html: str) -> str | None:
 
 @dataclass
 class _RenderedResponse:
-    """Minimal stand-in for requests.Response, populated from a headless
-    browser render, so downstream checks (headers, .text, .url) don't need
-    to know whether the page was fetched with requests or Playwright."""
     status_code: int
     headers: CaseInsensitiveDict
     url: str
@@ -387,26 +365,22 @@ class _RenderedResponse:
 
 
 def looks_like_js_rendered_shell(html: str) -> bool:
-    """Heuristic for 'this page's real content is injected by JavaScript
-    after load, so a plain HTTP GET only sees an empty shell'. Common on
-    React/Vue/Wix-style sites. We flag it when the raw HTML is non-trivial
-    in size but has almost no visible text and almost no structural tags —
-    a real static/SSR page essentially never looks like this."""
     soup = BeautifulSoup(html, "html.parser")
     for tag in soup.find_all(["script", "style", "noscript"]):
-        tag.decompose()  # get_text() includes script/style contents otherwise
+        tag.decompose()
     visible_text_len = len(soup.get_text(strip=True))
     structural_tag_count = len(soup.find_all(["p", "h1", "h2", "h3", "form", "a", "li"]))
     return len(html) > 1500 and visible_text_len < 200 and structural_tag_count < 5
 
 
 def needs_headless_render(html: str) -> bool:
-    """True if the raw HTML is either an empty JS-rendered shell, or an
-    interstitial/verification page whose only job is to redirect a real
-    browser onward via inline JavaScript (window.location / location.replace).
-    Meta-refresh redirects are handled separately (we just follow them),
-    since those don't need a browser at all — a JS redirect does."""
     return looks_like_js_rendered_shell(html) or bool(JS_REDIRECT_PATTERN.search(html))
+
+
+def is_ignorable_link(url: str) -> bool:
+    """True for links that legitimately 404 for any non-browser client
+    (e.g. Cloudflare email obfuscation) and should not count as broken."""
+    return any(pattern in url for pattern in IGNORED_LINK_PATTERNS)
 
 
 def build_requests_session(timeout: int) -> requests.Session:
@@ -436,14 +410,11 @@ def build_requests_session(timeout: int) -> requests.Session:
 # =============================================================================
 
 class WebsiteAuditor:
-    """Runs a full audit against a single URL and returns a scored,
-    reportable AuditResult. Safe to import and call from another pipeline —
-    all diagnostics go through `logger`, never `print()`."""
-
     def __init__(self, config: AuditConfig):
         self.config = config
         self.session = build_requests_session(config.request_timeout)
         self.issues: list[Issue] = []
+        self.lighthouse_errors: list[str] = []
 
     def _add_issue(self, category: str, problem: str, evidence: str,
                     why_it_matters: str, fix: str, priority: str) -> None:
@@ -476,7 +447,7 @@ class WebsiteAuditor:
         seo = self._check_technical_seo(soup)
         schema, schema_business_info = self._check_local_business_schema(soup)
         trust_signals = self._detect_trust_signals(soup, schema)
-        links = self._crawl_internal_links(soup)
+        links = self._crawl_internal_links(soup, response.text)
         business_info = self._extract_business_info(soup, seo, open_graph, schema_business_info)
 
         untested_health = list(LIGHTHOUSE_ONLY_CATEGORIES) if lh_mobile is None else []
@@ -523,6 +494,7 @@ class WebsiteAuditor:
             schema=schema,
             broken_links=links,
             fetch_warning=fetch_warning,
+            lighthouse_errors=self.lighthouse_errors,
         )
 
     # -- Lighthouse ----------------------------------------------------------
@@ -540,11 +512,10 @@ class WebsiteAuditor:
             return None, None
 
         if not self._docker_available():
-            logger.warning(
-                "Docker isn't running/installed — skipping Lighthouse "
-                "(performance/accessibility will be marked untested, not scored as 0). "
-                "Pass --skip-lighthouse to silence this check next time."
-            )
+            msg = ("Docker isn't running/installed — skipping Lighthouse "
+                   "(performance/accessibility will be marked untested, not scored as 0).")
+            logger.warning(msg + " Pass --skip-lighthouse to silence this check next time.")
+            self.lighthouse_errors.append(msg)
             return None, None
 
         mobile = self._run_lighthouse_profile("mobile")
@@ -569,21 +540,38 @@ class WebsiteAuditor:
         if form_factor == "desktop":
             command.append("--preset=desktop")
 
+        start = time.monotonic()
         try:
-            subprocess.run(command, check=True, capture_output=True, text=True)
-        except subprocess.CalledProcessError as exc:
-            logger.warning(
-                "Lighthouse run %d (%s) failed: %s",
-                run_index, form_factor, (exc.stderr or "")[-500:],
+            subprocess.run(
+                command, check=True, capture_output=True, text=True,
+                timeout=self.config.lighthouse_timeout,
             )
+        except subprocess.TimeoutExpired:
+            msg = (f"Lighthouse run {run_index} ({form_factor}) timed out after "
+                   f"{self.config.lighthouse_timeout}s — skipping this run.")
+            logger.warning(msg)
+            self.lighthouse_errors.append(msg)
+            return None
+        except subprocess.CalledProcessError as exc:
+            msg = (f"Lighthouse run {run_index} ({form_factor}) failed: "
+                   f"{(exc.stderr or '')[-500:]}")
+            logger.warning(msg)
+            self.lighthouse_errors.append(msg)
             return None
         except FileNotFoundError:
-            logger.error("Docker not found — this shouldn't happen after _docker_available() passed.")
+            msg = "Docker not found — this shouldn't happen after _docker_available() passed."
+            logger.error(msg)
+            self.lighthouse_errors.append(msg)
             return None
 
         if not os.path.exists(out_path):
-            logger.warning("Report file not created for run %d (%s).", run_index, form_factor)
+            msg = f"Report file not created for run {run_index} ({form_factor})."
+            logger.warning(msg)
+            self.lighthouse_errors.append(msg)
             return None
+
+        elapsed = time.monotonic() - start
+        logger.info("  Lighthouse run %d (%s) done in %.0fs.", run_index, form_factor, elapsed)
 
         with open(out_path, "r", encoding="utf-8") as f:
             return json.load(f)
@@ -597,7 +585,16 @@ class WebsiteAuditor:
             if (report := self._run_lighthouse_once(form_factor, i)) is not None
         ]
         if not reports:
+            msg = f"All Lighthouse runs failed for {form_factor} — this category will be untested."
+            logger.warning(msg)
+            self.lighthouse_errors.append(msg)
             return None
+
+        if len(reports) < runs:
+            logger.warning(
+                "Only %d of %d Lighthouse runs (%s) succeeded — median is based on the ones that did.",
+                len(reports), runs, form_factor,
+            )
 
         medians = self._median_scores(reports)
         best_report = self._pick_representative_report(reports, medians)
@@ -606,6 +603,7 @@ class WebsiteAuditor:
         return {
             "form_factor": form_factor,
             "runs_completed": len(reports),
+            "runs_requested": runs,
             "scores_median": medians,
             "key_metrics": self._extract_key_metrics(audits),
             "opportunities": self._extract_opportunities(audits),
@@ -704,23 +702,6 @@ class WebsiteAuditor:
     # -- Fetching --------------------------------------------------------------
 
     def _fetch_html(self) -> tuple[requests.Response | _RenderedResponse, str | None]:
-        """Fetch the page, then sanity-check what we got before running any
-        checks against it. Several failure modes are handled differently:
-          - Block/challenge page (Cloudflare etc., or an interstitial page
-            whose visible text matches a known "verifying.../redirecting..."
-            phrase) -> retry once with fuller browser-like headers.
-          - Meta-refresh redirect (<meta http-equiv="refresh" ...>) -> just
-            follow it ourselves; a browser does this automatically but
-            requests does not.
-          - JS-rendered shell OR an inline JS redirect (window.location=...,
-            location.replace(...)) -> retry with a real headless browser via
-            Playwright, if installed, since no amount of header-tweaking
-            makes `requests` execute JavaScript.
-        This matters because every downstream check (title, forms, links,
-        chatbot, schema...) reads from this HTML; fetching an interstitial
-        or a blank shell silently produces a report full of false "missing"
-        findings instead of auditing the real site.
-        """
         response, warning = self._fetch_html_static()
 
         if warning:
@@ -807,10 +788,6 @@ class WebsiteAuditor:
         return response, warning
 
     def _fetch_html_rendered(self) -> _RenderedResponse | None:
-        """Render the page with a real (headless) browser via Playwright,
-        so JS-injected content shows up in the HTML we hand to BeautifulSoup.
-        Returns None (never raises) if Playwright isn't usable — callers
-        fall back to the static fetch and surface a clear warning instead."""
         try:
             with sync_playwright() as p:
                 browser = p.chromium.launch()
@@ -1312,11 +1289,38 @@ class WebsiteAuditor:
             "address": schema_business_info.get("address"),
         }
 
-    def _crawl_internal_links(self, soup: BeautifulSoup) -> dict[str, Any]:
+    # Below this many internal links found on a page, the count is treated
+    # as suspicious rather than "the site is just small" — most real sites
+    # (even one-page brochure sites) have at least this many nav/footer/
+    # legal links. A very low count combined with a non-trivial page is a
+    # strong signal that `requests` only saw a partial/JS-shell version of
+    # the page, so "0 broken links" should not be read as a clean result.
+    MIN_EXPECTED_INTERNAL_LINKS = 8
+
+    def _crawl_internal_links(self, soup: BeautifulSoup, raw_html: str) -> dict[str, Any]:
         internal_links = self._collect_internal_links(soup)
 
-        checked, broken, rate_limited = [], [], []
+        if len(internal_links) < self.MIN_EXPECTED_INTERNAL_LINKS and len(raw_html) > 3000:
+            self._add_issue(
+                category="Technical Health",
+                problem="Suspiciously few internal links found on this page.",
+                evidence=f"Only {len(internal_links)} internal link(s) found "
+                         f"(expected at least {self.MIN_EXPECTED_INTERNAL_LINKS} on a typical site).",
+                why_it_matters="This usually means the page's real navigation/footer links are "
+                               "injected by JavaScript and weren't visible to this tool, so the "
+                               "broken-link check below is based on incomplete data and may be "
+                               "missing real issues — verify manually in a browser before relying on it.",
+                fix="No fix needed on the site itself; if confirmed, install Playwright "
+                    "(`pip install playwright && playwright install chromium`) so future audits "
+                    "render the page fully before crawling links.",
+                priority="LOW",
+            )
+
+        checked, broken, rate_limited, ignored, forbidden = [], [], [], [], []
         for link in internal_links:
+            if is_ignorable_link(link):
+                ignored.append(link)
+                continue
             time.sleep(self.config.link_check_delay)
             try:
                 response = self.session.get(link, allow_redirects=True)
@@ -1327,6 +1331,16 @@ class WebsiteAuditor:
                 checked.append({"url": link, "status": response.status_code})
                 if response.status_code == 429:
                     rate_limited.append({"url": link, "status": response.status_code})
+                elif response.status_code == 403:
+                    # 403 on an internal link very often means this specific
+                    # request got bot-blocked (rate limiting, WAF, missing
+                    # headers our plain requests.get sends) rather than the
+                    # page genuinely being gone. Counting it as "broken" the
+                    # same as a 404 risks an inaccurate outreach claim if a
+                    # real visitor's browser loads the page fine. Track it
+                    # separately and flag it as needing manual verification
+                    # instead of asserting it's broken.
+                    forbidden.append({"url": link, "status": response.status_code})
                 elif response.status_code >= 400:
                     broken.append({"url": link, "status": response.status_code})
             except requests.RequestException as exc:
@@ -1345,12 +1359,31 @@ class WebsiteAuditor:
                 priority="HIGH" if len(broken) > 2 else "MEDIUM",
             )
 
+        if forbidden:
+            sample = ", ".join(f"{f['url']}" for f in forbidden[:3])
+            self._add_issue(
+                category="Technical Health",
+                problem="Some internal links returned 403 Forbidden when checked automatically.",
+                evidence=f"{len(forbidden)} of {len(checked)} checked links returned 403. e.g. {sample}",
+                why_it_matters="403 usually means this specific automated request was blocked "
+                               "(bot protection, rate limiting, or a missing browser header) — "
+                               "it does NOT necessarily mean the page is actually broken for a "
+                               "real visitor. Treat this as 'needs manual verification', not a "
+                               "confirmed broken link, to avoid an inaccurate outreach claim.",
+                fix="Open these URLs in a real browser to confirm whether they load normally. "
+                    "If they do, no site fix is needed — the block is aimed at automated tools.",
+                priority="LOW",
+            )
+
         return {
             "checked_count": len(checked),
             "broken": broken,
             "broken_count": len(broken),
+            "forbidden": forbidden,
+            "forbidden_count": len(forbidden),
             "rate_limited": rate_limited,
             "rate_limited_count": len(rate_limited),
+            "ignored_count": len(ignored),
         }
 
     def _collect_internal_links(self, soup: BeautifulSoup) -> list[str]:
@@ -1441,10 +1474,6 @@ class WebsiteAuditor:
 
     @staticmethod
     def _score_ux_technical(seo: dict[str, Any]) -> float:
-        """Only the UX signals that are actually verifiable from static
-        HTML. Real UX/UI (first impression, visual hierarchy, layout on a
-        rendered mobile screen) needs a human or vision model — see
-        MANUAL_REVIEW_ITEMS — and is deliberately NOT scored here."""
         checks_passed = sum([
             seo["has_viewport_tag"],
             seo["h1_count"] >= 1,
@@ -1493,6 +1522,11 @@ def print_report(result: AuditResult) -> None:
     if result.fetch_warning:
         print(f"\n*** WARNING: {result.fetch_warning} ***")
         print("*** Results may reflect a block/challenge page, not the real site. ***")
+
+    if result.lighthouse_errors:
+        print(f"\n*** LIGHTHOUSE NOTES ***")
+        for msg in result.lighthouse_errors:
+            print(f"  - {msg}")
 
     if result.business_info.get("name"):
         print(f"\nBusiness: {result.business_info['name']}")
@@ -1552,14 +1586,12 @@ def print_report(result: AuditResult) -> None:
     print("\n--- INTERNAL LINKS ---")
     links = result.broken_links
     print(f"  Checked: {links['checked_count']} | Broken: {links['broken_count']} | "
-          f"Rate-limited (not counted as broken): {links['rate_limited_count']}")
+          f"403/Forbidden (needs manual check, not counted as broken): {links.get('forbidden_count', 0)} | "
+          f"Rate-limited (not counted as broken): {links['rate_limited_count']} | "
+          f"Ignored (known false-positive patterns, e.g. Cloudflare email obfuscation): {links.get('ignored_count', 0)}")
 
 
 def build_outreach_message(result: AuditResult) -> str:
-    """A short, non-spammy personalized outreach draft, per the audit spec:
-    mention the business, 2-3 genuine findings, offer to help, ask if
-    they'd like to see the full audit. Always grounded in actual issues
-    found above — never invents anything."""
     name = result.business_info.get("name") or "there"
     top_issues = sorted(result.issues, key=lambda i: PRIORITY_ORDER.get(i.priority, 9))[:3]
 
@@ -1695,6 +1727,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
                          help="Skip the desktop Lighthouse pass (mobile always runs)")
     parser.add_argument("--skip-lighthouse", action="store_true",
                          help="Skip Lighthouse entirely (no Docker required) — HTML checks only")
+    parser.add_argument("--fast", action="store_true",
+                         help="Shortcut for a quick Lighthouse pass: 1 run, mobile only "
+                              "(equivalent to --runs 1 --no-desktop)")
+    parser.add_argument("--lighthouse-timeout", type=int, default=DEFAULT_LIGHTHOUSE_TIMEOUT,
+                         help=f"Per-run timeout in seconds before a Lighthouse run is aborted "
+                              f"(default: {DEFAULT_LIGHTHOUSE_TIMEOUT})")
     parser.add_argument("--max-links", type=int, default=DEFAULT_MAX_LINKS,
                          help=f"Max internal links to crawl (default: {DEFAULT_MAX_LINKS})")
     parser.add_argument("--out", default=os.path.join(os.getcwd(), "reports"),
@@ -1711,6 +1749,27 @@ def prompt_for_url() -> str | None:
     return url
 
 
+def prompt_for_lighthouse_choice() -> list[str]:
+    """Ask the interactive user whether to run Lighthouse, instead of
+    silently always skipping it. Returns the extra CLI-style args to
+    apply. Defaults to skipping (just press Enter) so existing behavior
+    is unchanged for anyone who wants the fast path."""
+    print(
+        "\nRun Lighthouse for real Performance/Accessibility scores? "
+        "(requires Docker Desktop to be running)"
+    )
+    print("  [1] No — fast, HTML checks only (default, just press Enter)")
+    print("  [2] Yes — quick pass (1 run, mobile only, ~1 min)")
+    print("  [3] Yes — full accuracy (3 runs, mobile + desktop, ~5-6 min)")
+    choice = input("Choice [1/2/3]: ").strip()
+
+    if choice == "2":
+        return ["--runs", "1", "--no-desktop"]
+    if choice == "3":
+        return ["--runs", "3"]
+    return ["--skip-lighthouse"]
+
+
 def main(argv: list[str] | None = None) -> int:
     argv = sys.argv[1:] if argv is None else argv
     ran_interactively = not argv
@@ -1719,7 +1778,7 @@ def main(argv: list[str] | None = None) -> int:
         url = prompt_for_url()
         if url is None:
             return 1
-        argv = [url, "--skip-lighthouse"]
+        argv = [url, *prompt_for_lighthouse_choice()]
 
     args = build_arg_parser().parse_args(argv)
 
@@ -1730,16 +1789,20 @@ def main(argv: list[str] | None = None) -> int:
     else:
         args.url = normalize_url(args.url)
 
+    if args.fast:
+        args.runs = 1
+        args.no_desktop = True
+
     logging.basicConfig(
         level=logging.DEBUG if args.verbose else logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
         datefmt="%H:%M:%S",
     )
 
-    if ran_interactively:
+    if ran_interactively and args.skip_lighthouse:
         logger.info(
-            "No CLI args given — running with --skip-lighthouse. "
-            "Pass a URL as an argument (without --skip-lighthouse) for full Lighthouse scores."
+            "Running with --skip-lighthouse. Next time, choose option 2 or 3 at the prompt "
+            "for real Lighthouse scores, or pass a URL as a command-line argument."
         )
 
     config = AuditConfig(
@@ -1749,6 +1812,7 @@ def main(argv: list[str] | None = None) -> int:
         max_links=args.max_links,
         reports_dir=args.out,
         skip_lighthouse=args.skip_lighthouse,
+        lighthouse_timeout=args.lighthouse_timeout,
     )
 
     try:

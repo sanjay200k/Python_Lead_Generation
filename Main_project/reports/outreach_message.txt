@@ -1,6 +1,6 @@
-Hi there,
+Hi Home - Dentique NYC Dentist in Midtown Manhattan, NYC | Dentique NYC,
 
-I was reviewing your website (https://www.nymidtowndental.com/) and noticed a few areas that could be improved, particularly no mobile viewport meta tag, missing recommended security headers, no ai chatbot or live-chat widget detected.
+I was reviewing your website (https://www.dentiquenyc.com/) and noticed a few areas that could be improved, particularly mobile page-load performance is poor, missing recommended security headers, no whatsapp click-to-chat link detected.
 
 I work on website performance, SEO, conversion optimization, and AI automation for local businesses, and I put together a quick audit showing what I'd change and why.
 

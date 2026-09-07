@@ -1,0 +1,15 @@
+score_type,category,score,untested
+Health,Performance,4.8,False
+Health,Accessibility,14.0,False
+Health,Seo Technical,18.3,False
+Health,Ux Technical,15.0,False
+Health,Security,4.3,False
+Health,Technical Health,9.3,False
+Health,Local Schema,0.0,False
+Opportunity,Ai Chatbot Or Livechat,0.0,False
+Opportunity,Lead Capture Form,0.0,False
+Opportunity,Whatsapp Cta,0.0,False
+Opportunity,Phone Cta,10.0,False
+Opportunity,Appointment Booking,0.0,False
+Opportunity,Trust Signals,10.0,False
+Opportunity,Local Schema Completeness,2.5,False

@@ -1,78 +1,35 @@
 {
-  "url": "https://www.nymidtowndental.com/",
-  "health_score": 14.7,
-  "max_health_score": 65,
+  "url": "https://www.dentiquenyc.com/",
+  "health_score": 64.9,
+  "max_health_score": 100,
   "health_breakdown": {
-    "performance": 0.0,
-    "accessibility": 0.0,
-    "seo_technical": 3.3,
-    "ux_technical": 0.0,
-    "security": 8.9,
-    "technical_health": 2.5,
+    "performance": 7.2,
+    "accessibility": 12.4,
+    "seo_technical": 15.9,
+    "ux_technical": 15.0,
+    "security": 4.4,
+    "technical_health": 10.0,
     "local_schema": 0
   },
-  "untested_health_categories": [
-    "performance",
-    "accessibility"
-  ],
-  "opportunity_score": 0.0,
+  "untested_health_categories": [],
+  "opportunity_score": 62.5,
   "max_opportunity_score": 100,
   "opportunity_breakdown": {
-    "ai_chatbot_or_livechat": 0,
-    "lead_capture_form": 0,
+    "ai_chatbot_or_livechat": 25,
+    "lead_capture_form": 15,
     "whatsapp_cta": 0,
-    "phone_cta": 0,
+    "phone_cta": 10,
     "appointment_booking": 0,
-    "trust_signals": 0,
-    "local_schema_completeness": 0.0
+    "trust_signals": 10,
+    "local_schema_completeness": 2.5
   },
   "issues": [
     {
       "category": "Security",
       "problem": "Missing recommended security headers.",
-      "evidence": "Missing: Strict-Transport-Security.",
+      "evidence": "Missing: Strict-Transport-Security, Content-Security-Policy, X-Frame-Options, X-Content-Type-Options, Referrer-Policy.",
       "why_it_matters": "These headers protect visitors from clickjacking, MIME-sniffing, and injection attacks, and are checked by some security-conscious visitors/tools.",
       "fix": "Add the missing headers at the web server or CDN level.",
-      "priority": "HIGH"
-    },
-    {
-      "category": "Technical SEO",
-      "problem": "No robots.txt found.",
-      "evidence": "GET https://www.nymidtowndental.com/robots.txt did not return 200.",
-      "why_it_matters": "robots.txt helps search engines crawl the site efficiently; its absence isn't fatal but is a quick, free fix.",
-      "fix": "Add a simple robots.txt allowing crawlers and pointing to the sitemap.",
-      "priority": "LOW"
-    },
-    {
-      "category": "Technical SEO",
-      "problem": "No XML sitemap found.",
-      "evidence": "Checked https://www.nymidtowndental.com/sitemap.xml.",
-      "why_it_matters": "A sitemap helps search engines discover and index all pages, especially on smaller or newer sites with few external links.",
-      "fix": "Generate an XML sitemap and reference it in robots.txt.",
-      "priority": "MEDIUM"
-    },
-    {
-      "category": "Technical Health",
-      "problem": "No favicon found.",
-      "evidence": "No <link rel=\"icon\"> tag and no /favicon.ico.",
-      "why_it_matters": "A missing favicon looks unfinished in browser tabs, bookmarks, and search results.",
-      "fix": "Add a favicon.ico (and modern <link rel=\"icon\"> tags) in the site's <head>.",
-      "priority": "LOW"
-    },
-    {
-      "category": "SEO",
-      "problem": "No Open Graph tags found.",
-      "evidence": "og:title / og:description / og:image are all missing.",
-      "why_it_matters": "Links shared on social media or messaging apps show a blank/ugly preview, reducing click-through from shares.",
-      "fix": "Add og:title, og:description, and og:image meta tags.",
-      "priority": "LOW"
-    },
-    {
-      "category": "Automation Opportunity",
-      "problem": "No AI chatbot or live-chat widget detected.",
-      "evidence": "No known chat/AI widget signature found in the page HTML (detection is limited to static HTML \u2014 a widget could still load dynamically).",
-      "why_it_matters": "Visitors with quick questions, especially after hours, have no immediate way to get answers, which may cost leads to a competitor who responds faster.",
-      "fix": "Add an AI receptionist / live-chat widget to answer FAQs and qualify leads 24/7.",
       "priority": "HIGH"
     },
     {
@@ -93,58 +50,26 @@
     },
     {
       "category": "Conversion",
-      "problem": "No lead-capture form detected.",
-      "evidence": "No <form> with meaningful input fields found on this page.",
-      "why_it_matters": "Visitors who aren't ready to call have no low-friction way to leave their details, so interested visitors may simply leave.",
-      "fix": "Add a short contact/quote-request form (name, contact info, message) above the fold.",
-      "priority": "HIGH"
-    },
-    {
-      "category": "Conversion",
-      "problem": "No clickable phone (tel:) link detected.",
-      "evidence": "No <a href=\"tel:...\"> found.",
-      "why_it_matters": "On mobile, a non-clickable phone number requires visitors to copy/retype it, adding friction to the easiest possible conversion.",
-      "fix": "Wrap the phone number in a tel: link, especially in the header/footer.",
-      "priority": "MEDIUM"
-    },
-    {
-      "category": "SEO",
-      "problem": "Page is missing a <title> tag.",
-      "evidence": "No <title> found.",
-      "why_it_matters": "The title is the primary text shown in search results and browser tabs.",
-      "fix": "Add a unique, descriptive <title> (roughly 10-60 characters).",
-      "priority": "HIGH"
-    },
-    {
-      "category": "SEO",
-      "problem": "Page is missing a meta description.",
-      "evidence": "No <meta name=\"description\"> found.",
-      "why_it_matters": "Search engines often show the meta description as the search-result snippet; without one, Google picks arbitrary page text.",
-      "fix": "Write a compelling 50-160 character meta description.",
-      "priority": "MEDIUM"
-    },
-    {
-      "category": "Mobile",
-      "problem": "No mobile viewport meta tag.",
-      "evidence": "No <meta name=\"viewport\"> found.",
-      "why_it_matters": "Without it, mobile browsers render a desktop-width layout and zoom out, which is a major usability failure on phones.",
-      "fix": "Add <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">.",
-      "priority": "CRITICAL"
-    },
-    {
-      "category": "SEO",
-      "problem": "Page does not have exactly one H1.",
-      "evidence": "Found no H1 tag.",
-      "why_it_matters": "A single clear H1 helps both visitors and search engines understand the page's main topic at a glance.",
-      "fix": "Use exactly one H1 that states the page's main heading.",
+      "problem": "Lead-capture form is long.",
+      "evidence": "First form has 22 fields.",
+      "why_it_matters": "Long forms measurably reduce completion rates.",
+      "fix": "Trim the form to only the fields needed for a first response.",
       "priority": "LOW"
     },
     {
       "category": "SEO",
-      "problem": "No canonical tag found.",
-      "evidence": "No <link rel=\"canonical\"> found.",
-      "why_it_matters": "Without a canonical tag, duplicate/parameterized URLs can split ranking signals.",
-      "fix": "Add a self-referencing canonical tag to every indexable page.",
+      "problem": "Title tag length is outside the recommended range.",
+      "evidence": "Title is 68 characters: \"Home - Dentique NYC Dentist in Midtown Manhattan, NYC | Dentique NYC\"",
+      "why_it_matters": "Titles that are too short waste an opportunity; too long get truncated in search results.",
+      "fix": "Rewrite the title to roughly 10-60 characters.",
+      "priority": "LOW"
+    },
+    {
+      "category": "SEO",
+      "problem": "Page does not have exactly one H1.",
+      "evidence": "Found 2 H1 tags.",
+      "why_it_matters": "A single clear H1 helps both visitors and search engines understand the page's main topic at a glance.",
+      "fix": "Use exactly one H1 that states the page's main heading.",
       "priority": "LOW"
     },
     {
@@ -156,11 +81,51 @@
       "priority": "MEDIUM"
     },
     {
-      "category": "Conversion",
-      "problem": "No visible trust signals (testimonials/reviews) detected.",
-      "evidence": "No testimonial/review keywords and no AggregateRating schema found.",
-      "why_it_matters": "New visitors have no social proof that other customers had a good experience, which can slow down the decision to contact/buy.",
-      "fix": "Add a few real customer testimonials or reviews, ideally with review schema markup.",
+      "category": "Performance",
+      "problem": "Mobile page-load performance is poor.",
+      "evidence": "Lighthouse mobile performance score: 26.0/100.",
+      "why_it_matters": "Slow mobile load times increase bounce rate and lose visitors before they ever see the offer, and factor into Google's mobile ranking.",
+      "fix": "Optimize images, defer non-critical JS/CSS, and enable caching/compression.",
+      "priority": "CRITICAL"
+    },
+    {
+      "category": "Performance",
+      "problem": "Does not use HTTPS",
+      "evidence": "Does not use HTTPS: 2 insecure requests found",
+      "why_it_matters": "Contributes to the slower mobile load time flagged above.",
+      "fix": "See Lighthouse's guidance for this specific audit.",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "Performance",
+      "problem": "First Contentful Paint",
+      "evidence": "First Contentful Paint: 11.6\u00a0s",
+      "why_it_matters": "Contributes to the slower mobile load time flagged above.",
+      "fix": "See Lighthouse's guidance for this specific audit.",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "Performance",
+      "problem": "Largest Contentful Paint",
+      "evidence": "Largest Contentful Paint: 15.4\u00a0s",
+      "why_it_matters": "Contributes to the slower mobile load time flagged above.",
+      "fix": "See Lighthouse's guidance for this specific audit.",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "Performance",
+      "problem": "Speed Index",
+      "evidence": "Speed Index: 11.6\u00a0s",
+      "why_it_matters": "Contributes to the slower mobile load time flagged above.",
+      "fix": "See Lighthouse's guidance for this specific audit.",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "Performance",
+      "problem": "Total Blocking Time",
+      "evidence": "Total Blocking Time: 5,950\u00a0ms",
+      "why_it_matters": "Contributes to the slower mobile load time flagged above.",
+      "fix": "See Lighthouse's guidance for this specific audit.",
       "priority": "MEDIUM"
     }
   ],
@@ -174,25 +139,105 @@
     "Screenshots of concrete problems"
   ],
   "business_info": {
-    "name": null,
+    "name": "Home - Dentique NYC Dentist in Midtown Manhattan, NYC | Dentique NYC",
     "telephone": null,
     "address": null
   },
-  "lighthouse_mobile": null,
-  "lighthouse_desktop": null,
+  "lighthouse_mobile": {
+    "form_factor": "mobile",
+    "runs_completed": 3,
+    "runs_requested": 3,
+    "scores_median": {
+      "performance": 26.0,
+      "accessibility": 83.0,
+      "best-practices": 77.0,
+      "seo": 92.0
+    },
+    "key_metrics": {
+      "First Contentful Paint": "11.6\u00a0s",
+      "Largest Contentful Paint": "15.4\u00a0s",
+      "Speed Index": "11.6\u00a0s",
+      "Total Blocking Time": "5,950\u00a0ms",
+      "Cumulative Layout Shift": "0.016",
+      "Time to Interactive": "31.1\u00a0s"
+    },
+    "opportunities": [
+      "Does not use HTTPS: 2 insecure requests found",
+      "First Contentful Paint: 11.6\u00a0s",
+      "Largest Contentful Paint: 15.4\u00a0s",
+      "Speed Index: 11.6\u00a0s",
+      "Total Blocking Time: 5,950\u00a0ms",
+      "Max Potential First Input Delay: 1,210\u00a0ms",
+      "Reduce initial server response time: Root document took 690\u00a0ms",
+      "Time to Interactive: 31.1\u00a0s",
+      "Avoid multiple page redirects: Est savings of 18,930\u00a0ms",
+      "Minimize main-thread work: 30.6\u00a0s",
+      "Reduce JavaScript execution time: 11.9\u00a0s",
+      "Avoid enormous network payloads: Total size was 5,811\u00a0KiB",
+      "Reduce unused CSS: Est savings of 141\u00a0KiB",
+      "Reduce unused JavaScript: Est savings of 994\u00a0KiB",
+      "Links do not have descriptive text: 8 links found",
+      "Use efficient cache lifetimes: Est savings of 257\u00a0KiB",
+      "Document request latency: Est savings of 1,960\u00a0ms",
+      "Font display: Est savings of 60\u00a0ms",
+      "Improve image delivery: Est savings of 204\u00a0KiB",
+      "Render-blocking requests: Est savings of 380\u00a0ms"
+    ],
+    "screenshot": "F:\\AI automation\\AI automation\\Python_Lead_Generation - Copy\\Python_Lead_Generation\\Main_project\\reports\\screenshots\\screenshot_mobile.png"
+  },
+  "lighthouse_desktop": {
+    "form_factor": "desktop",
+    "runs_completed": 3,
+    "runs_requested": 3,
+    "scores_median": {
+      "performance": 51.0,
+      "accessibility": 83.0,
+      "best-practices": 96.0,
+      "seo": 92.0
+    },
+    "key_metrics": {
+      "First Contentful Paint": "2.6\u00a0s",
+      "Largest Contentful Paint": "3.2\u00a0s",
+      "Speed Index": "2.6\u00a0s",
+      "Total Blocking Time": "360\u00a0ms",
+      "Cumulative Layout Shift": "0.022",
+      "Time to Interactive": "6.0\u00a0s"
+    },
+    "opportunities": [
+      "First Contentful Paint: 2.6\u00a0s",
+      "Largest Contentful Paint: 3.2\u00a0s",
+      "Speed Index: 2.6\u00a0s",
+      "Total Blocking Time: 360\u00a0ms",
+      "Max Potential First Input Delay: 160\u00a0ms",
+      "Reduce initial server response time: Root document took 840\u00a0ms",
+      "Time to Interactive: 6.0\u00a0s",
+      "Avoid multiple page redirects: Est savings of 4,130\u00a0ms",
+      "Minimize main-thread work: 5.4\u00a0s",
+      "Reduce JavaScript execution time: 2.0\u00a0s",
+      "Avoid enormous network payloads: Total size was 4,722\u00a0KiB",
+      "Reduce unused CSS: Est savings of 131\u00a0KiB",
+      "Reduce unused JavaScript: Est savings of 990\u00a0KiB",
+      "Links do not have descriptive text: 8 links found",
+      "Use efficient cache lifetimes: Est savings of 148\u00a0KiB",
+      "Document request latency: Est savings of 740\u00a0ms",
+      "Font display: Est savings of 70\u00a0ms",
+      "Render-blocking requests: Est savings of 400\u00a0ms"
+    ],
+    "screenshot": "F:\\AI automation\\AI automation\\Python_Lead_Generation - Copy\\Python_Lead_Generation\\Main_project\\reports\\screenshots\\screenshot_desktop.png"
+  },
   "ssl_info": {
     "valid": true,
-    "issuer": "Google Trust Services",
-    "expires": "2026-10-23",
-    "days_left": 47,
+    "issuer": "Let's Encrypt",
+    "expires": "2026-11-16",
+    "days_left": 69,
     "protocol": "TLSv1.3"
   },
   "security_headers": {
     "Strict-Transport-Security": false,
-    "Content-Security-Policy": true,
-    "X-Frame-Options": true,
-    "X-Content-Type-Options": true,
-    "Referrer-Policy": true,
+    "Content-Security-Policy": false,
+    "X-Frame-Options": false,
+    "X-Content-Type-Options": false,
+    "Referrer-Policy": false,
     "Permissions-Policy": true
   },
   "mixed_content": {
@@ -202,19 +247,21 @@
   },
   "http_to_https_redirect": true,
   "robots_and_sitemap": {
-    "robots_txt_found": false,
-    "sitemap_found": false,
-    "sitemap_url": null
+    "robots_txt_found": true,
+    "sitemap_found": true,
+    "sitemap_url": "https://dentiquenyc.com/sitemap_index.xml"
   },
-  "favicon_found": false,
+  "favicon_found": true,
   "open_graph": {
-    "og:title": false,
-    "og:description": false,
+    "og:title": true,
+    "og:description": true,
     "og:image": false
   },
   "chatbot": {
-    "detected": false,
-    "providers": []
+    "detected": true,
+    "providers": [
+      "Tidio"
+    ]
   },
   "whatsapp": {
     "detected": false
@@ -223,46 +270,50 @@
     "detected": false
   },
   "lead_capture_form": {
-    "detected": false,
-    "form_count": 0,
-    "fields_in_first_form": null
+    "detected": true,
+    "form_count": 1,
+    "fields_in_first_form": 22
   },
   "phone_cta": {
-    "detected": false,
-    "count": 0
+    "detected": true,
+    "count": 9
   },
   "trust_signals": {
-    "detected": false,
-    "keyword_match": false,
+    "detected": true,
+    "keyword_match": true,
     "rating_schema_found": false
   },
   "seo": {
-    "title": null,
-    "title_length": 0,
-    "meta_description": null,
-    "meta_description_length": 0,
-    "has_viewport_tag": false,
-    "has_canonical_tag": false,
-    "h1_count": 0,
-    "total_images": 0,
+    "title": "Home - Dentique NYC Dentist in Midtown Manhattan, NYC | Dentique NYC",
+    "title_length": 68,
+    "meta_description": "Discover a modern Manhattan dental studio offering cosmetic, restorative and implant dentistry, smile makeovers and personalized care.",
+    "meta_description_length": 134,
+    "has_viewport_tag": true,
+    "has_canonical_tag": true,
+    "h1_count": 2,
+    "total_images": 23,
     "images_missing_alt": 0,
-    "robots_meta": null,
+    "robots_meta": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
     "noindex": false
   },
   "schema": {
     "schema_found": false,
     "schema_types": [],
-    "phone_found": false,
+    "phone_found": true,
     "address_found": false,
     "has_aggregate_rating": false,
     "has_opening_hours": false
   },
   "broken_links": {
-    "checked_count": 0,
+    "checked_count": 25,
     "broken": [],
     "broken_count": 0,
+    "forbidden": [],
+    "forbidden_count": 0,
     "rate_limited": [],
-    "rate_limited_count": 0
+    "rate_limited_count": 0,
+    "ignored_count": 0
   },
-  "fetch_warning": null
+  "fetch_warning": null,
+  "lighthouse_errors": []
 }

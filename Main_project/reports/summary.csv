@@ -1,0 +1,2 @@
+url,business_name,phone,health_score,max_health_score,opportunity_score,max_opportunity_score,issue_count,critical_issue_count,high_issue_count,broken_links,forbidden_links_needs_manual_check,ignored_links,lighthouse_ran,lighthouse_error_count,fetch_warning
+http://www.thymedentalcare.com/,Thyme Dental Care,,65.7,100,22.5,100,14,1,4,7,0,0,True,0,
