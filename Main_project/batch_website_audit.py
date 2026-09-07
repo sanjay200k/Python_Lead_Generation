@@ -30,15 +30,22 @@ USAGE:
     python batch_website_audit.py qualified_leads_row1.csv --resume    # skip already-done sites
     python batch_website_audit.py qualified_leads_row1.csv --full-lighthouse  # slow, full scores
 
-OUTPUT CSV COLUMNS (trimmed to what matters for outreach/scoring):
-    business_name, website, audit_status, error,
-    health_score, max_health_score,
-    opportunity_score, max_opportunity_score,
-    ssl_valid, has_chatbot, chatbot_providers, has_whatsapp,
-    has_lead_form, has_phone_cta, has_appointment_booking, has_trust_signals,
-    has_local_schema, critical_issue_count, high_issue_count,
-    top_issues (semicolon-separated "priority: problem"),
-    fetch_warning
+OUTPUT CSV COLUMNS:
+    Every column from your input leads CSV, unchanged (e.g. Business Name,
+    Category, Address, Phone, Website, Email, Google Maps URL, Rating,
+    Review Count, Social Media URLs — whatever your CSV has), PLUS the
+    audit columns appended after them:
+        audit_status, error,
+        health_score, max_health_score,
+        opportunity_score, max_opportunity_score,
+        ssl_valid, has_chatbot, chatbot_providers, has_whatsapp,
+        has_lead_form, has_phone_cta, has_appointment_booking, has_trust_signals,
+        has_local_schema, critical_issue_count, high_issue_count,
+        top_issues (semicolon-separated "priority: problem"),
+        fetch_warning
+    Nothing from the input is dropped — downstream tools (e.g. the n8n
+    lead-enrichment flow) need the original category/address/phone/email
+    columns alongside the audit results.
 """
 
 from __future__ import annotations
@@ -67,8 +74,11 @@ logging.basicConfig(
 )
 logger = logging.getLogger("batch_auditor")
 
-OUTPUT_FIELDS = [
-    "business_name", "website", "audit_status", "error",
+# Appended AFTER whatever columns the input CSV already has (see
+# build_output_fields() in main()). Kept as a separate list so audit_one()
+# always knows exactly which keys it's responsible for filling in.
+AUDIT_FIELDS = [
+    "audit_status", "error",
     "health_score", "max_health_score",
     "opportunity_score", "max_opportunity_score",
     "ssl_valid", "has_chatbot", "chatbot_providers", "has_whatsapp",
@@ -76,6 +86,12 @@ OUTPUT_FIELDS = [
     "has_local_schema", "critical_issue_count", "high_issue_count",
     "top_issues", "fetch_warning",
 ]
+
+
+def build_output_fields(input_fieldnames: list[str]) -> list[str]:
+    """Original CSV columns (in their original order), followed by any
+    audit columns not already present under the same name."""
+    return input_fieldnames + [f for f in AUDIT_FIELDS if f not in input_fieldnames]
 
 
 def _skip_link_crawl(self, soup, raw_html):  # noqa: ANN001 - matches original signature
@@ -125,10 +141,12 @@ def top_issues_string(issues, n: int = 5) -> str:
     return "; ".join(f"{i.priority}: {i.problem}" for i in sorted_issues[:n])
 
 
-def audit_one(website_url: str, business_name: str, args) -> dict:
-    row = {field: "" for field in OUTPUT_FIELDS}
-    row["business_name"] = business_name
-    row["website"] = website_url
+def audit_one(lead: dict, website_url: str, output_fields: list[str], args) -> dict:
+    """Runs the audit for one lead and returns a full output row: every
+    original input column (carried through unchanged) plus the audit
+    columns filled in."""
+    row = {field: "" for field in output_fields}
+    row.update(lead)  # carry through every original column as-is
 
     url = normalize_url(website_url)
     config = AuditConfig(
@@ -184,16 +202,21 @@ def prompt_for_csv_path() -> str | None:
     return raw
 
 
-def load_already_done_websites(out_path: str) -> set[str]:
+def load_already_done_websites(out_path: str, website_col: str) -> set[str]:
     """Return the set of website URLs already present in an existing output
     CSV, so a resumed run can skip re-auditing them."""
     if not os.path.isfile(out_path):
         return set()
     with open(out_path, newline="", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        # Output CSV uses the same website column name as the input CSV
+        # (e.g. "Website"), falling back to lowercase "website" just in
+        # case an older-format output file is being resumed against.
+        col = website_col if (reader.fieldnames and website_col in reader.fieldnames) else "website"
         return {
-            (row.get("website") or "").strip()
-            for row in csv.DictReader(f)
-            if (row.get("website") or "").strip()
+            (row.get(col) or "").strip()
+            for row in reader
+            if (row.get(col) or "").strip()
         }
 
 
@@ -239,11 +262,12 @@ def main() -> int:
     fieldnames = list(leads[0].keys())
     website_col = find_website_column(fieldnames)
     name_col = find_name_column(fieldnames)
+    output_fields = build_output_fields(fieldnames)
 
     if args.limit:
         leads = leads[: args.limit]
 
-    already_done = load_already_done_websites(out_path) if args.resume else set()
+    already_done = load_already_done_websites(out_path, website_col) if args.resume else set()
     if already_done:
         logger.info("Resuming: %d website(s) already in %s will be skipped.",
                      len(already_done), out_path)
@@ -257,7 +281,7 @@ def main() -> int:
     write_header = not (file_mode == "a")
 
     with open(out_path, file_mode, newline="", encoding="utf-8") as out_f:
-        writer = csv.DictWriter(out_f, fieldnames=OUTPUT_FIELDS)
+        writer = csv.DictWriter(out_f, fieldnames=output_fields)
         if write_header:
             writer.writeheader()
 
@@ -271,8 +295,8 @@ def main() -> int:
 
             if not website:
                 logger.info("[%d/%d] %s -> no website listed, skipping", i, len(leads), name or "(unnamed)")
-                row = {field: "" for field in OUTPUT_FIELDS}
-                row["business_name"] = name
+                row = {field: "" for field in output_fields}
+                row.update(lead)  # carry through original columns even when skipped
                 row["audit_status"] = "SKIPPED_NO_WEBSITE"
                 writer.writerow(row)
                 out_f.flush()
@@ -280,7 +304,7 @@ def main() -> int:
 
             logger.info("[%d/%d] Auditing %s (%s) ...", i, len(leads), name or "(unnamed)", website)
             start = time.monotonic()
-            row = audit_one(website, name, args)
+            row = audit_one(lead, website, output_fields, args)
             elapsed = time.monotonic() - start
             logger.info("  done in %.0fs — status=%s health=%s/100 opportunity=%s/100",
                          elapsed, row["audit_status"], row["health_score"], row["opportunity_score"])
