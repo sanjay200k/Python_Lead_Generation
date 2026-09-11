@@ -103,7 +103,7 @@ except ImportError:
 # ----------------------------------------------------------------------
 # NOTE: Never hardcode API keys in the script. Set GROQ_API_KEY in a .env
 # file next to this script (or as an environment variable) instead.
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 ZEROBOUNCE_API_KEY = os.environ.get("ZEROBOUNCE_API_KEY", "")
 
 GROQ_MODEL_PRIMARY = "openai/gpt-oss-120b"
