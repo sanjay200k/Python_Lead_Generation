@@ -1,3 +1,171 @@
 Business Name,Website,Phone,Email,Priority,Top Problem,Evidence,Recommended Pitch,Outreach Message
-Anytime Fitness Haymarket,https://www.anytimefitness.com.au/gyms/au-1629/haymarket-nsw-2000/,+61 423 741 895,,HOT,"Page is set to noindex, preventing search engine indexing","The audit identified a critical 'noindex' directive on the site and a missing mobile viewport meta tag, both of which block organic visibility and harm mobile user experience.",PHONE_OUTREACH,"Hi, I noticed that Anytime Fitness Haymarket’s website is currently set to ‘noindex’ and lacks a mobile viewport tag, which means search engines can’t index the site and mobile users have a poor experience. Fixing these issues can unlock organic traffic and attract more local members. I’d love to discuss a quick audit and remediation plan. When’s a good time for a call?"
-Revo Fitness - Pitt St Sydney,https://revofitness.com.au/gyms/pitt-st/,+61 1300 738 638,pittst@revofitness.com.au,HOT,No lead-capture form detected,"Audit identified 3 high severity issues (missing security headers, no live-chat widget, no lead-capture form) and 2 medium severity issues (mixed content, no WhatsApp link).",EMAIL_OUTREACH,"Hi there, I noticed that Revo Fitness – Pitt St Sydney’s website currently lacks a lead‑capture form, which means visitors can’t easily submit their details for follow‑up. Adding a simple, mobile‑friendly form can help you convert the high traffic you already receive into qualified gym memberships. I’d love to share a quick audit of how we can implement this alongside fixing missing security headers and adding a live‑chat widget. Let me know a good time to discuss."
+Anytime Fitness Haymarket,https://www.anytimefitness.com.au/gyms/au-1629/haymarket-nsw-2000/,+61 423 741 895,,HOT,Page is set to noindex,"Audit identified critical issues: the page is set to noindex and lacks a mobile viewport meta tag, plus high severity missing security headers, no chatbot, and no lead capture form.",PHONE_OUTREACH,"Hi there,
+I was checking out Anytime Fitness Haymarket and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Anytime Fitness Haymarket?"
+Revo Fitness - Pitt St Sydney,https://revofitness.com.au/gyms/pitt-st/,+61 1300 738 638,pittst@revofitness.com.au,HOT,No lead-capture form detected,"The audit identified three HIGH severity issues: missing security headers, no AI chatbot/live‑chat widget, and no lead‑capture form, plus two MEDIUM issues (mixed content and missing WhatsApp link). The most direct revenue blocker is the absence of a lead‑capture form.",EMAIL_OUTREACH,"Hi there,
+I was checking out Revo Fitness - Pitt St Sydney and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Revo Fitness - Pitt St Sydney?"
+Anytime Fitness Hyde Park,https://www.anytimefitness.com/en-au/membership-inquiry,+61 413 252 695,,HOT,"Page is set to noindex, preventing search engine indexing",Critical issues: No mobile viewport meta tag; Page is set to noindex. High issues: Missing recommended security headers; No AI chatbot or live-chat widget detected; No lead-capture form detected.,PHONE_OUTREACH,"Hi there,
+I was checking out Anytime Fitness Hyde Park and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Anytime Fitness Hyde Park?"
+ONYX Gym & Fitness,https://onyxgym.com.au/,+61 2 9184 7762,train@onyxgym.com.au,HOT,Missing recommended security headers,Audit shows a HIGH severity issue: Missing recommended security headers.,EMAIL_OUTREACH,"Hi there,
+I was checking out ONYX Gym & Fitness and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for ONYX Gym & Fitness?"
+Gold's Gym North Sydney,https://goldsgym.com.au/north-sydney/,+61 2 9956 5230,northsydney@goldsgym.com.au,WARM,Missing recommended security headers,The audit identified a HIGH severity issue: Missing recommended security headers.,EMAIL_OUTREACH,"Hi there,
+I was checking out Gold's Gym North Sydney and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Gold's Gym North Sydney?"
+Camperdown Fitness,https://camperdownfitness.trialus.com.au/,+61 2 8594 2900,,HOT,Missing recommended security headers,The audit identified a HIGH severity issue: Missing recommended security headers.,PHONE_OUTREACH,"Hi there,
+I was checking out Camperdown Fitness and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Camperdown Fitness?"
+Virgin Active Pitt Street,https://www.virginactive.com.au/locations/pitt-street,+61 2 8240 6000,pitt@virginactive.com.au,HOT,Missing recommended security headers,"The audit flagged a HIGH‑severity issue: missing recommended security headers, which leaves the site vulnerable to attacks and can affect SEO trust signals.",EMAIL_OUTREACH,"Hi there,
+I was checking out Virgin Active Pitt Street and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Virgin Active Pitt Street?"
+World Gym Moore Park,https://www.worldgym.com.au/gyms/moore-park,+61 2 8360 4681,cate@moorepark.worldgym.com.au,HOT,Missing recommended security headers,"Audit identified high severity issues: missing recommended security headers, no AI chatbot or live-chat widget, and no lead-capture form.",EMAIL_OUTREACH,"Hi there,
+I was checking out World Gym Moore Park and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for World Gym Moore Park?"
+Hardcore Gym,http://www.hardcoregym.com.au/,+61 2 9567 0900,info@hardcoregym.com.au,HOT,Missing recommended security headers,"The audit reports a HIGH severity issue: missing recommended security headers, and also flags the absence of a live‑chat widget, WhatsApp link, appointment booking, and tel: phone link.",EMAIL_OUTREACH,"Hi there,
+I was checking out Hardcore Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Hardcore Gym?"
+Lockeroom Gym Personal Trainers Bridge Street,https://lockeroomgym.com/,+61 482 074 373,,HOT,No lead-capture form detected,"Audit identified a high‑severity issue: no lead‑capture form on the site, plus missing security headers, lack of live‑chat, no WhatsApp link, and no booking system.",PHONE_OUTREACH,"Hi there,
+I was checking out Lockeroom Gym Personal Trainers Bridge Street and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Lockeroom Gym Personal Trainers Bridge Street?"
+Fitness First Bond St Platinum,https://www.fitnessfirst.com.au/clubs/bond-st-platinum/,+61 2 8215 0200,,HOT,Missing recommended security headers,"High severity issues include missing recommended security headers, no AI chatbot, and no lead-capture form.",PHONE_OUTREACH,"Hi there,
+I was checking out Fitness First Bond St Platinum and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Fitness First Bond St Platinum?"
+168 Sydney City,http://crossfit168.com.au/,+61 404 411 581,example@mysite.com,WARM,Missing recommended security headers,"The audit identified that crossfit168.com.au is missing recommended security headers, which can expose the site to security risks and negatively impact SEO performance.",EMAIL_OUTREACH,"Hi there,
+I was checking out 168 Sydney City and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for 168 Sydney City?"
+Hiscoes Gym,http://www.hiscoes.com.au/,+61 2 9699 9222,info@hiscoes.com.au,WARM,Missing recommended security headers,Audit identified a HIGH severity issue: Missing recommended security headers.,EMAIL_OUTREACH,"Hi there,
+I was checking out Hiscoes Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Hiscoes Gym?"
+Plus Fitness 24/7,https://www.plusfitness.com.au/gyms/market-st--sydney-cbd/,+61 2 9264 0777,marketst@plusfitness.com.au,HOT,No lead-capture form detected,"The audit identified three high‑severity issues: missing security headers, no AI chatbot/live‑chat, and no lead‑capture form. Additionally, medium‑severity gaps include lack of WhatsApp click‑to‑chat and appointment booking. The site has SSL, phone CTA, and local schema but lacks key conversion tools.",EMAIL_OUTREACH,"Hi there,
+I was checking out Plus Fitness 24/7 and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Plus Fitness 24/7?"
+Movement District,http://www.movement-district.com/,+61 400 087 154,luke@movement-district.com,WARM,Missing recommended security headers,"The audit reports a HIGH severity issue: missing recommended security headers, along with other high and medium issues such as lack of live‑chat, WhatsApp link, booking system, and meta description.",EMAIL_OUTREACH,"Hi there,
+I was checking out Movement District and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Movement District?"
+Be Athletic City,https://beathleticfitness.com.au/locations-sydney-CBD,+61 414 458 744,city@beathleticfitness.com.au,HOT,Missing recommended security headers,"Audit shows HIGH severity missing security headers, no AI chatbot, and no lead-capture form; MEDIUM severity missing WhatsApp link and appointment booking.",EMAIL_OUTREACH,"Hi there,
+I was checking out Be Athletic City and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Be Athletic City?"
+UN1T GYM Alexandria,https://un1t.com/au/sydney/,+61 422 615 121,alexandria@un1t.com,WARM,Missing recommended security headers,Audit shows a HIGH severity issue: Missing recommended security headers.,EMAIL_OUTREACH,"Hi there,
+I was checking out UN1T GYM Alexandria and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for UN1T GYM Alexandria?"
+Newtown Gym,http://www.thenewtowngym.com/,+61 2 9519 6969,admin@newtowngym.com.au,HOT,No lead-capture form detected.,The audit identified a high‑severity issue: no lead‑capture form on the website.,EMAIL_OUTREACH,"Hi there,
+I was checking out Newtown Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Newtown Gym?"
+Balmain Fitness,http://www.balmainfitness.com.au/,+61 2 9818 3555,info@balmainfitness.com.au,HOT,Missing recommended security headers,The audit identified HIGH severity issues: Missing recommended security headers and No AI chatbot or live-chat widget detected.,EMAIL_OUTREACH,"Hi there,
+I was checking out Balmain Fitness and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Balmain Fitness?"
+Steed Fitness Chippendale,http://www.steedfitness.com.au/,+61 426 775 706,,HOT,Missing recommended security headers,The audit identified two HIGH severity issues: missing recommended security headers and lack of an AI chatbot or live‑chat widget.,PHONE_OUTREACH,"Hi there,
+I was checking out Steed Fitness Chippendale and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Steed Fitness Chippendale?"
+BBB Gym Waterloo,https://bbbgym.com/waterloo_gym/,+61 480 017 190,,HOT,Missing recommended security headers,"The audit flagged a HIGH severity issue: missing recommended security headers, and several MEDIUM issues including mixed content, missing WhatsApp link, no booking system, and no tel: link.",PHONE_OUTREACH,"Hi there,
+I was checking out BBB Gym Waterloo and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for BBB Gym Waterloo?"
+Snap Fitness 24/7 Sydney City,https://www.snapfitness.com/au/gyms/sydney-city,+61 451 433 436,sydneycity@snapfitness.com.au,HOT,No lead-capture form detected,The audit identified a high severity issue: no lead-capture form detected on the website.,EMAIL_OUTREACH,"Hi there,
+I was checking out Snap Fitness 24/7 Sydney City and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Snap Fitness 24/7 Sydney City?"
+Sydney Strength Training,http://www.sydneystrengthtraining.com.au/,+61 435 347 435,train@sydneystrengthtraining.com.au,WARM,Missing recommended security headers,The audit flagged a HIGH severity issue: Missing recommended security headers.,EMAIL_OUTREACH,"Hi there,
+I was checking out Sydney Strength Training and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Sydney Strength Training?"
+NYF GYM,http://nyfgym.com.au/,+61 450 020 122,,HOT,Missing recommended security headers,The audit flagged a HIGH severity issue: Missing recommended security headers.,PHONE_OUTREACH,"Hi there,
+I was checking out NYF GYM and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for NYF GYM?"
+Fitillion,https://fitillion.com/,+61 2 7257 3337,,WARM,No lead-capture form detected,HIGH: No lead-capture form detected.,PHONE_OUTREACH,"Hi there,
+I was checking out Fitillion and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Fitillion?"
+Prime Strength,http://www.primestrength.com.au/,+61 428 877 307,info@primestrength.com.au,WARM,No lead-capture form detected,"The audit reports a HIGH severity issue: No lead-capture form detected, and another HIGH issue: Missing recommended security headers. Additional MEDIUM issues include missing alt text, no WhatsApp link, and no booking system.",EMAIL_OUTREACH,"Hi there,
+I was checking out Prime Strength and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Prime Strength?"
+The Gym,http://www.thegymstleonards.com.au/,+61 480 021 448,ani@groupfittraining.com.au,HOT,No lead-capture form detected,HIGH: No lead-capture form detected.,EMAIL_OUTREACH,"Hi there,
+I was checking out The Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for The Gym?"
+The Yard Gym Darlinghurst,https://theyardgym.com/locations/darlinghurst,+61 466 939 953,darlinghurst@theyardgym.com.au,HOT,No lead-capture form detected,Audit flagged a HIGH severity issue: No lead-capture form detected.,EMAIL_OUTREACH,"Hi there,
+I was checking out The Yard Gym Darlinghurst and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for The Yard Gym Darlinghurst?"
+Bondi Gym,http://www.bondigym.com.au/,+61 2 9387 4446,train@bondigym.com.au,HOT,Missing recommended security headers,"The audit identified a HIGH severity issue: missing recommended security headers, alongside a HIGH severity lack of AI chatbot/live‑chat and several MEDIUM issues.",EMAIL_OUTREACH,"Hi there,
+I was checking out Bondi Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Bondi Gym?"
+CONDITN. Training Martin Place,https://conditn.com/martinplace,+61 452 454 592,martinplace@conditn.com,WARM,Missing recommended security headers,Verified issues list includes HIGH: Missing recommended security headers; HIGH: No lead-capture form detected.,EMAIL_OUTREACH,"Hi there,
+I was checking out CONDITN. Training Martin Place and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for CONDITN. Training Martin Place?"
+Sydney Uni Sport & Fitness,,+61 2 9351 8105,,HOT,No website,"Audit flagged ""no website"" as the highest severity issue; SSL is invalid and all engagement features are missing.",PHONE_OUTREACH,"Hi there,
+I was checking out Sydney Uni Sport & Fitness and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Sydney Uni Sport & Fitness?"
+Edge Fit Surry Hills,https://edgefit.com/gym-location/surry-hills/,+61 483 956 607,surryhillsef@outlook.com,HOT,Missing recommended security headers,"The audit flagged three HIGH severity issues: missing recommended security headers, HTTP not redirecting to HTTPS, and no lead-capture form detected, plus two MEDIUM issues (no WhatsApp click-to-chat link and no appointment/booking system).",EMAIL_OUTREACH,"Hi there,
+I was checking out Edge Fit Surry Hills and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Edge Fit Surry Hills?"
+Movement Improvement Fitness,http://moveimprovefit.com.au/,+61 433 264 164,wayne@moveimprovefit.com.au,WARM,No AI chatbot or live-chat widget detected,Audit identified a HIGH severity issue: No AI chatbot or live-chat widget detected.,EMAIL_OUTREACH,"Hi there,
+I was checking out Movement Improvement Fitness and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Movement Improvement Fitness?"
+The Foundation Gym,https://www.thefoundationgym.com/,+61 405 632 157,,WARM,Missing recommended security headers,"Audit identified high severity issues: missing recommended security headers, no AI chatbot or live-chat widget, and no lead-capture form.",PHONE_OUTREACH,"Hi there,
+I was checking out The Foundation Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for The Foundation Gym?"

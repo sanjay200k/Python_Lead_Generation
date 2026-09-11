@@ -20,6 +20,14 @@ Improvements over v1:
   - .env file support (no more `export GROQ_API_KEY=...` every session)
   - Config via CLI flags instead of editing the script
   - Optional SQLite upsert alongside the CSV
+  - Optional STATIC outreach message template (set USE_STATIC_OUTREACH_TEMPLATE
+    below) — bypasses AI-written outreach copy and fills a fixed template
+    instead. Flip the flag back to False any time to return to AI-generated
+    messages; nothing else in the pipeline changes either way.
+  - v2.1: the static template now translates the raw technical audit finding
+    (e.g. "Page is set to noindex") into a plain-English observation AND a
+    matching, logically-consistent pitch line, instead of pasting the raw
+    audit string into the message twice. See PROBLEM_FRAMING_MAP below.
 
 Usage:
     1) Create a .env file next to this script:
@@ -41,6 +49,7 @@ Optional flags:
     --log-file path.log  where to write the run log (default: lead_pipeline.log)
 
 Optional env vars (in .env or exported):
+    GROQ_API_KEY         -> required unless AI_PROVIDER=ollama or --no-ai is used
     ZEROBOUNCE_API_KEY   -> enables real email deliverability check
                             (omit it and email_verified will stay "not_checked")
     AI_PROVIDER          -> "groq" (default, cloud, free tier) or "ollama" (local, unlimited)
@@ -92,7 +101,9 @@ except ImportError:
 # ----------------------------------------------------------------------
 # Config
 # ----------------------------------------------------------------------
-GROQ_API_KEY = "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"
+# NOTE: Never hardcode API keys in the script. Set GROQ_API_KEY in a .env
+# file next to this script (or as an environment variable) instead.
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
 ZEROBOUNCE_API_KEY = os.environ.get("ZEROBOUNCE_API_KEY", "")
 
 GROQ_MODEL_PRIMARY = "openai/gpt-oss-120b"
@@ -106,6 +117,11 @@ OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen2.5:14b")
 REQUEST_TIMEOUT = 15
 MAX_RETRIES = 5
 BASE_BACKOFF = 2.0  # seconds, doubles each retry
+
+# Set to True to use the fixed outreach message template (STATIC_OUTREACH_TEMPLATE
+# below) instead of the AI-generated outreach copy. Set back to False any time to
+# revert to AI-written messages — nothing else in the pipeline changes either way.
+USE_STATIC_OUTREACH_TEMPLATE = True
 
 # All output CSVs default to this folder unless you type a different path
 # when prompted (or pass a different output_csv on the CLI).
@@ -613,6 +629,58 @@ def parse_ai_json(text):
         return None
 
 
+# ----------------------------------------------------------------------
+# 6b. Static outreach template (used instead of AI-written messages when
+#     USE_STATIC_OUTREACH_TEMPLATE = True). Only the outreach subject/message
+#     are affected — qualification, scoring, and everything else still comes
+#     from the AI step untouched.
+#
+#     v2.1 rewrite: the old version dropped the raw audit string (e.g.
+#     "Missing recommended security headers") straight into the template
+#     TWICE, verbatim, and closed every message with "so I had an idea for
+#     automating that" regardless of whether automation was even the fix.
+#     That produced messages that (a) used jargon no one would notice from
+#     "looking at your Instagram", (b) repeated the same clause twice, and
+#     (c) had a non-sequitur close for problems automation can't solve
+#     (e.g. security headers, noindex tags).
+#
+#     v2.3 change (per user request): replaced the per-problem branching
+#     template (PROBLEM_FRAMING_MAP / variant selection) with ONE fixed
+#     universal message used for every qualified lead, regardless of what
+#     primary_problem the audit found. The message makes a generic-but-
+#     plausible "after-hours enquiry" observation that applies to almost
+#     any local business, rather than referencing the specific technical
+#     finding at all. Nothing else in the pipeline (qualification, scoring,
+#     priority) is affected by this — only outreach_subject/outreach_message.
+# ----------------------------------------------------------------------
+
+STATIC_OUTREACH_TEMPLATE = """Hi {name},
+I was checking out {business_name} and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for {business_name}?"""
+
+
+def build_static_outreach(r: dict) -> dict:
+    """Fills the fixed universal outreach template with just the business
+    name — same message for every lead, independent of primary_problem.
+    Only overrides outreach_subject/outreach_message — does not touch
+    qualification_status, priority, scoring, etc."""
+    name = "there"  # no contact-name field is scraped yet; swap in if you add one later
+    business_name = r.get("business_name") or r.get("title") or "your business"
+
+    message = STATIC_OUTREACH_TEMPLATE.format(
+        name=name,
+        business_name=business_name,
+    )
+
+    return {
+        **r,
+        "outreach_subject": f"Quick idea for {business_name}",
+        "outreach_message": message,
+    }
+
+
 def ai_qualify(r):
     prompt = build_ai_user_prompt(r)
 
@@ -651,7 +719,7 @@ def ai_qualify(r):
         }
 
     outreach = parsed.get("outreach") or {}
-    return {
+    result = {
         **r,
         "business_name": parsed.get("business_name", r["title"]),
         "primary_problem": parsed.get("primary_problem"),
@@ -671,6 +739,15 @@ def ai_qualify(r):
         "audit_summary": parsed.get("audit_summary", r["mistakes_text"]),
         "ai_parse_failed": False,
     }
+
+    # Override with the static template if enabled — only for qualified leads,
+    # matching the same condition the AI already applies to its own outreach.
+    # Flip USE_STATIC_OUTREACH_TEMPLATE to False at the top of the file to
+    # revert to the AI-generated outreach copy at any time.
+    if USE_STATIC_OUTREACH_TEMPLATE and result.get("qualification_status") == "QUALIFIED":
+        result = build_static_outreach(result)
+
+    return result
 
 
 # ----------------------------------------------------------------------
