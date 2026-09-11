@@ -1,72 +1,34 @@
-2026-09-11 09:07:03 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row9_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row9_audited_qualified.csv ai=groq resume=False limit=None
-2026-09-11 09:07:03 [INFO] Loaded 39 rows -> 34 after dedupe
-2026-09-11 09:07:03 [INFO] Processing: Anytime Fitness Haymarket
-2026-09-11 09:07:14 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:07:14 [INFO] Processing: Revo Fitness - Pitt St Sydney
-2026-09-11 09:07:26 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:07:26 [INFO] Processing: Anytime Fitness Hyde Park
-2026-09-11 09:07:37 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:07:37 [INFO] Processing: ONYX Gym & Fitness
-2026-09-11 09:07:52 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:07:52 [INFO] Processing: Gold's Gym
-2026-09-11 09:08:06 [INFO]    -> QUALIFIED / WARM
-2026-09-11 09:08:06 [INFO] Processing: Camperdown Fitness
-2026-09-11 09:08:21 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:08:21 [INFO] Processing: Virgin Active Pitt Street (MidCity Centre)
-2026-09-11 09:08:34 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:08:34 [INFO] Processing: World Gym Moore Park
-2026-09-11 09:08:44 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:08:44 [INFO] Processing: Hardcore Gym
-2026-09-11 09:08:54 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:08:54 [INFO] Processing: Lockeroom Gym Personal Trainers Bridge Street
-2026-09-11 09:09:04 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:09:04 [INFO] Processing: Fitness First Bond St Platinum
-2026-09-11 09:09:19 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:09:19 [INFO] Processing: 168 Sydney City
-2026-09-11 09:09:34 [INFO]    -> QUALIFIED / WARM
-2026-09-11 09:09:34 [INFO] Processing: Hiscoes Gym
-2026-09-11 09:09:52 [INFO]    -> QUALIFIED / WARM
-2026-09-11 09:09:52 [INFO] Processing: Plus Fitness 24/7
-2026-09-11 09:10:03 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:10:03 [INFO] Processing: Movement District
-2026-09-11 09:10:20 [INFO]    -> QUALIFIED / WARM
-2026-09-11 09:10:20 [INFO] Processing: Be Athletic City
-2026-09-11 09:10:31 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:10:31 [INFO] Processing: UN1T GYM Alexandria
-2026-09-11 09:10:43 [INFO]    -> QUALIFIED / WARM
-2026-09-11 09:10:43 [INFO] Processing: Newtown Gym
-2026-09-11 09:10:58 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:10:58 [INFO] Processing: Balmain Fitness
-2026-09-11 09:11:13 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:11:13 [INFO] Processing: Steed Fitness Chippendale
-2026-09-11 09:11:24 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:11:24 [INFO] Processing: BBB Gym Waterloo
-2026-09-11 09:11:41 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:11:41 [INFO] Processing: Snap Fitness 24/7 Sydney City
-2026-09-11 09:11:52 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:11:52 [INFO] Processing: Sydney Strength Training
-2026-09-11 09:12:07 [INFO]    -> QUALIFIED / WARM
-2026-09-11 09:12:07 [INFO] Processing: NYF GYM
-2026-09-11 09:12:17 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:12:17 [INFO] Processing: Fitillion: Personalised Group Fitness
-2026-09-11 09:12:27 [INFO]    -> QUALIFIED / WARM
-2026-09-11 09:12:27 [INFO] Processing: Prime Strength
-2026-09-11 09:12:43 [INFO]    -> QUALIFIED / WARM
-2026-09-11 09:12:43 [INFO] Processing: The Gym
-2026-09-11 09:12:57 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:12:57 [INFO] Processing: The Yard Gym Darlinghurst
-2026-09-11 09:13:08 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:13:08 [INFO] Processing: Bondi Gym
-2026-09-11 09:13:18 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:13:18 [INFO] Processing: CONDITN. Training Martin Place
-2026-09-11 09:13:27 [INFO]    -> QUALIFIED / WARM
-2026-09-11 09:13:27 [INFO] Processing: Sydney Uni Sport & Fitness
-2026-09-11 09:13:36 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:13:36 [INFO] Processing: Edge Fit Surry Hills
-2026-09-11 09:13:48 [INFO]    -> QUALIFIED / HOT
-2026-09-11 09:13:48 [INFO] Processing: Movement Improvement Fitness
-2026-09-11 09:14:00 [INFO]    -> QUALIFIED / WARM
-2026-09-11 09:14:00 [INFO] Processing: The Foundation Gym
-2026-09-11 09:14:12 [INFO]    -> QUALIFIED / WARM
-2026-09-11 09:14:12 [INFO] Done. Wrote 34 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row9_audited_qualified.csv
-2026-09-11 09:14:12 [INFO] Shortlisted 34 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
+2026-09-09 21:11:06 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row9_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row9_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-09 21:11:06 [INFO] Loaded 39 rows -> 34 after dedupe
+2026-09-09 21:11:06 [INFO] Processing: Anytime Fitness Haymarket
+2026-09-09 21:11:19 [INFO]    -> QUALIFIED / HOT
+2026-09-09 21:11:19 [INFO] Processing: Revo Fitness - Pitt St Sydney
+2026-09-09 21:11:24 [WARNING]    retrying in 737.0s (attempt 1/5)
+2026-09-09 21:23:49 [INFO]    -> QUALIFIED / HOT
+2026-09-09 21:23:49 [INFO] Processing: Anytime Fitness Hyde Park
+2026-09-09 21:23:51 [WARNING]    retrying in 574.0s (attempt 1/5)
+2026-09-09 21:33:34 [INFO]    -> QUALIFIED / HOT
+2026-09-09 21:33:34 [INFO] Processing: ONYX Gym & Fitness
+2026-09-09 21:33:39 [WARNING]    retrying in 355.0s (attempt 1/5)
+2026-09-09 21:39:43 [INFO]    -> QUALIFIED / WARM
+2026-09-09 21:39:43 [INFO] Processing: Gold's Gym
+2026-09-09 21:39:47 [WARNING]    retrying in 523.0s (attempt 1/5)
+2026-09-09 21:48:38 [INFO]    -> QUALIFIED / HOT
+2026-09-09 21:48:38 [INFO] Processing: Camperdown Fitness
+2026-09-09 21:48:41 [WARNING]    retrying in 553.0s (attempt 1/5)
+2026-09-09 21:58:03 [INFO]    -> QUALIFIED / HOT
+2026-09-09 21:58:03 [INFO] Processing: Virgin Active Pitt Street (MidCity Centre)
+2026-09-09 21:58:06 [WARNING]    retrying in 734.0s (attempt 1/5)
+2026-09-09 22:10:29 [INFO]    -> QUALIFIED / HOT
+2026-09-09 22:10:29 [INFO] Processing: World Gym Moore Park
+2026-09-09 22:10:30 [WARNING]    retrying in 503.0s (attempt 1/5)
+2026-09-09 22:22:06 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row9_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row9_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-09 22:22:06 [INFO] Loaded 39 rows -> 34 after dedupe
+2026-09-09 22:22:06 [INFO] Processing: Anytime Fitness Haymarket
+2026-09-09 22:22:08 [WARNING]    retrying in 360.0s (attempt 1/5)
+2026-09-09 22:28:17 [INFO]    -> QUALIFIED / HOT
+2026-09-09 22:28:17 [INFO] Processing: Revo Fitness - Pitt St Sydney
+2026-09-09 22:28:21 [WARNING]    retrying in 545.0s (attempt 1/5)
+2026-09-09 22:37:36 [INFO]    -> QUALIFIED / HOT
+2026-09-09 22:37:36 [INFO] Processing: Anytime Fitness Hyde Park
+2026-09-09 22:37:38 [WARNING]    retrying in 908.0s (attempt 1/5)
