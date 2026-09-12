@@ -42,7 +42,8 @@ OUTPUT CSV COLUMNS:
         has_lead_form, has_phone_cta, has_appointment_booking, has_trust_signals,
         has_local_schema, critical_issue_count, high_issue_count,
         top_issues (semicolon-separated "priority: problem"),
-        fetch_warning
+        fetch_warning,
+        review_type (NEW — "Automatic" or "Manual Review Required")
     Nothing from the input is dropped — downstream tools (e.g. the n8n
     lead-enrichment flow) need the original category/address/phone/email
     columns alongside the audit results.
@@ -77,6 +78,12 @@ logger = logging.getLogger("batch_auditor")
 # Appended AFTER whatever columns the input CSV already has (see
 # build_output_fields() in main()). Kept as a separate list so audit_one()
 # always knows exactly which keys it's responsible for filling in.
+#
+# "review_type" is the NEW column: it flags whether a row's audit result
+# came from a clean, real-page fetch ("Automatic") or whether the fetch
+# hit a CAPTCHA / anti-bot wall / JS-rendered shell and so the detections
+# (chatbot, forms, etc.) may be false negatives that need a human to
+# check in a real browser ("Manual Review Required").
 AUDIT_FIELDS = [
     "audit_status", "error",
     "health_score", "max_health_score",
@@ -85,7 +92,11 @@ AUDIT_FIELDS = [
     "has_lead_form", "has_phone_cta", "has_appointment_booking", "has_trust_signals",
     "has_local_schema", "critical_issue_count", "high_issue_count",
     "top_issues", "fetch_warning",
+    "review_type",
 ]
+
+REVIEW_AUTOMATIC = "Automatic"
+REVIEW_MANUAL = "Manual Review Required"
 
 
 def build_output_fields(input_fieldnames: list[str]) -> list[str]:
@@ -141,6 +152,26 @@ def top_issues_string(issues, n: int = 5) -> str:
     return "; ".join(f"{i.priority}: {i.problem}" for i in sorted_issues[:n])
 
 
+def determine_review_type(audit_status: str, fetch_warning: str | None) -> str:
+    """Decide whether this row's results can be trusted as-is ("Automatic")
+    or need a human to double check the live site in a browser
+    ("Manual Review Required").
+
+    Manual review is required when:
+      - the audit failed outright (audit_status != "OK"), or
+      - the fetch succeeded but hit a CAPTCHA/anti-bot wall or a
+        JS-rendered/interstitial shell (fetch_warning is non-empty) —
+        in that case, "no chatbot" / "no lead form" / etc. results may
+        simply be things the tool couldn't see, not things that are
+        actually missing.
+    """
+    if audit_status != "OK":
+        return REVIEW_MANUAL
+    if fetch_warning and fetch_warning.strip():
+        return REVIEW_MANUAL
+    return REVIEW_AUTOMATIC
+
+
 def audit_one(lead: dict, website_url: str, output_fields: list[str], args) -> dict:
     """Runs the audit for one lead and returns a full output row: every
     original input column (carried through unchanged) plus the audit
@@ -163,6 +194,7 @@ def audit_one(lead: dict, website_url: str, output_fields: list[str], args) -> d
     except Exception as exc:  # noqa: BLE001 - keep the batch alive on any single failure
         row["audit_status"] = "FAILED"
         row["error"] = str(exc)
+        row["review_type"] = determine_review_type("FAILED", None)
         logger.error("  FAILED: %s -> %s", website_url, exc)
         return row
 
@@ -187,6 +219,8 @@ def audit_one(lead: dict, website_url: str, output_fields: list[str], args) -> d
     row["critical_issue_count"] = counts["CRITICAL"]
     row["high_issue_count"] = counts["HIGH"]
     row["top_issues"] = top_issues_string(result.issues)
+
+    row["review_type"] = determine_review_type(row["audit_status"], row["fetch_warning"])
 
     return row
 
@@ -274,6 +308,8 @@ def main() -> int:
 
     logger.info("Auditing %d website(s) from %s ...", len(leads), args.input_csv)
 
+    manual_review_count = 0
+
     # Open the output CSV once, up front, and flush a row after every single
     # site — so a crash/hang/Ctrl+C partway through never loses prior work.
     # In --resume mode we append to the existing file instead of truncating it.
@@ -298,6 +334,8 @@ def main() -> int:
                 row = {field: "" for field in output_fields}
                 row.update(lead)  # carry through original columns even when skipped
                 row["audit_status"] = "SKIPPED_NO_WEBSITE"
+                row["review_type"] = determine_review_type("SKIPPED_NO_WEBSITE", None)
+                manual_review_count += 1
                 writer.writerow(row)
                 out_f.flush()
                 continue
@@ -306,8 +344,11 @@ def main() -> int:
             start = time.monotonic()
             row = audit_one(lead, website, output_fields, args)
             elapsed = time.monotonic() - start
-            logger.info("  done in %.0fs — status=%s health=%s/100 opportunity=%s/100",
-                         elapsed, row["audit_status"], row["health_score"], row["opportunity_score"])
+            if row.get("review_type") == REVIEW_MANUAL:
+                manual_review_count += 1
+            logger.info("  done in %.0fs — status=%s health=%s/100 opportunity=%s/100 review=%s",
+                         elapsed, row["audit_status"], row["health_score"], row["opportunity_score"],
+                         row.get("review_type"))
             writer.writerow(row)
             out_f.flush()
 
@@ -316,6 +357,9 @@ def main() -> int:
 
     logger.info("Done. Results are in %s (written incrementally, so partial results "
                 "were already saved even if this run was interrupted).", out_path)
+    logger.info("%d of %d lead(s) are flagged '%s' — verify those sites manually in a "
+                "real browser before using their results for scoring/outreach.",
+                manual_review_count, len(leads), REVIEW_MANUAL)
 
     if ran_with_no_args:
         input("\nPress Enter to close...")
