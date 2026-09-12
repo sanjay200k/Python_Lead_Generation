@@ -1,11 +1,109 @@
-2026-09-11 17:43:30 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row9_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row9_audited_qualified.csv ai=groq resume=False limit=None
-2026-09-11 17:43:30 [INFO] Loaded 39 rows -> 34 after dedupe
-2026-09-11 17:43:30 [INFO] Processing: Anytime Fitness Haymarket
-2026-09-11 17:43:42 [INFO]    -> QUALIFIED / HOT
-2026-09-11 17:43:42 [INFO] Processing: Revo Fitness - Pitt St Sydney
-2026-09-11 17:43:54 [INFO]    -> QUALIFIED / HOT
-2026-09-11 17:43:54 [INFO] Processing: Anytime Fitness Hyde Park
-2026-09-11 17:44:03 [INFO]    -> QUALIFIED / HOT
-2026-09-11 17:44:03 [INFO] Processing: ONYX Gym & Fitness
-2026-09-11 17:44:16 [INFO]    -> QUALIFIED / HOT
-2026-09-11 17:44:16 [INFO] Processing: Gold's Gym
+2026-09-12 12:11:34 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row6_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row6_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-12 12:11:34 [INFO] Loaded 60 rows -> 59 after dedupe
+2026-09-12 12:11:34 [INFO] Processing: MUAY GYM
+2026-09-12 12:11:51 [INFO]    -> QUALIFIED / COLD
+2026-09-12 12:11:51 [INFO] Processing: Movement Martial Arts
+2026-09-12 12:12:01 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:12:01 [INFO] Processing: Full Force Gym
+2026-09-12 12:12:14 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:12:14 [INFO] Processing: Eight LIMBS
+2026-09-12 12:12:26 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:12:26 [INFO] Processing: Epic MuayThai Academy
+2026-09-12 12:12:37 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:12:37 [INFO] Processing: SRG Thai Boxing Gym
+2026-09-12 12:12:51 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:12:51 [INFO] Processing: JNS Muay Thai Gym
+2026-09-12 12:13:02 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:13:02 [INFO] Processing: STRONGER BOXING
+2026-09-12 12:13:12 [INFO]    -> QUALIFIED / WARM
+2026-09-12 12:13:12 [INFO] Processing: UBX Newtown
+2026-09-12 12:13:25 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:13:25 [INFO] Processing: 9Round Waterloo
+2026-09-12 12:13:40 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:13:40 [INFO] Processing: Apex MMA, Muay Thai & Jiu-Jitsu
+2026-09-12 12:13:49 [INFO]    -> QUALIFIED / WARM
+2026-09-12 12:13:49 [INFO] Processing: Team Perosh Mixed Martial Arts: MMA, BJJ, and Muay Thai Kickboxing for Adults & Kids
+2026-09-12 12:14:04 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:14:04 [INFO] Processing: ELITE MARTIAL ARTS Sydney
+2026-09-12 12:14:14 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:14:14 [INFO] Processing: MSP Muay Thai Gym
+2026-09-12 12:14:23 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:14:23 [INFO] Processing: Maneema Muay Thai
+2026-09-12 12:14:32 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:14:32 [INFO] Processing: PTJ Muaythai Gym - Gladesville
+2026-09-12 12:14:44 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:14:44 [INFO] Processing: Get Smart Boxing Gym
+2026-09-12 12:14:58 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:14:58 [INFO] Processing: Legends Gym
+2026-09-12 12:15:10 [INFO]    -> QUALIFIED / WARM
+2026-09-12 12:15:10 [INFO] Processing: Straight Blast Australia
+2026-09-12 12:15:19 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:15:19 [INFO] Processing: No Quarter Boxing Gym
+2026-09-12 12:15:29 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:15:29 [INFO] Processing: All Time Boxing
+2026-09-12 12:15:39 [INFO]    -> QUALIFIED / WARM
+2026-09-12 12:15:39 [INFO] Processing: ACE Martial Arts & Boxing
+2026-09-12 12:15:55 [INFO]    -> QUALIFIED / WARM
+2026-09-12 12:15:55 [INFO] Processing: Sitshoothon Muay Thai
+2026-09-12 12:16:06 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:16:06 [INFO] Processing: Nitrixx Fitness
+2026-09-12 12:16:17 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:16:17 [INFO] Processing: BANG BANG MUAY THAI
+2026-09-12 12:16:34 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:16:34 [INFO] Processing: EASTSIDE MUAY THAI
+2026-09-12 12:16:51 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:16:51 [INFO] Processing: Urban Boxing Sydney
+2026-09-12 12:17:03 [INFO]    -> REVIEW / COLD
+2026-09-12 12:17:03 [INFO] Processing: Bulldog Gym Manly
+2026-09-12 12:17:14 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:17:14 [INFO] Processing: Kick Punch Submit
+2026-09-12 12:17:25 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:17:25 [INFO] Processing: Flow Sparring
+2026-09-12 12:17:35 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:17:35 [INFO] Processing: Cortex MMA
+2026-09-12 12:17:45 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:17:45 [INFO] Processing: Family Self Defence Parramatta
+2026-09-12 12:17:54 [INFO]    -> QUALIFIED / WARM
+2026-09-12 12:17:54 [INFO] Processing: Fight Gym
+2026-09-12 12:18:03 [INFO]    -> QUALIFIED / WARM
+2026-09-12 12:18:03 [INFO] Processing: Bondi Boxing Club
+2026-09-12 12:18:12 [INFO]    -> QUALIFIED / WARM
+2026-09-12 12:18:12 [INFO] Processing: Moala Boxing Academy
+2026-09-12 12:18:22 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:18:22 [INFO] Processing: Australian Kickboxing Academy
+2026-09-12 12:18:32 [INFO]    -> QUALIFIED / WARM
+2026-09-12 12:18:32 [INFO] Processing: JWK Martial Arts
+2026-09-12 12:18:47 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:18:47 [INFO] Processing: FOCUS BOXING CLUB
+2026-09-12 12:18:57 [INFO]    -> QUALIFIED / WARM
+2026-09-12 12:18:57 [INFO] Processing: Team L.A.U Boxing, Kickboxing and Muay Thai
+2026-09-12 12:19:09 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:19:09 [INFO] Processing: Ultimate Fitness Centre - 305 Kent & 120 Sussex St Sydney
+2026-09-12 12:19:18 [INFO]    -> QUALIFIED / WARM
+2026-09-12 12:19:18 [INFO] Processing: Bulldog Gym Parramatta
+2026-09-12 12:19:28 [INFO]    -> QUALIFIED / WARM
+2026-09-12 12:19:28 [INFO] Processing: YaoMin Cao kickboxing 曹耀民散打搏击馆
+2026-09-12 12:19:36 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:19:36 [INFO] Processing: Power Core MMA Gym
+2026-09-12 12:19:48 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:19:48 [INFO] Processing: Cabra Muay Thai
+2026-09-12 12:19:59 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:19:59 [INFO] Processing: SPC Muay Thai Gym
+2026-09-12 12:20:12 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:20:12 [INFO] Processing: Get Fit Boxing Pty Ltd
+2026-09-12 12:20:24 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:20:24 [INFO] Processing: KICKS Martial Arts
+2026-09-12 12:20:34 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:20:34 [INFO] Processing: Zeus International Martial Arts Academy
+2026-09-12 12:20:46 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:20:46 [INFO] Processing: Martial Arts Research Academy - MARA Prospect
+2026-09-12 12:20:57 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:20:57 [INFO] Processing: BX1 Boxing & Fitness Gym
+2026-09-12 12:21:10 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:21:10 [INFO] Processing: North Shore Boxing Club
+2026-09-12 12:21:19 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:21:19 [INFO] Processing: NXTGEN Boxing Club
+2026-09-12 12:21:23 [WARNING]    retrying in 606.0s (attempt 1/5)
+2026-09-12 12:31:38 [INFO]    -> QUALIFIED / HOT
+2026-09-12 12:31:38 [INFO] Processing: Killa Boxing Marrickville
+2026-09-12 12:31:42 [WARNING]    retrying in 431.0s (attempt 1/5)

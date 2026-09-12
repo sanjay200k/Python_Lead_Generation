@@ -1,0 +1,306 @@
+1,,http://muay.com.au/,+61 483 956 034,memberships@muay.com.au,COLD,,"The audit flags a high‑severity issue: no lead‑capture form on the site, alongside missing security headers and lack of a chatbot.",,
+2,,http://www.movementmartialarts.com.au/,+61 2 9887 1230,info@movementmartialarts.com.au,HOT,,HIGH: No lead-capture form detected.,,
+3,,https://fullforcegym.com.au/,+61 2 8809 4902,,HOT,,"Audit identified three high severity issues (missing security headers, no HTTPS redirect, and no lead-capture form) and two medium issues (mixed content and missing WhatsApp link).",,
+4,,http://www.eightlimbs.com.au/,+61 2 8971 5176,info@eightlimbs.com.au,HOT,,"The audit identified a HIGH severity issue: missing recommended security headers, along with several MEDIUM issues such as lack of WhatsApp click-to-chat, no booking system, missing image alt text, and absent LocalBusiness schema.",,
+5,,https://www.epicmuaythaiacademy.com.au/,+61 416 718 441,info@epicmuaythaiacademy.com.au,HOT,,Verified issues: HIGH: No lead-capture form detected.,,
+6,,http://www.thaiboxingsydney.com/,+61 2 9667 2115,,HOT,,"The audit identified three high‑severity issues, including the absence of a lead‑capture form on the website.",,
+7,,https://www.instagram.com/jnsmtg/profilecard/,+61 411 446 831,,HOT,,HIGH: SSL certificate is expiring soon.; HIGH: No AI chatbot or live-chat widget detected.; HIGH: No lead-capture form detected.; MEDIUM: Missing recommended security headers.; MEDIUM: No WhatsApp click-to-chat link detected.,,
+8,,https://strongerboxing.com/,+61 401 688 836,contact@strongerboxing.com,WARM,,"Audit shows a HIGH severity issue: missing recommended security headers; also 4 MEDIUM issues including no WhatsApp link, no booking system, no tel: link, and missing meta description.",,
+9,,https://ubxtraining.com/gym/newtown,+61 451 315 369,newtown@ubxtraining.com.au,HOT,,"The audit flagged three high‑severity issues (missing security headers, no live‑chat widget, and no lead‑capture form) and two medium‑severity issues, indicating clear CRO and security gaps.",,
+10,,https://www.9round.com.au/find-a-club/waterloo,+61 403 722 521,,HOT,,"The audit identified a HIGH severity issue: the site lacks a lead-capture form, preventing visitor conversion into gym members.",,
+11,,https://www.apexmma.com.au/,+61 433 855 107,info@apexmma.com.au,WARM,,"The audit flagged a HIGH severity issue: missing recommended security headers, and also identified a HIGH severity lack of a lead-capture form.",,
+12,,https://teamperoshmma.com.au/,+61 2 9715 3100,,HOT,,Audit identified a HIGH severity issue: Missing recommended security headers.,,
+13,,https://www.teamelitestore.com/,+61 2 9625 3348,elitemartialartsnsw@gmail.com,HOT,,"The audit reports two HIGH issues: missing recommended security headers and no lead-capture form detected, plus three MEDIUM issues (mixed content, missing WhatsApp link, missing booking system). SSL is valid but security headers are absent, and the site lacks a form to capture prospective students.",,
+14,,http://www.mspmuaythaigym.com.au/,+61 433 440 417,admin@mspmuaythaigym.com.au,HOT,,Verified issues list shows HIGH: No lead-capture form detected.; HIGH: Missing recommended security headers.; HIGH: No AI chatbot or live-chat widget detected.,,
+15,,http://www.mamuaythai.com.au/,+61 468 093 778,hello@mamuaythai.com.au,HOT,,HIGH: Missing recommended security headers.,,
+16,,http://www.ptjmuaythai.com.au/,+61 2 8040 4328,info@ptjmuaythai.com.au,HOT,,The audit flagged a HIGH severity issue: Missing recommended security headers.,,
+17,,https://www.getsmartboxing.com/,+61 410 280 068,getsmartboxing@outlook.com,HOT,,"The audit identified HIGH severity issues: missing recommended security headers and no AI chatbot or live-chat widget detected, plus medium issues like missing XML sitemap, WhatsApp click-to-chat link, and appointment booking system.",,
+18,,http://legendsgym.online/,+61 2 9663 3774,info@legendsgym.org,WARM,,SSL certificate is expiring soon.,,
+19,,http://www.sbgaustralia.com.au/,+61 2 9572 6975,straightblastgymaustralia@gmail.com,HOT,,"The audit flagged a HIGH severity issue: Missing recommended security headers, and also a HIGH severity issue: No lead-capture form detected.",,
+20,,https://www.noquarter.com.au/,+61 415 682 813,info@noquarter.com.au,HOT,,"The audit identified that the site is missing recommended security headers, which can expose visitors to security risks and affect trust.",,
+21,,http://alltimeboxing.com.au/,+61 472 521 655,alltimeboxing19@gmail.com,WARM,,"The audit identified three high‑severity issues, the top one being the absence of any lead‑capture form on the website, which prevents the gym from converting visitors into prospects.",,
+22,,http://www.acemartialarts.com.au/,+61 485 002 037,,WARM,,"The audit identified three high‑severity issues on the site: missing recommended security headers, no AI chatbot/live‑chat widget, and no lead‑capture form.",,
+23,,http://www.muaythaiboxingsydney.com.au/,+61 466 669 502,sitshoothonmuaythaiboxing@gmail.com,HOT,,"The audit identified a HIGH severity issue: missing recommended security headers, and a HIGH severity issue: no lead-capture form detected.",,
+24,,https://bankstownmartialarts.com.au/,+61 2 8764 1431,nitrixx@live.com.au,HOT,,"The audit reports a HIGH severity issue: missing recommended security headers, plus a HIGH severity lack of live‑chat, and several MEDIUM issues (mixed content, no WhatsApp link, no booking system). Health score is 47.2/65 and opportunity score 35/100, with 2 high and 3 medium issues.",,
+25,,https://bangbangmt.com/north-sydney/,+61 498 087 867,2060northsydney@bikinibods.com.au,HOT,,"Audit shows high severity issues: missing security headers, no HTTPS redirect, no live-chat widget, and no lead-capture form; medium issue: no WhatsApp click-to-chat link.",,
+26,,http://www.eastsidemuaythai.com.au/,+61 2 9666 3457,info@eastsidemuaythai.com.au,HOT,,"Audit identified a HIGH severity issue: missing recommended security headers, along with other high and medium issues such as lack of live chat and sitemap.",,
+27,,http://www.thaiboxing.com.au/,+61 403 119 312,info@thaiboxing.com.au,HOT,,The audit flagged a HIGH severity issue: Missing recommended security headers.,,
+28,,https://www.kickpunchsubmit.com/,+61 490 763 672,kickpunchsubmit@gmail.com,HOT,,HIGH: No lead-capture form detected.,,
+29,,https://flowsparring.com/,+61 456 053 672,admin@flowsparring.com,HOT,,"The audit reports a health score of 55/65 and identifies two high‑severity issues: missing AI chatbot/live‑chat and missing lead‑capture form, plus medium issues for WhatsApp and appointment booking.",,
+30,,https://www.cortexmma.com.au/,+61 1300 092 020,admin@cortextrainingacademy.com.au,HOT,,HIGH: Missing recommended security headers.,,
+31,,http://www.familyselfdefence.com.au/,+61 402 289 700,info@familyselfdefence.com.au,WARM,,"Audit shows HIGH severity missing security headers, plus HIGH severity lack of AI chatbot/live‑chat, MEDIUM severity missing WhatsApp link and booking system, and LOW severity missing opening hours in LocalBusiness schema.",,
+32,,https://www.fightgym.com.au/,+61 415 448 496,admin@fightgym.com.au,WARM,,"The audit reports a HIGH severity issue: missing recommended security headers, and another HIGH issue: no lead-capture form detected.",,
+33,,https://www.bondiboxingclub.com/,+61 419 005 345,info@killaprofessional.com,WARM,,The audit identified a high‑severity issue: Missing recommended security headers on the site.,,
+34,,http://www.moalaboxingacademy.com/,+61 421 897 184,team@moalaboxingacademy.com,HOT,,"The audit flagged a HIGH severity issue: Missing recommended security headers, and also highlighted the absence of a lead-capture form, AI chatbot, WhatsApp click‑to‑chat, and appointment booking system.",,
+35,,http://www.akaoz.com.au/,+61 466 238 650,info@akaoz.com.au,WARM,,HIGH: No lead-capture form detected.,,
+36,,http://jinwukoon.net/,+61 458 207 520,jwksydney@gmail.com,HOT,,"Audit identified a HIGH severity issue: No lead-capture form detected. Additional findings include missing recommended security headers (HIGH), no WhatsApp click-to-chat link (MEDIUM), no appointment/booking system (MEDIUM), and many images lacking alt text (MEDIUM).",,
+37,,http://www.focusboxing.com.au/,+61 482 083 728,,WARM,,HIGH: No lead-capture form detected.,,
+38,,https://teamlau.com.au/,+61 450 252 015,info@teamlau.com.au,HOT,,"The audit flagged a HIGH severity issue: Missing recommended security headers, and also noted the absence of a live‑chat widget and other engagement features.",,
+39,,http://ultimatefitnesscentre.com.au/,+61 409 207 575,info@ultimatefitnesscentre.com.au,WARM,,"The audit identified three high‑severity issues: missing recommended security headers, no AI chatbot/live‑chat widget, and no lead‑capture form. The absence of a lead‑capture form is directly preventing visitor conversions and revenue growth.",,
+40,,http://www.bulldoggymparramatta.com.au/,+61 400 715 007,info@bulldoggymparramatta.com.au,WARM,,"The audit identified several high‑severity issues: a missing lead‑capture form, absent security headers, no chat or live‑chat widget, a missing <title> tag, and no WhatsApp click‑to‑chat link.",,
+41,,,+61 414 586 188,,HOT,,audit_status: SKIPPED_NO_WEBSITE; verified issues: no website,,
+42,,http://www.powercoremma.com.au/,+61 403 938 797,info@powercoremma.com.au,HOT,,"Audit identified HIGH severity issues: missing recommended security headers, no AI chatbot or live‑chat widget, and no lead‑capture form. MEDIUM issues include lack of an XML sitemap and no WhatsApp click‑to‑chat link.",,
+43,,https://cabramuaythai.com.au/,+61 2 9972 5175,info@cabramuaythai.com.au,HOT,,"The audit identified missing recommended security headers on the site, flagged as a HIGH severity issue.",,
+44,,https://www.spcmuaythai.com.au/,+61 2 7226 5273,info@spcmuaythai.com.au,HOT,,"The audit identified three high‑severity issues (missing security headers, no lead‑capture form, and no chatbot/live‑chat) and two medium‑severity issues (missing XML sitemap and WhatsApp click‑to‑chat). The health score is 35/65, indicating significant room for improvement.",,
+45,,http://www.getfitboxing.com.au/,+61 483 908 601,,HOT,,HIGH: No lead-capture form detected.,,
+46,,https://kicksmartialarts.com.au/,+61 1800 454 257,martialarts@kicksgroup.com.au,HOT,,Audit shows a HIGH severity issue: Missing recommended security headers.,,
+47,,http://www.zeusacademy.com.au/,+61 410 689 735,info@zeusacademy.com.au,HOT,,"The audit identified three high‑severity issues, including the absence of a lead‑capture form on the website, which prevents visitors from easily submitting their contact information.",,
+48,,http://www.maracademy.com.au/,+61 402 037 161,info@maracademy.com.au,HOT,,"The audit identified two HIGH severity issues (missing security headers and no AI chatbot) and three MEDIUM issues (no WhatsApp link, no booking system, no LocalBusiness schema). Health score is 37.9/65 and opportunity score 30/100.",,
+49,,http://www.bx1.com.au/,+61 2 8283 9243,,HOT,,The audit flagged a HIGH severity issue: Missing recommended security headers.,,
+50,,http://www.northshoreboxingclub.com/,+61 431 901 329,info@northshoreboxingclub.com,HOT,,The audit lists a HIGH severity issue: Missing recommended security headers.,,
+51,,https://www.nxtgenboxing.com.au/,+61 452 327 415,,HOT,,Verified issues: HIGH: No AI chatbot or live-chat widget detected.,,
+1,MUAY GYM,http://muay.com.au/,+61 483 956 034,memberships@muay.com.au,COLD,No lead-capture form detected.,"The audit flags a high‑severity issue: no lead‑capture form on the site, alongside missing security headers and lack of a chatbot.",EMAIL_OUTREACH,"Hi there,
+I was checking out MUAY GYM and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for MUAY GYM?"
+2,Movement Martial Arts,http://www.movementmartialarts.com.au/,+61 2 9887 1230,info@movementmartialarts.com.au,HOT,No lead-capture form detected,HIGH: No lead-capture form detected.,EMAIL_OUTREACH,"Hi there,
+I was checking out Movement Martial Arts and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Movement Martial Arts?"
+3,Full Force Gym,https://fullforcegym.com.au/,+61 2 8809 4902,,HOT,No lead-capture form detected,"Audit identified three high severity issues (missing security headers, no HTTPS redirect, and no lead-capture form) and two medium issues (mixed content and missing WhatsApp link).",PHONE_OUTREACH,"Hi there,
+I was checking out Full Force Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Full Force Gym?"
+4,Eight LIMBS,http://www.eightlimbs.com.au/,+61 2 8971 5176,info@eightlimbs.com.au,HOT,Missing recommended security headers,"The audit identified a HIGH severity issue: missing recommended security headers, along with several MEDIUM issues such as lack of WhatsApp click-to-chat, no booking system, missing image alt text, and absent LocalBusiness schema.",EMAIL_OUTREACH,"Hi there,
+I was checking out Eight LIMBS and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Eight LIMBS?"
+5,Epic MuayThai Academy,https://www.epicmuaythaiacademy.com.au/,+61 416 718 441,info@epicmuaythaiacademy.com.au,HOT,No lead-capture form detected,Verified issues: HIGH: No lead-capture form detected.,EMAIL_OUTREACH,"Hi there,
+I was checking out Epic MuayThai Academy and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Epic MuayThai Academy?"
+6,SRG Thai Boxing Gym,http://www.thaiboxingsydney.com/,+61 2 9667 2115,,HOT,No lead-capture form detected,"The audit identified three high‑severity issues, including the absence of a lead‑capture form on the website.",PHONE_OUTREACH,"Hi there,
+I was checking out SRG Thai Boxing Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for SRG Thai Boxing Gym?"
+7,JNS Muay Thai Gym,https://www.instagram.com/jnsmtg/profilecard/,+61 411 446 831,,HOT,SSL certificate is expiring soon,HIGH: SSL certificate is expiring soon.; HIGH: No AI chatbot or live-chat widget detected.; HIGH: No lead-capture form detected.; MEDIUM: Missing recommended security headers.; MEDIUM: No WhatsApp click-to-chat link detected.,PHONE_OUTREACH,"Hi there,
+I was checking out JNS Muay Thai Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for JNS Muay Thai Gym?"
+8,STRONGER BOXING,https://strongerboxing.com/,+61 401 688 836,contact@strongerboxing.com,WARM,Missing recommended security headers,"Audit shows a HIGH severity issue: missing recommended security headers; also 4 MEDIUM issues including no WhatsApp link, no booking system, no tel: link, and missing meta description.",EMAIL_OUTREACH,"Hi there,
+I was checking out STRONGER BOXING and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for STRONGER BOXING?"
+9,UBX Newtown,https://ubxtraining.com/gym/newtown,+61 451 315 369,newtown@ubxtraining.com.au,HOT,No lead-capture form detected,"The audit flagged three high‑severity issues (missing security headers, no live‑chat widget, and no lead‑capture form) and two medium‑severity issues, indicating clear CRO and security gaps.",EMAIL_OUTREACH,"Hi there,
+I was checking out UBX Newtown and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for UBX Newtown?"
+10,9Round Waterloo,https://www.9round.com.au/find-a-club/waterloo,+61 403 722 521,,HOT,No lead-capture form detected,"The audit identified a HIGH severity issue: the site lacks a lead-capture form, preventing visitor conversion into gym members.",PHONE_OUTREACH,"Hi there,
+I was checking out 9Round Waterloo and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for 9Round Waterloo?"
+11,"Apex MMA, Muay Thai & Jiu-Jitsu",https://www.apexmma.com.au/,+61 433 855 107,info@apexmma.com.au,WARM,Missing recommended security headers,"The audit flagged a HIGH severity issue: missing recommended security headers, and also identified a HIGH severity lack of a lead-capture form.",EMAIL_OUTREACH,"Hi there,
+I was checking out Apex MMA, Muay Thai & Jiu-Jitsu and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Apex MMA, Muay Thai & Jiu-Jitsu?"
+12,Team Perosh Mixed Martial Arts,https://teamperoshmma.com.au/,+61 2 9715 3100,,HOT,Missing recommended security headers,Audit identified a HIGH severity issue: Missing recommended security headers.,PHONE_OUTREACH,"Hi there,
+I was checking out Team Perosh Mixed Martial Arts and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Team Perosh Mixed Martial Arts?"
+13,ELITE MARTIAL ARTS Sydney,https://www.teamelitestore.com/,+61 2 9625 3348,elitemartialartsnsw@gmail.com,HOT,Missing recommended security headers,"The audit reports two HIGH issues: missing recommended security headers and no lead-capture form detected, plus three MEDIUM issues (mixed content, missing WhatsApp link, missing booking system). SSL is valid but security headers are absent, and the site lacks a form to capture prospective students.",EMAIL_OUTREACH,"Hi there,
+I was checking out ELITE MARTIAL ARTS Sydney and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for ELITE MARTIAL ARTS Sydney?"
+14,MSP Muay Thai Gym,http://www.mspmuaythaigym.com.au/,+61 433 440 417,admin@mspmuaythaigym.com.au,HOT,No lead-capture form detected on website,Verified issues list shows HIGH: No lead-capture form detected.; HIGH: Missing recommended security headers.; HIGH: No AI chatbot or live-chat widget detected.,EMAIL_OUTREACH,"Hi there,
+I was checking out MSP Muay Thai Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for MSP Muay Thai Gym?"
+15,Maneema Muay Thai,http://www.mamuaythai.com.au/,+61 468 093 778,hello@mamuaythai.com.au,HOT,Missing recommended security headers,HIGH: Missing recommended security headers.,EMAIL_OUTREACH,"Hi there,
+I was checking out Maneema Muay Thai and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Maneema Muay Thai?"
+16,PTJ Muaythai Gym - Gladesville,http://www.ptjmuaythai.com.au/,+61 2 8040 4328,info@ptjmuaythai.com.au,HOT,Missing recommended security headers,The audit flagged a HIGH severity issue: Missing recommended security headers.,EMAIL_OUTREACH,"Hi there,
+I was checking out PTJ Muaythai Gym - Gladesville and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for PTJ Muaythai Gym - Gladesville?"
+17,Get Smart Boxing Gym,https://www.getsmartboxing.com/,+61 410 280 068,getsmartboxing@outlook.com,HOT,Missing recommended security headers,"The audit identified HIGH severity issues: missing recommended security headers and no AI chatbot or live-chat widget detected, plus medium issues like missing XML sitemap, WhatsApp click-to-chat link, and appointment booking system.",EMAIL_OUTREACH,"Hi there,
+I was checking out Get Smart Boxing Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Get Smart Boxing Gym?"
+18,Legends Gym,http://legendsgym.online/,+61 2 9663 3774,info@legendsgym.org,WARM,SSL certificate is expiring soon,SSL certificate is expiring soon.,EMAIL_OUTREACH,"Hi there,
+I was checking out Legends Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Legends Gym?"
+19,Straight Blast Australia,http://www.sbgaustralia.com.au/,+61 2 9572 6975,straightblastgymaustralia@gmail.com,HOT,Missing recommended security headers,"The audit flagged a HIGH severity issue: Missing recommended security headers, and also a HIGH severity issue: No lead-capture form detected.",EMAIL_OUTREACH,"Hi there,
+I was checking out Straight Blast Australia and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Straight Blast Australia?"
+20,No Quarter Boxing Gym,https://www.noquarter.com.au/,+61 415 682 813,info@noquarter.com.au,HOT,Missing recommended security headers,"The audit identified that the site is missing recommended security headers, which can expose visitors to security risks and affect trust.",EMAIL_OUTREACH,"Hi there,
+I was checking out No Quarter Boxing Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for No Quarter Boxing Gym?"
+21,All Time Boxing,http://alltimeboxing.com.au/,+61 472 521 655,alltimeboxing19@gmail.com,WARM,No lead-capture form detected,"The audit identified three high‑severity issues, the top one being the absence of any lead‑capture form on the website, which prevents the gym from converting visitors into prospects.",EMAIL_OUTREACH,"Hi there,
+I was checking out All Time Boxing and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for All Time Boxing?"
+22,ACE Martial Arts & Boxing,http://www.acemartialarts.com.au/,+61 485 002 037,,WARM,No lead-capture form detected,"The audit identified three high‑severity issues on the site: missing recommended security headers, no AI chatbot/live‑chat widget, and no lead‑capture form.",PHONE_OUTREACH,"Hi there,
+I was checking out ACE Martial Arts & Boxing and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for ACE Martial Arts & Boxing?"
+23,Sitshoothon Muay Thai,http://www.muaythaiboxingsydney.com.au/,+61 466 669 502,sitshoothonmuaythaiboxing@gmail.com,HOT,Missing recommended security headers,"The audit identified a HIGH severity issue: missing recommended security headers, and a HIGH severity issue: no lead-capture form detected.",EMAIL_OUTREACH,"Hi there,
+I was checking out Sitshoothon Muay Thai and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Sitshoothon Muay Thai?"
+24,Nitrixx Fitness,https://bankstownmartialarts.com.au/,+61 2 8764 1431,nitrixx@live.com.au,HOT,Missing recommended security headers,"The audit reports a HIGH severity issue: missing recommended security headers, plus a HIGH severity lack of live‑chat, and several MEDIUM issues (mixed content, no WhatsApp link, no booking system). Health score is 47.2/65 and opportunity score 35/100, with 2 high and 3 medium issues.",EMAIL_OUTREACH,"Hi there,
+I was checking out Nitrixx Fitness and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Nitrixx Fitness?"
+25,BANG BANG MUAY THAI,https://bangbangmt.com/north-sydney/,+61 498 087 867,2060northsydney@bikinibods.com.au,HOT,No lead-capture form detected,"Audit shows high severity issues: missing security headers, no HTTPS redirect, no live-chat widget, and no lead-capture form; medium issue: no WhatsApp click-to-chat link.",EMAIL_OUTREACH,"Hi there,
+I was checking out BANG BANG MUAY THAI and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for BANG BANG MUAY THAI?"
+26,EASTSIDE MUAY THAI,http://www.eastsidemuaythai.com.au/,+61 2 9666 3457,info@eastsidemuaythai.com.au,HOT,Missing recommended security headers.,"Audit identified a HIGH severity issue: missing recommended security headers, along with other high and medium issues such as lack of live chat and sitemap.",EMAIL_OUTREACH,"Hi there,
+I was checking out EASTSIDE MUAY THAI and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for EASTSIDE MUAY THAI?"
+27,Bulldog Gym Manly,http://www.thaiboxing.com.au/,+61 403 119 312,info@thaiboxing.com.au,HOT,Missing recommended security headers,The audit flagged a HIGH severity issue: Missing recommended security headers.,EMAIL_OUTREACH,"Hi there,
+I was checking out Bulldog Gym Manly and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Bulldog Gym Manly?"
+28,Kick Punch Submit,https://www.kickpunchsubmit.com/,+61 490 763 672,kickpunchsubmit@gmail.com,HOT,No lead-capture form detected,HIGH: No lead-capture form detected.,EMAIL_OUTREACH,"Hi there,
+I was checking out Kick Punch Submit and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Kick Punch Submit?"
+29,Flow Sparring,https://flowsparring.com/,+61 456 053 672,admin@flowsparring.com,HOT,No lead-capture form detected,"The audit reports a health score of 55/65 and identifies two high‑severity issues: missing AI chatbot/live‑chat and missing lead‑capture form, plus medium issues for WhatsApp and appointment booking.",EMAIL_OUTREACH,"Hi there,
+I was checking out Flow Sparring and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Flow Sparring?"
+30,Cortex MMA,https://www.cortexmma.com.au/,+61 1300 092 020,admin@cortextrainingacademy.com.au,HOT,Missing recommended security headers,HIGH: Missing recommended security headers.,EMAIL_OUTREACH,"Hi there,
+I was checking out Cortex MMA and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Cortex MMA?"
+31,Family Self Defence Parramatta,http://www.familyselfdefence.com.au/,+61 402 289 700,info@familyselfdefence.com.au,WARM,Missing recommended security headers,"Audit shows HIGH severity missing security headers, plus HIGH severity lack of AI chatbot/live‑chat, MEDIUM severity missing WhatsApp link and booking system, and LOW severity missing opening hours in LocalBusiness schema.",EMAIL_OUTREACH,"Hi there,
+I was checking out Family Self Defence Parramatta and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Family Self Defence Parramatta?"
+32,Fight Gym,https://www.fightgym.com.au/,+61 415 448 496,admin@fightgym.com.au,WARM,Missing recommended security headers,"The audit reports a HIGH severity issue: missing recommended security headers, and another HIGH issue: no lead-capture form detected.",EMAIL_OUTREACH,"Hi there,
+I was checking out Fight Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Fight Gym?"
+33,Bondi Boxing Club,https://www.bondiboxingclub.com/,+61 419 005 345,info@killaprofessional.com,WARM,Missing recommended security headers,The audit identified a high‑severity issue: Missing recommended security headers on the site.,EMAIL_OUTREACH,"Hi there,
+I was checking out Bondi Boxing Club and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Bondi Boxing Club?"
+34,Moala Boxing Academy,http://www.moalaboxingacademy.com/,+61 421 897 184,team@moalaboxingacademy.com,HOT,Missing recommended security headers,"The audit flagged a HIGH severity issue: Missing recommended security headers, and also highlighted the absence of a lead-capture form, AI chatbot, WhatsApp click‑to‑chat, and appointment booking system.",EMAIL_OUTREACH,"Hi there,
+I was checking out Moala Boxing Academy and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Moala Boxing Academy?"
+35,Australian Kickboxing Academy,http://www.akaoz.com.au/,+61 466 238 650,info@akaoz.com.au,WARM,No lead-capture form detected,HIGH: No lead-capture form detected.,EMAIL_OUTREACH,"Hi there,
+I was checking out Australian Kickboxing Academy and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Australian Kickboxing Academy?"
+36,JWK Martial Arts,http://jinwukoon.net/,+61 458 207 520,jwksydney@gmail.com,HOT,No lead-capture form detected,"Audit identified a HIGH severity issue: No lead-capture form detected. Additional findings include missing recommended security headers (HIGH), no WhatsApp click-to-chat link (MEDIUM), no appointment/booking system (MEDIUM), and many images lacking alt text (MEDIUM).",EMAIL_OUTREACH,"Hi there,
+I was checking out JWK Martial Arts and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for JWK Martial Arts?"
+37,Focus Boxing Club,http://www.focusboxing.com.au/,+61 482 083 728,,WARM,No lead-capture form detected,HIGH: No lead-capture form detected.,PHONE_OUTREACH,"Hi there,
+I was checking out Focus Boxing Club and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Focus Boxing Club?"
+38,"Team L.A.U Boxing, Kickboxing and Muay Thai",https://teamlau.com.au/,+61 450 252 015,info@teamlau.com.au,HOT,Missing recommended security headers,"The audit flagged a HIGH severity issue: Missing recommended security headers, and also noted the absence of a live‑chat widget and other engagement features.",EMAIL_OUTREACH,"Hi there,
+I was checking out Team L.A.U Boxing, Kickboxing and Muay Thai and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Team L.A.U Boxing, Kickboxing and Muay Thai?"
+39,Ultimate Fitness Centre,http://ultimatefitnesscentre.com.au/,+61 409 207 575,info@ultimatefitnesscentre.com.au,WARM,No lead-capture form detected,"The audit identified three high‑severity issues: missing recommended security headers, no AI chatbot/live‑chat widget, and no lead‑capture form. The absence of a lead‑capture form is directly preventing visitor conversions and revenue growth.",EMAIL_OUTREACH,"Hi there,
+I was checking out Ultimate Fitness Centre and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Ultimate Fitness Centre?"
+40,Bulldog Gym Parramatta,http://www.bulldoggymparramatta.com.au/,+61 400 715 007,info@bulldoggymparramatta.com.au,WARM,No lead-capture form detected on the website.,"The audit identified several high‑severity issues: a missing lead‑capture form, absent security headers, no chat or live‑chat widget, a missing <title> tag, and no WhatsApp click‑to‑chat link.",EMAIL_OUTREACH,"Hi there,
+I was checking out Bulldog Gym Parramatta and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Bulldog Gym Parramatta?"
+41,YaoMin Cao kickboxing 曹耀民散打搏击馆,,+61 414 586 188,,HOT,No website,audit_status: SKIPPED_NO_WEBSITE; verified issues: no website,PHONE_OUTREACH,"Hi there,
+I was checking out YaoMin Cao kickboxing 曹耀民散打搏击馆 and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for YaoMin Cao kickboxing 曹耀民散打搏击馆?"
+42,Power Core MMA Gym,http://www.powercoremma.com.au/,+61 403 938 797,info@powercoremma.com.au,HOT,Missing recommended security headers,"Audit identified HIGH severity issues: missing recommended security headers, no AI chatbot or live‑chat widget, and no lead‑capture form. MEDIUM issues include lack of an XML sitemap and no WhatsApp click‑to‑chat link.",EMAIL_OUTREACH,"Hi there,
+I was checking out Power Core MMA Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Power Core MMA Gym?"
+43,Cabra Muay Thai,https://cabramuaythai.com.au/,+61 2 9972 5175,info@cabramuaythai.com.au,HOT,Missing recommended security headers,"The audit identified missing recommended security headers on the site, flagged as a HIGH severity issue.",EMAIL_OUTREACH,"Hi there,
+I was checking out Cabra Muay Thai and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Cabra Muay Thai?"
+44,SPC Muay Thai Gym,https://www.spcmuaythai.com.au/,+61 2 7226 5273,info@spcmuaythai.com.au,HOT,No lead-capture form detected,"The audit identified three high‑severity issues (missing security headers, no lead‑capture form, and no chatbot/live‑chat) and two medium‑severity issues (missing XML sitemap and WhatsApp click‑to‑chat). The health score is 35/65, indicating significant room for improvement.",EMAIL_OUTREACH,"Hi there,
+I was checking out SPC Muay Thai Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for SPC Muay Thai Gym?"
+45,Get Fit Boxing Pty Ltd,http://www.getfitboxing.com.au/,+61 483 908 601,,HOT,No lead-capture form detected,HIGH: No lead-capture form detected.,PHONE_OUTREACH,"Hi there,
+I was checking out Get Fit Boxing Pty Ltd and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Get Fit Boxing Pty Ltd?"
+46,KICKS Martial Arts,https://kicksmartialarts.com.au/,+61 1800 454 257,martialarts@kicksgroup.com.au,HOT,Missing recommended security headers,Audit shows a HIGH severity issue: Missing recommended security headers.,EMAIL_OUTREACH,"Hi there,
+I was checking out KICKS Martial Arts and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for KICKS Martial Arts?"
+47,Zeus International Martial Arts Academy,http://www.zeusacademy.com.au/,+61 410 689 735,info@zeusacademy.com.au,HOT,No lead-capture form detected,"The audit identified three high‑severity issues, including the absence of a lead‑capture form on the website, which prevents visitors from easily submitting their contact information.",EMAIL_OUTREACH,"Hi there,
+I was checking out Zeus International Martial Arts Academy and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Zeus International Martial Arts Academy?"
+48,Martial Arts Research Academy - MARA Prospect,http://www.maracademy.com.au/,+61 402 037 161,info@maracademy.com.au,HOT,Missing recommended security headers,"The audit identified two HIGH severity issues (missing security headers and no AI chatbot) and three MEDIUM issues (no WhatsApp link, no booking system, no LocalBusiness schema). Health score is 37.9/65 and opportunity score 30/100.",EMAIL_OUTREACH,"Hi there,
+I was checking out Martial Arts Research Academy - MARA Prospect and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for Martial Arts Research Academy - MARA Prospect?"
+49,BX1 Boxing & Fitness Gym,http://www.bx1.com.au/,+61 2 8283 9243,,HOT,Missing recommended security headers,The audit flagged a HIGH severity issue: Missing recommended security headers.,PHONE_OUTREACH,"Hi there,
+I was checking out BX1 Boxing & Fitness Gym and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for BX1 Boxing & Fitness Gym?"
+50,North Shore Boxing Club,http://www.northshoreboxingclub.com/,+61 431 901 329,info@northshoreboxingclub.com,HOT,Missing recommended security headers,The audit lists a HIGH severity issue: Missing recommended security headers.,EMAIL_OUTREACH,"Hi there,
+I was checking out North Shore Boxing Club and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for North Shore Boxing Club?"
+51,NXTGEN Boxing Club,https://www.nxtgenboxing.com.au/,+61 452 327 415,,HOT,No AI chatbot or live-chat widget detected,Verified issues: HIGH: No AI chatbot or live-chat widget detected.,PHONE_OUTREACH,"Hi there,
+I was checking out NXTGEN Boxing Club and noticed something that may be costing you enquiries.
+When someone visits your website outside business hours, there doesn't seem to be an easy way for them to ask a question or enquire right away. A potential member could simply leave and move on.
+I build simple website + WhatsApp AI systems that answer questions, capture leads, and follow up automatically — even when your team is offline.
+Would you be open to a quick 60-second walkthrough of how this could work for NXTGEN Boxing Club?"
