@@ -1,5 +1,5 @@
 """
-Lead Qualification Pipeline v4 (fully standalone Python — no n8n needed)
+Lead Qualification Pipeline v3 (fully standalone Python — no n8n needed)
 =========================================================================
 Input:  a CSV like qualified_leads_row_audited.csv (already has
         health_score / opportunity_score / top_issues / etc. from
@@ -8,20 +8,10 @@ Output: a new CSV with AI qualification, email extraction/verification,
         priority, outreach message, etc. — same shape as the n8n
         "output lead data table".
 
-v4 change (this version): MULTI-KEY GROQ ROTATION. Instead of one
-GROQ_API_KEY, you can supply several keys (ideally from separate Groq
-accounts) via GROQ_API_KEYS=key1,key2,key3. A GroqKeyPool round-robins
-across them and, when a key gets rate-limited (429), puts ONLY that key
-on cooldown and immediately retries with the next key — instead of the
-whole pipeline sleeping. This can dramatically cut wall-clock time as
-long as the keys are on different Groq accounts (keys on the SAME
-account share the same underlying quota, so rotating them won't help
-in that case).
-
-v3 change: outreach messages are no longer a single fixed template.
-Each QUALIFIED lead gets its own Groq call (generate_ai_outreach) that
-writes a UNIQUE message about that specific lead's REAL missing feature
-(no chatbot/WhatsApp, no lead form, no phone CTA, no booking, or
+v3 change (this version): outreach messages are no longer a single fixed
+template. Each QUALIFIED lead gets its own Groq call (generate_ai_outreach)
+that writes a UNIQUE message about that specific lead's REAL missing
+feature (no chatbot/WhatsApp, no lead form, no phone CTA, no booking, or
 whatever its top audit issue is) while following the same fixed 6-beat
 scenario structure every time:
   1. notice a specific weakness on THIS business's site
@@ -35,10 +25,8 @@ call) fills in so a lead never ends up with a blank outreach message.
 
 Usage:
     1) Create a .env file next to this script:
-           GROQ_API_KEYS=gsk_key1xxxxxxxx,gsk_key2xxxxxxxx,gsk_key3xxxxxxxx
-       (or a single GROQ_API_KEY=gsk_xxxx if you only have one)
-       (get free keys at https://console.groq.com/keys — use separate
-        Groq accounts/emails per key for the rotation to actually help)
+           GROQ_API_KEY=gsk_xxxxxxxxxxxx
+       (get a free key at https://console.groq.com/keys)
 
     2) Run:
            python lead_pipeline.py input.csv output.csv
@@ -49,18 +37,13 @@ Usage:
 Optional flags:
     --no-ai              skip the AI qualification step entirely (mechanics-only test)
     --sleep 3.0          seconds between Groq calls (default 6.0, raise if rate-limited)
-                          with multiple keys you can usually lower this a lot (e.g. 1.0
-                          or 0) since the pool self-throttles per-key on 429s
     --limit 20           only process the first N leads (useful for a quick test run)
     --sqlite path.db     also upsert results into a SQLite DB (in addition to the CSV)
     --resume             skip leads already present in output_csv (matched by input_id)
     --log-file path.log  where to write the run log (default: lead_pipeline.log)
 
 Optional env vars (in .env or exported):
-    GROQ_API_KEYS        -> comma-separated list of Groq API keys (preferred).
-                            Ideally from DIFFERENT Groq accounts, since keys on
-                            the same account share the same rate-limit quota.
-    GROQ_API_KEY         -> single-key fallback if GROQ_API_KEYS isn't set
+    GROQ_API_KEY         -> required unless AI_PROVIDER=ollama or --no-ai is used
     ZEROBOUNCE_API_KEY   -> enables real email deliverability check
                             (omit it and email_verified will stay "not_checked")
     AI_PROVIDER          -> "groq" (default, cloud, free tier) or "ollama" (local, unlimited)
@@ -74,7 +57,6 @@ Requires:
 import argparse
 import csv
 import hashlib
-import itertools
 import json
 import logging
 import os
@@ -83,7 +65,6 @@ import sqlite3
 import sys
 import time
 from pathlib import Path
-from threading import Lock
 
 import pandas as pd
 import requests
@@ -114,15 +95,9 @@ except ImportError:
 # ----------------------------------------------------------------------
 # Config
 # ----------------------------------------------------------------------
-# NOTE: Never hardcode API keys in the script. Set GROQ_API_KEYS (comma
-# separated) or GROQ_API_KEY in a .env file next to this script instead.
-_raw_multi = os.environ.get("GROQ_API_KEYS", "")
-GROQ_API_KEYS = [k.strip() for k in _raw_multi.split(",") if k.strip()]
-if not GROQ_API_KEYS:
-    _single = os.environ.get("GROQ_API_KEY", "")
-    if _single:
-        GROQ_API_KEYS = [_single]
-
+# NOTE: Never hardcode API keys in the script. Set GROQ_API_KEY in a .env
+# file next to this script (or as an environment variable) instead.
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
 ZEROBOUNCE_API_KEY = os.environ.get("ZEROBOUNCE_API_KEY", "")
 
 GROQ_MODEL_PRIMARY = "openai/gpt-oss-120b"
@@ -136,7 +111,6 @@ OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen2.5:14b")
 REQUEST_TIMEOUT = 15
 MAX_RETRIES = 5
 BASE_BACKOFF = 2.0  # seconds, doubles each retry
-DEFAULT_RATE_LIMIT_COOLDOWN = 60.0  # seconds, used when Groq gives no retry-after
 
 # All output CSVs default to this folder unless you type a different path
 # when prompted (or pass a different output_csv on the CLI).
@@ -198,78 +172,6 @@ def setup_logging(log_path: str):
     ch.setLevel(logging.INFO)
     ch.setFormatter(fmt)
     logger.addHandler(ch)
-
-
-# ----------------------------------------------------------------------
-# 0. Groq multi-key rotation pool
-# ----------------------------------------------------------------------
-class GroqKeyPool:
-    """Round-robins across multiple Groq API keys.
-
-    If a key gets rate-limited (HTTP 429), it's put on cooldown until the
-    time Groq's `retry-after` header indicates, and the pool skips it
-    until then — so as long as at least ONE key still has quota, the
-    pipeline keeps moving instead of sleeping the whole run.
-
-    A key that comes back invalid/revoked (401/403) is permanently
-    benched for the rest of the run.
-
-    NOTE: this only helps if the keys are on SEPARATE Groq accounts.
-    Multiple keys under one account share that account's rate limit, so
-    rotating between them hits the same ceiling as using just one.
-    """
-
-    def __init__(self, keys):
-        self.keys = [k for k in keys if k]
-        if not self.keys:
-            raise ValueError(
-                "No Groq API keys configured. Set GROQ_API_KEYS "
-                "(comma-separated) or GROQ_API_KEY in your .env file."
-            )
-        self._cooldowns = {k: 0.0 for k in self.keys}  # key -> unix time it's free again
-        self._cycle = itertools.cycle(self.keys)
-        self._lock = Lock()
-        logger.info(f"Groq key pool initialized with {len(self.keys)} key(s)")
-
-    def available_count(self) -> int:
-        now = time.time()
-        return sum(1 for k in self.keys if self._cooldowns[k] <= now)
-
-    def get_key(self) -> str:
-        """Returns the next available key, preferring ones not on cooldown.
-        If all are on cooldown, waits for whichever frees up soonest."""
-        with self._lock:
-            now = time.time()
-            for _ in range(len(self.keys)):
-                k = next(self._cycle)
-                if self._cooldowns[k] <= now:
-                    return k
-            # all on cooldown - pick the one that frees soonest and wait for it
-            soonest_key = min(self._cooldowns, key=self._cooldowns.get)
-            wait = max(0.0, self._cooldowns[soonest_key] - now)
-            if wait > 0:
-                logger.warning(
-                    f"   all {len(self.keys)} Groq key(s) are rate-limited or benched - "
-                    f"waiting {wait:.1f}s for the next one to free up"
-                )
-                time.sleep(wait)
-            return soonest_key
-
-    def mark_rate_limited(self, key: str, retry_after: float = None):
-        with self._lock:
-            self._cooldowns[key] = time.time() + (retry_after or DEFAULT_RATE_LIMIT_COOLDOWN)
-
-    def mark_bad_key(self, key: str):
-        """Permanently benches a key (invalid/revoked) for this run."""
-        with self._lock:
-            self._cooldowns[key] = float("inf")
-
-    @staticmethod
-    def _mask(key: str) -> str:
-        return f"...{key[-6:]}" if key and len(key) > 6 else "***"
-
-
-groq_pool = GroqKeyPool(GROQ_API_KEYS) if GROQ_API_KEYS else None
 
 
 # ----------------------------------------------------------------------
@@ -570,7 +472,7 @@ def extract_email_for_lead(r):
 
 
 # ----------------------------------------------------------------------
-# 6. AI qualification (Groq / Ollama) with retry + backoff + key rotation
+# 6. AI qualification (Groq / Ollama) with retry + backoff
 # ----------------------------------------------------------------------
 AI_SYSTEM_PROMPT = """You are a senior B2B lead qualification analyst specializing in website
 audits, SEO, CRO, technical website issues, and sales opportunity identification.
@@ -641,38 +543,31 @@ has_local_schema: {r['has_local_schema']}
 """
 
 
+def _sleep_with_backoff(attempt, retry_after=None):
+    wait = retry_after if retry_after else BASE_BACKOFF * (2 ** attempt)
+    logger.warning(f"   retrying in {wait:.1f}s (attempt {attempt + 1}/{MAX_RETRIES})")
+    time.sleep(wait)
+
+
 def call_groq(model, user_prompt):
-    """Calls Groq with exponential backoff + multi-key rotation on 429 /
-    5xx / network errors, using the qualification system prompt
-    (AI_SYSTEM_PROMPT). Non-retryable errors (4xx other than 429) fail
-    immediately once every key has been tried."""
+    """Calls Groq with exponential backoff on 429 / 5xx / network errors,
+    using the qualification system prompt (AI_SYSTEM_PROMPT). Non-retryable
+    errors (4xx other than 429) fail immediately."""
     return _call_groq_with_system(model, AI_SYSTEM_PROMPT, user_prompt, temperature=0.3)
 
 
 def _call_groq_with_system(model, system_prompt, user_prompt, temperature=0.3):
-    """Generic Groq caller with retry/backoff + key-pool rotation —
-    parameterized system prompt and temperature so it can serve both
-    qualification (low temp, strict JSON) and outreach generation
-    (higher temp, more varied phrasing).
+    """Generic Groq caller with retry/backoff — parameterized system prompt
+    and temperature so it can serve both qualification (low temp, strict
+    JSON) and outreach generation (higher temp, more varied phrasing)."""
+    if not GROQ_API_KEY:
+        return None, "no GROQ_API_KEY set"
 
-    On every attempt, pulls the next available key from groq_pool. A 429
-    only cools down THAT key and moves to the next one immediately (no
-    sleep) as long as another key is free. Only if every key is on
-    cooldown does it wait."""
-    if groq_pool is None:
-        return None, "no Groq API key(s) configured"
-
-    # cap attempts at max(MAX_RETRIES, number of keys) so a multi-key pool
-    # gets a fair shot at trying every key at least once
-    total_attempts = max(MAX_RETRIES, len(groq_pool.keys))
-
-    last_err = None
-    for attempt in range(total_attempts):
-        key = groq_pool.get_key()
+    for attempt in range(MAX_RETRIES):
         try:
             resp = requests.post(
                 GROQ_URL,
-                headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+                headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
                 json={
                     "model": model,
                     "messages": [
@@ -684,12 +579,11 @@ def _call_groq_with_system(model, system_prompt, user_prompt, temperature=0.3):
                 timeout=30,
             )
         except requests.RequestException as e:
-            last_err = f"groq network error: {e}"
-            logger.warning(f"   groq network error ({model}, key {GroqKeyPool._mask(key)}): {e}")
-            if attempt < total_attempts - 1:
-                time.sleep(BASE_BACKOFF)
+            logger.warning(f"   groq network error ({model}): {e}")
+            if attempt < MAX_RETRIES - 1:
+                _sleep_with_backoff(attempt)
                 continue
-            return None, f"{last_err} (after retries)"
+            return None, f"groq network error after retries: {e}"
 
         if resp.status_code == 200:
             try:
@@ -700,32 +594,21 @@ def _call_groq_with_system(model, system_prompt, user_prompt, temperature=0.3):
         if resp.status_code == 429:
             retry_after = resp.headers.get("retry-after")
             retry_after = float(retry_after) if retry_after else None
-            groq_pool.mark_rate_limited(key, retry_after)
-            logger.warning(
-                f"   key {GroqKeyPool._mask(key)} rate-limited "
-                f"(cooldown {retry_after or DEFAULT_RATE_LIMIT_COOLDOWN:.0f}s) - "
-                f"{groq_pool.available_count()} key(s) still available, trying next"
-            )
-            last_err = "groq rate-limited"
-            continue  # immediately try another key, no forced sleep
-
-        if resp.status_code in (401, 403):
-            groq_pool.mark_bad_key(key)
-            logger.error(f"   key {GroqKeyPool._mask(key)} invalid/revoked - benching it for this run")
-            last_err = f"groq HTTP {resp.status_code} (bad key)"
-            continue
+            if attempt < MAX_RETRIES - 1:
+                _sleep_with_backoff(attempt, retry_after)
+                continue
+            return None, "groq rate-limited after max retries"
 
         if 500 <= resp.status_code < 600:
-            last_err = f"groq HTTP {resp.status_code}"
-            if attempt < total_attempts - 1:
-                time.sleep(BASE_BACKOFF * (2 ** min(attempt, 4)))
+            if attempt < MAX_RETRIES - 1:
+                _sleep_with_backoff(attempt)
                 continue
-            return None, f"{last_err} after retries"
+            return None, f"groq HTTP {resp.status_code} after retries"
 
-        # non-retryable 4xx (bad request, etc.) — don't burn other keys on this
+        # non-retryable 4xx (bad key, bad request, etc.)
         return None, f"groq HTTP {resp.status_code}: {resp.text[:200]}"
 
-    return None, last_err or "groq: exhausted retries across all keys"
+    return None, "groq: exhausted retries"
 
 
 def call_ollama(model, user_prompt):
@@ -1307,11 +1190,10 @@ def process_lead(r: dict, use_ai: bool, sleep_between_ai_calls: float) -> dict:
 
     if use_ai:
         r = ai_qualify(r)
-        if AI_PROVIDER != "ollama" and sleep_between_ai_calls > 0:
-            # With a single key this paces every call to respect rate
-            # limits. With multiple keys on separate accounts you can
-            # usually set --sleep much lower (or 0) since 429s are
-            # absorbed by rotating to another key instead of sleeping.
+        if AI_PROVIDER != "ollama":
+            # one sleep covers both the qualification call and (if QUALIFIED)
+            # the extra outreach-generation call, so free-tier rate limits
+            # still get respected between leads
             time.sleep(sleep_between_ai_calls)
     else:
         r = {
@@ -1516,27 +1398,21 @@ def run_interactive() -> dict:
         )
 
     use_ai = True
-    if AI_PROVIDER != "ollama" and not GROQ_API_KEYS:
-        print("\nNo Groq API key(s) found (GROQ_API_KEYS or GROQ_API_KEY, env var or .env file).")
+    if AI_PROVIDER != "ollama" and not GROQ_API_KEY:
+        print("\nNo GROQ_API_KEY found (env var or .env file next to this script).")
         continue_without_ai = prompt_yes_no(
             "Continue WITHOUT AI qualification (mechanics-only run)?", default=False
         )
         if not continue_without_ai:
-            print("Add GROQ_API_KEYS=key1,key2,key3 (or GROQ_API_KEY=...) to a .env file next to this script, then run again.")
+            print("Add GROQ_API_KEY=... to a .env file next to this script, then run again.")
             sys.exit(1)
         use_ai = False
-
-    if use_ai and AI_PROVIDER != "ollama" and len(GROQ_API_KEYS) > 1:
-        print(f"\nUsing {len(GROQ_API_KEYS)} Groq API keys with automatic rotation.")
-        default_sleep = 1.0
-    else:
-        default_sleep = 6.0
 
     return {
         "input_csv": input_csv,
         "output_csv": output_csv,
         "use_ai": use_ai,
-        "sleep": default_sleep,
+        "sleep": 6.0,
         "limit": None,
         "resume": resume,
         "sqlite": None,
@@ -1550,9 +1426,7 @@ def run_cli(argv) -> dict:
     parser.add_argument("output_csv", nargs="?", default=None,
                          help="Path to write the enriched output CSV (default: <input>_qualified.csv)")
     parser.add_argument("--no-ai", action="store_true", help="Skip the AI qualification step")
-    parser.add_argument("--sleep", type=float, default=6.0,
-                         help="Seconds between AI calls (default 6.0). With multiple Groq "
-                              "keys from separate accounts you can usually lower this a lot.")
+    parser.add_argument("--sleep", type=float, default=6.0, help="Seconds between AI calls (default 6.0)")
     parser.add_argument("--limit", type=int, default=None, help="Only process the first N leads")
     parser.add_argument("--sqlite", type=str, default=None, help="Also upsert results into this SQLite DB")
     parser.add_argument("--resume", action="store_true",
@@ -1586,15 +1460,11 @@ if __name__ == "__main__":
 
     setup_logging(cfg["log_file"])
 
-    if cfg["use_ai"] and AI_PROVIDER != "ollama" and not GROQ_API_KEYS:
-        logger.error("No Groq API key(s) found (GROQ_API_KEYS or GROQ_API_KEY, env var or .env file). "
+    if cfg["use_ai"] and AI_PROVIDER != "ollama" and not GROQ_API_KEY:
+        logger.error("No GROQ_API_KEY found (env var or .env file). "
                       "Use --no-ai to test without it, set AI_PROVIDER=ollama for local, "
-                      "or add GROQ_API_KEYS=key1,key2,key3 to a .env file next to this script.")
+                      "or add GROQ_API_KEY=... to a .env file next to this script.")
         sys.exit(1)
-
-    if cfg["use_ai"] and AI_PROVIDER != "ollama":
-        logger.info(f"Groq keys configured: {len(GROQ_API_KEYS)}"
-                     + (" (rotation enabled)" if len(GROQ_API_KEYS) > 1 else ""))
 
     if not os.path.exists(cfg["input_csv"]):
         logger.error(f"Input CSV not found: {cfg['input_csv']}")
@@ -1629,4 +1499,5 @@ if __name__ == "__main__":
         try:
             input("\nDone. Press Enter to exit...")
         except EOFError:
+            pass
             pass
