@@ -107,3 +107,681 @@
 2026-09-12 12:31:38 [INFO]    -> QUALIFIED / HOT
 2026-09-12 12:31:38 [INFO] Processing: Killa Boxing Marrickville
 2026-09-12 12:31:42 [WARNING]    retrying in 431.0s (attempt 1/5)
+2026-09-14 16:04:12 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row16_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row16_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-14 16:04:12 [INFO] Loaded 60 rows -> 57 after dedupe
+2026-09-14 16:04:12 [INFO] Processing: Fit Factory Downtown
+2026-09-14 16:04:25 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:04:25 [INFO] Processing: Muay Thai Bar & Restaurant
+2026-09-14 16:04:39 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:04:39 [INFO] Processing: Elite Fight Club- Muay Thai, Kickboxing, Boxing, Mixed Martial Arts in Markham/Scarborough/Toronto
+2026-09-14 16:04:53 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:04:53 [INFO] Processing: United Boxing Club
+2026-09-14 16:04:57 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-14 16:05:11 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:05:11 [INFO] Processing: REVMMA—Revolution MMA Gym & Fitness Inc
+2026-09-14 16:05:12 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-14 16:05:26 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-14 16:05:30 [WARNING]    retrying in 6.0s (attempt 2/5)
+2026-09-14 16:18:23 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row16_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row16_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-14 16:18:23 [INFO] Loaded 60 rows -> 57 after dedupe
+2026-09-14 16:18:23 [INFO] Processing: Fit Factory Downtown
+2026-09-14 16:18:36 [DEBUG] ZeroBounce error for getfit@fitfactoryfitness.com: Expecting value: line 1 column 1 (char 0)
+2026-09-14 16:18:36 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:18:36 [INFO] Processing: Muay Thai Bar & Restaurant
+2026-09-14 16:18:50 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:18:50 [INFO] Processing: Elite Fight Club- Muay Thai, Kickboxing, Boxing, Mixed Martial Arts in Markham/Scarborough/Toronto
+2026-09-14 16:19:03 [DEBUG] ZeroBounce error for info@elitefightclub.ca: Expecting value: line 1 column 1 (char 0)
+2026-09-14 16:19:03 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:19:03 [INFO] Processing: United Boxing Club
+2026-09-14 16:19:06 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-14 16:19:18 [DEBUG] ZeroBounce error for info@unitedboxing.club: Expecting value: line 1 column 1 (char 0)
+2026-09-14 16:19:18 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:19:18 [INFO] Processing: REVMMA—Revolution MMA Gym & Fitness Inc
+2026-09-14 16:19:19 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-14 16:19:29 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-14 16:23:26 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row16_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row16_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-14 16:23:26 [INFO] Loaded 60 rows -> 57 after dedupe
+2026-09-14 16:23:26 [INFO] Processing: Fit Factory Downtown
+2026-09-14 16:23:39 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:23:39 [INFO] Processing: Muay Thai Bar & Restaurant
+2026-09-14 16:23:51 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:23:51 [INFO] Processing: Elite Fight Club- Muay Thai, Kickboxing, Boxing, Mixed Martial Arts in Markham/Scarborough/Toronto
+2026-09-14 16:24:07 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:24:07 [INFO] Processing: United Boxing Club
+2026-09-14 16:24:11 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-14 16:24:28 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:24:28 [INFO] Processing: REVMMA—Revolution MMA Gym & Fitness Inc
+2026-09-14 16:24:32 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-14 16:24:40 [WARNING]    retrying in 5.0s (attempt 2/5)
+2026-09-14 16:24:54 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:24:54 [INFO] Processing: Xtreme Couture Toronto
+2026-09-14 16:25:02 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-14 16:25:16 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:25:16 [INFO] Processing: Diamond Muay Thai + Boxing Toronto
+2026-09-14 16:25:19 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-14 16:25:29 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-14 16:25:47 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:25:47 [INFO] Processing: Rumble Boxing Studio Yorkville
+2026-09-14 16:25:50 [WARNING]    retrying in 9.0s (attempt 1/5)
+2026-09-14 16:26:00 [WARNING]    retrying in 5.0s (attempt 2/5)
+2026-09-14 16:26:17 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:26:17 [INFO] Processing: Southside Muay Thai Academy
+2026-09-14 16:26:19 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-14 16:26:22 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-14 16:26:33 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:26:33 [INFO] Processing: Evoke Martial Arts & Kickboxing
+2026-09-14 16:26:40 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-14 16:26:45 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-14 16:26:55 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:26:55 [INFO] Processing: 1MR One More Round Boxing, Kickboxing & Fitness
+2026-09-14 16:26:58 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-14 16:27:08 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-14 16:27:24 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:27:24 [INFO] Processing: MC Muay Thai Academy & Conditioning
+2026-09-14 16:27:39 [INFO]    -> QUALIFIED / COLD
+2026-09-14 16:27:39 [INFO] Processing: Bloor Street Fitness & Boxing 24/7
+2026-09-14 16:27:43 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-09-14 16:27:52 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-14 16:28:04 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:28:04 [INFO] Processing: MMA WORLD ACADEMY Mixed Martial Arts and Fitness Center
+2026-09-14 16:28:05 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-09-14 16:28:18 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-14 16:28:29 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:28:29 [INFO] Processing: Scarberian Boxing
+2026-09-14 16:28:33 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-14 16:28:49 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:28:49 [INFO] Processing: Bazooka Kickboxing & MMA
+2026-09-14 16:28:50 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-14 16:28:59 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-09-14 16:29:20 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:29:20 [INFO] Processing: Budo Canada - Boxing Fitness MMA
+2026-09-14 16:29:21 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-14 16:29:22 [WARNING]    retrying in 4.0s (attempt 2/5)
+2026-09-14 16:29:29 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-14 16:29:40 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:29:40 [INFO] Processing: Straight Blast Gym Scarborough - Mixed Martial Arts
+2026-09-14 16:30:06 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:30:06 [INFO] Processing: Yorkdale Martial Arts Academy
+2026-09-14 16:30:08 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-14 16:30:13 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-14 16:30:18 [WARNING]    retrying in 5.0s (attempt 2/5)
+2026-09-14 16:30:31 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:30:31 [INFO] Processing: FIIT Co
+2026-09-14 16:30:33 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-14 16:30:37 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-14 16:30:50 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:30:50 [INFO] Processing: Toronto Striking Academy North York
+2026-09-14 16:30:58 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-14 16:31:09 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:31:09 [INFO] Processing: Jimmy’s Athletics
+2026-09-14 16:31:14 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-14 16:31:33 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:31:33 [INFO] Processing: VRTU Muay Thai | Fitness | Kids | Midtown Toronto
+2026-09-14 16:31:39 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-14 16:31:49 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-14 16:31:54 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-14 16:32:07 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:32:07 [INFO] Processing: One To One Mixed Martial Arts
+2026-09-14 16:32:11 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-14 16:32:12 [WARNING]    retrying in 5.0s (attempt 2/5)
+2026-09-14 16:32:26 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:32:26 [INFO] Processing: Elite Martial Arts Toronto
+2026-09-14 16:32:32 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-14 16:32:50 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:32:50 [INFO] Processing: York Muay Thai
+2026-09-14 16:32:51 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-14 16:32:53 [WARNING]    retrying in 2.0s (attempt 2/5)
+2026-09-14 16:32:59 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-14 16:33:06 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-14 16:33:20 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:33:20 [INFO] Processing: Jungle Toronto
+2026-09-14 16:33:23 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-14 16:33:33 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-09-14 16:33:48 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:33:48 [INFO] Processing: Satori Fight Club
+2026-09-14 16:33:52 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-14 16:33:56 [WARNING]    retrying in 5.0s (attempt 2/5)
+2026-09-14 16:34:11 [INFO]    -> QUALIFIED / COLD
+2026-09-14 16:34:11 [INFO] Processing: Sully's Boxing Gym
+2026-09-14 16:34:16 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-14 16:34:21 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-14 16:34:36 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:34:36 [INFO] Processing: Hitters Fight Club
+2026-09-14 16:34:42 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-14 16:34:55 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:34:55 [INFO] Processing: Hook Up Muay Thai
+2026-09-14 16:34:58 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-14 16:35:04 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-09-14 16:35:18 [INFO]    -> QUALIFIED / COLD
+2026-09-14 16:35:18 [INFO] Processing: 161 Boxing Club
+2026-09-14 16:35:19 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-14 16:35:25 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-14 16:35:27 [WARNING]    retrying in 5.0s (attempt 2/5)
+2026-09-14 16:35:42 [INFO]    -> QUALIFIED / COLD
+2026-09-14 16:35:42 [INFO] Processing: Grant MMA & Boxing Gym
+2026-09-14 16:35:57 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:35:57 [INFO] Processing: Old School Muay Thai
+2026-09-14 16:35:58 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-14 16:36:06 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-09-14 16:36:22 [INFO]    -> QUALIFIED / COLD
+2026-09-14 16:36:22 [INFO] Processing: OpenMat MMA
+2026-09-14 16:36:26 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-14 16:36:30 [WARNING]    retrying in 4.0s (attempt 2/5)
+2026-09-14 16:36:44 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:36:44 [INFO] Processing: West End Athletic Club
+2026-09-14 16:36:47 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-09-14 16:37:09 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:37:09 [INFO] Processing: Centre Ring Ltd
+2026-09-14 16:37:17 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-14 16:37:28 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:37:28 [INFO] Processing: Toronto Top team
+2026-09-14 16:37:30 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-14 16:37:36 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-09-14 16:37:53 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:37:53 [INFO] Processing: 9Round Kickboxing Fitness
+2026-09-14 16:37:56 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-14 16:38:06 [WARNING]    retrying in 9.0s (attempt 1/5)
+2026-09-14 16:38:24 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:38:24 [INFO] Processing: Boxing DownTown Toronto
+2026-09-14 16:38:31 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-14 16:38:47 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:38:47 [INFO] Processing: Fearless Boxing Club
+2026-09-14 16:39:03 [DEBUG] fetch_url failed for https://fearlessstudiosetobicoke.com: HTTPSConnectionPool(host='fearlessstudiosetobicoke.com', port=443): Read timed out. (read timeout=15)
+2026-09-14 16:39:20 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:39:20 [INFO] Processing: Impact Kids Martial Arts Academy
+2026-09-14 16:39:34 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:39:34 [INFO] Processing: BLACK LION THAI BOXING & MMA
+2026-09-14 16:39:54 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:39:54 [INFO] Processing: Toronto Kickboxing & Muay Thai Academy (TKMT Downtown)
+2026-09-14 16:39:57 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-14 16:40:03 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-14 16:40:19 [INFO]    -> QUALIFIED / COLD
+2026-09-14 16:40:19 [INFO] Processing: Scarborough Triumph Muay Thai
+2026-09-14 16:40:37 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:40:37 [INFO] Processing: Gracie Barra West Downtown Toronto
+2026-09-14 16:40:42 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-09-14 16:41:04 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:41:04 [INFO] Processing: Kingsway Boxing Club
+2026-09-14 16:41:13 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-14 16:41:28 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:41:28 [INFO] Processing: Krudar Muay Thai: Don Mills
+2026-09-14 16:41:39 [INFO]    -> NOT_QUALIFIED / COLD
+2026-09-14 16:41:39 [INFO] Processing: MAXIMUS BOXING CLUB
+2026-09-14 16:41:40 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-14 16:41:45 [WARNING]    retrying in 9.0s (attempt 1/5)
+2026-09-14 16:42:04 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:42:04 [INFO] Processing: WOLF Athletic Academy
+2026-09-14 16:42:22 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:42:22 [INFO] Processing: Lotus Fitness and Thai Boxing Inc.
+2026-09-14 16:42:24 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-14 16:42:30 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-14 16:42:48 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:42:48 [INFO] Processing: Montrait Muay Thai and Fitness
+2026-09-14 16:42:52 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-14 16:43:08 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:43:08 [INFO] Processing: Atlas Boxing and Fitness Club
+2026-09-14 16:43:30 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:43:30 [INFO] Processing: The Academy Toronto
+2026-09-14 16:43:31 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-14 16:43:34 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-14 16:43:48 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:43:48 [INFO] Processing: Hardknocks Boxing Club
+2026-09-14 16:43:56 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-14 16:44:11 [INFO]    -> QUALIFIED / HOT
+2026-09-14 16:44:11 [INFO] Processing: Stride Muay Thai
+2026-09-14 16:44:13 [WARNING]    retrying in 16.0s (attempt 1/5)
+2026-09-14 16:44:30 [WARNING]    retrying in 178.0s (attempt 2/5)
+2026-09-14 16:47:31 [WARNING]    retrying in 510.0s (attempt 1/5)
+2026-09-14 16:56:11 [INFO]    -> QUALIFIED / WARM
+2026-09-14 16:56:11 [INFO] Processing: The Boxing 4 Fitness Company
+2026-09-14 16:56:12 [WARNING]    retrying in 80.0s (attempt 1/5)
+2026-09-14 16:57:32 [WARNING]    retrying in 19.0s (attempt 2/5)
+2026-09-14 16:57:51 [WARNING]    retrying in 321.0s (attempt 3/5)
+2026-09-14 17:03:16 [WARNING]    retrying in 275.0s (attempt 1/5)
+2026-09-14 17:08:01 [INFO]    -> QUALIFIED / WARM
+2026-09-14 17:08:01 [INFO] Done. Wrote 57 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row16_audited_qualified.csv
+2026-09-14 17:08:01 [INFO] Shortlisted 56 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
+2026-09-14 21:15:03 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row16_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row16_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-14 21:15:04 [INFO] Loaded 60 rows -> 57 after dedupe
+2026-09-14 21:15:04 [INFO] Processing: Fit Factory Downtown
+2026-09-14 21:15:17 [INFO]    -> QUALIFIED / HOT
+2026-09-14 21:15:17 [INFO] Processing: Muay Thai Bar & Restaurant
+2026-09-14 21:15:29 [INFO]    -> QUALIFIED / HOT
+2026-09-14 21:15:29 [INFO] Processing: Elite Fight Club- Muay Thai, Kickboxing, Boxing, Mixed Martial Arts in Markham/Scarborough/Toronto
+2026-09-14 21:15:32 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-14 21:15:46 [INFO]    -> QUALIFIED / WARM
+2026-09-14 21:15:46 [INFO] Processing: United Boxing Club
+2026-09-14 21:15:48 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-14 21:15:53 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-14 21:16:07 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-14 21:16:18 [INFO]    -> QUALIFIED / WARM
+2026-09-14 21:16:18 [INFO] Processing: REVMMA—Revolution MMA Gym & Fitness Inc
+2026-09-14 21:16:19 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-09-14 21:16:28 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-14 21:16:53 [INFO]    -> QUALIFIED / HOT
+2026-09-14 21:16:53 [INFO] Processing: Xtreme Couture Toronto
+2026-09-14 21:16:59 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-14 21:17:23 [INFO]    -> QUALIFIED / HOT
+2026-09-14 21:17:23 [INFO] Processing: Diamond Muay Thai + Boxing Toronto
+2026-09-14 21:17:25 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-14 21:17:30 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-14 21:17:53 [INFO]    -> QUALIFIED / HOT
+2026-09-14 21:17:53 [INFO] Processing: Rumble Boxing Studio Yorkville
+2026-09-14 21:17:54 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-14 21:18:01 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-14 21:18:26 [INFO]    -> QUALIFIED / WARM
+2026-09-14 21:18:26 [INFO] Processing: Southside Muay Thai Academy
+2026-09-14 21:18:28 [WARNING]    retrying in 72.0s (attempt 1/5)
+2026-09-14 21:19:43 [WARNING]    retrying in 965.0s (attempt 1/5)
+2026-09-14 21:35:57 [INFO]    -> QUALIFIED / HOT
+2026-09-14 21:35:57 [INFO] Processing: Evoke Martial Arts & Kickboxing
+2026-09-14 21:36:03 [WARNING]    retrying in 467.0s (attempt 1/5)
+2026-09-14 21:43:50 [WARNING]    retrying in 26.0s (attempt 2/5)
+2026-09-14 21:44:17 [WARNING]    retrying in 16.0s (attempt 3/5)
+2026-09-14 21:44:36 [WARNING]    retrying in 816.0s (attempt 1/5)
+2026-09-14 21:58:12 [WARNING]    retrying in 10.0s (attempt 2/5)
+2026-09-14 21:58:30 [INFO]    -> QUALIFIED / HOT
+2026-09-14 21:58:30 [INFO] Processing: 1MR One More Round Boxing, Kickboxing & Fitness
+2026-09-14 21:58:34 [WARNING]    retrying in 527.0s (attempt 1/5)
+2026-09-15 07:35:36 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row37_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row37_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-15 07:35:36 [INFO] Loaded 82 rows -> 70 after dedupe
+2026-09-15 07:35:36 [INFO] Processing: Trilogic Fitness (Novena)
+2026-09-15 07:35:54 [INFO]    -> QUALIFIED / HOT
+2026-09-15 07:35:54 [INFO] Processing: Ultimate Performance Personal Trainers Singapore CBD
+2026-09-15 07:36:08 [INFO]    -> QUALIFIED / HOT
+2026-09-15 07:36:08 [INFO] Processing: Fitness First - Paragon
+2026-09-15 07:36:24 [INFO]    -> QUALIFIED / WARM
+2026-09-15 07:36:24 [INFO] Processing: REVOLT
+2026-09-15 07:36:27 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-15 07:36:29 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-15 07:36:35 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-15 07:37:00 [INFO]    -> QUALIFIED / WARM
+2026-09-15 07:37:00 [INFO] Processing: Snap Fitness Woods Square
+2026-09-15 07:37:04 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-15 07:37:27 [INFO]    -> QUALIFIED / WARM
+2026-09-15 07:37:27 [INFO] Processing: Urban Active Fitness
+2026-09-15 07:37:28 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-15 07:37:31 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-15 07:37:38 [WARNING]    retrying in 9.0s (attempt 1/5)
+2026-09-15 07:37:58 [INFO]    -> QUALIFIED / HOT
+2026-09-15 07:37:58 [INFO] Processing: Virgin Active Tanjong Pagar
+2026-09-15 07:38:03 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-15 07:38:07 [WARNING]    retrying in 7.0s (attempt 2/5)
+2026-09-15 07:38:22 [INFO]    -> NOT_QUALIFIED / COLD
+2026-09-15 07:38:22 [INFO] Processing: PURE Fitness Asia Square
+2026-09-15 07:38:25 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-15 07:38:29 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-09-15 07:38:48 [INFO]    -> QUALIFIED / HOT
+2026-09-15 07:38:48 [INFO] Processing: What The Fit
+2026-09-15 07:38:49 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-15 07:39:00 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-15 07:39:17 [INFO]    -> QUALIFIED / HOT
+2026-09-15 07:39:17 [INFO] Processing: Functional Training Institute (FTI)
+2026-09-15 07:39:24 [WARNING]    retrying in 21.0s (attempt 1/5)
+2026-09-15 07:39:55 [INFO]    -> QUALIFIED / HOT
+2026-09-15 07:39:55 [INFO] Processing: Level
+2026-09-15 07:39:56 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-15 07:39:59 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-15 07:40:05 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-15 07:40:22 [INFO]    -> QUALIFIED / COLD
+2026-09-15 07:40:22 [INFO] Processing: RetroFit
+2026-09-15 07:40:26 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-15 07:40:34 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-15 07:40:54 [INFO]    -> QUALIFIED / WARM
+2026-09-15 07:40:54 [INFO] Processing: GoFit Toa Payoh
+2026-09-15 07:40:57 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-15 07:41:03 [WARNING]    retrying in 19.0s (attempt 1/5)
+2026-09-15 07:41:32 [INFO]    -> QUALIFIED / WARM
+2026-09-15 07:41:32 [INFO] Processing: MAX OUT Fitness Orchard
+2026-09-15 07:41:33 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-15 07:41:41 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-09-15 07:42:00 [INFO]    -> QUALIFIED / HOT
+2026-09-15 07:42:00 [INFO] Processing: BFT Ang Mo Kio
+2026-09-15 07:42:04 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-15 07:42:09 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-09-15 07:42:29 [INFO]    -> QUALIFIED / HOT
+2026-09-15 07:42:29 [INFO] Processing: F45 Training Tanjong Rhu
+2026-09-15 07:42:30 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-15 07:42:38 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-15 07:42:58 [INFO]    -> QUALIFIED / HOT
+2026-09-15 07:42:58 [INFO] Processing: UFIT one-north
+2026-09-15 07:43:00 [WARNING]    retrying in 9.0s (attempt 1/5)
+2026-09-15 07:43:12 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-09-15 07:43:33 [INFO]    -> QUALIFIED / WARM
+2026-09-15 07:43:33 [INFO] Processing: GoFit Great World
+2026-09-15 07:43:42 [INFO]    -> NOT_QUALIFIED / COLD
+2026-09-15 07:43:42 [INFO] Processing: Infitnity fitness
+2026-09-15 07:43:58 [INFO]    -> QUALIFIED / HOT
+2026-09-15 07:43:58 [INFO] Processing: Aether Athletics – Group Fitness, Functional Strength & Conditioning Gym in Boat Quay
+2026-09-15 07:44:02 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-15 07:44:09 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-15 07:44:23 [INFO]    -> QUALIFIED / HOT
+2026-09-15 07:44:23 [INFO] Processing: Storm Athletic Club
+2026-09-15 07:44:29 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-15 07:44:39 [INFO]    -> QUALIFIED / WARM
+2026-09-15 07:44:39 [INFO] Processing: Barry’s - Raffles Place
+2026-09-15 07:44:44 [WARNING]    retrying in 133.0s (attempt 1/5)
+2026-09-15 07:47:07 [INFO]    -> QUALIFIED / COLD
+2026-09-15 07:47:07 [INFO] Processing: META Performance: Personal Training & Fitness Gym In Singapore
+2026-09-15 07:47:08 [WARNING]    retrying in 856.0s (attempt 1/5)
+2026-09-15 08:01:27 [WARNING]    retrying in 543.0s (attempt 1/5)
+2026-09-15 08:30:40 [INFO]    -> QUALIFIED / HOT
+2026-09-15 08:30:40 [INFO] Processing: Fitness Factory - Personal Training and Preventive Healthcare
+2026-09-15 08:30:47 [WARNING]    retrying in 122.0s (attempt 1/5)
+2026-09-15 08:32:51 [WARNING]    retrying in 547.0s (attempt 1/5)
+2026-09-15 08:42:08 [INFO]    -> QUALIFIED / WARM
+2026-09-15 08:42:08 [INFO] Processing: Ground Zero - Odeon Towers
+2026-09-15 08:42:10 [WARNING]    retrying in 489.0s (attempt 1/5)
+2026-09-15 08:50:19 [WARNING]    retrying in 63.0s (attempt 2/5)
+2026-09-15 08:51:31 [INFO]    -> REVIEW / COLD
+2026-09-15 08:51:31 [INFO] Processing: JENUFIT | Vibes@EastCoast
+2026-09-15 08:51:32 [WARNING]    retrying in 661.0s (attempt 1/5)
+2026-09-15 09:02:36 [WARNING]    retrying in 835.0s (attempt 1/5)
+2026-09-15 09:16:40 [INFO]    -> QUALIFIED / WARM
+2026-09-15 09:16:40 [INFO] Processing: Canvas Training, Home of Team Secret CrossFit
+2026-09-15 09:16:41 [WARNING]    retrying in 847.0s (attempt 1/5)
+2026-09-15 09:30:57 [INFO]    -> NOT_QUALIFIED / COLD
+2026-09-15 09:30:57 [INFO] Processing: RAW Active Personal Training Orchard
+2026-09-15 09:30:58 [WARNING]    retrying in 334.0s (attempt 1/5)
+2026-09-15 09:36:35 [WARNING]    retrying in 791.0s (attempt 1/5)
+2026-09-15 09:49:47 [WARNING]    retrying in 14.0s (attempt 2/5)
+2026-09-15 09:50:10 [INFO]    -> QUALIFIED / HOT
+2026-09-15 09:50:10 [INFO] Processing: Actualize CrossFit & Hyrox
+2026-09-15 09:50:11 [WARNING]    retrying in 720.0s (attempt 1/5)
+2026-09-15 10:02:14 [WARNING]    retrying in 955.0s (attempt 1/5)
+2026-09-15 10:18:19 [INFO]    -> QUALIFIED / WARM
+2026-09-15 10:18:19 [INFO] Processing: The Strength Yard
+2026-09-15 10:18:23 [WARNING]    retrying in 973.0s (attempt 1/5)
+2026-09-15 10:34:39 [WARNING]    retrying in 366.0s (attempt 1/5)
+2026-09-15 10:40:45 [WARNING]    retrying in 13.0s (attempt 2/5)
+2026-09-15 10:41:07 [INFO]    -> QUALIFIED / HOT
+2026-09-15 10:41:07 [INFO] Processing: Core Collective Robinson
+2026-09-15 10:41:12 [WARNING]    retrying in 469.0s (attempt 1/5)
+2026-09-15 10:49:01 [WARNING]    retrying in 2.0s (attempt 2/5)
+2026-09-15 10:49:06 [WARNING]    retrying in 783.0s (attempt 1/5)
+2026-09-15 11:02:10 [WARNING]    retrying in 13.0s (attempt 2/5)
+2026-09-15 11:02:32 [INFO]    -> QUALIFIED / WARM
+2026-09-15 11:02:32 [INFO] Processing: BFT Farrer Park
+2026-09-15 11:02:34 [WARNING]    retrying in 744.0s (attempt 1/5)
+2026-09-15 11:15:01 [WARNING]    retrying in 773.0s (attempt 1/5)
+2026-09-15 11:28:04 [INFO]    -> QUALIFIED / HOT
+2026-09-15 11:28:04 [INFO] Processing: THE GARAGE (Beauty World)
+2026-09-15 11:28:05 [WARNING]    retrying in 477.0s (attempt 1/5)
+2026-09-15 11:57:31 [INFO]    -> QUALIFIED / HOT
+2026-09-15 11:57:31 [INFO] Processing: The PIT Personal Training
+2026-09-15 11:57:32 [WARNING]    retrying in 477.0s (attempt 1/5)
+2026-09-15 12:05:32 [WARNING]    retrying in 777.0s (attempt 1/5)
+2026-09-15 12:18:29 [WARNING]    retrying in 18.0s (attempt 2/5)
+2026-09-15 12:18:58 [INFO]    -> QUALIFIED / WARM
+2026-09-15 12:18:58 [INFO] Processing: Red Dot Fitness
+2026-09-15 12:19:03 [WARNING]    retrying in 461.0s (attempt 1/5)
+2026-09-15 12:26:44 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-15 12:26:50 [WARNING]    retrying in 785.0s (attempt 1/5)
+2026-09-15 12:39:55 [WARNING]    retrying in 5.0s (attempt 2/5)
+2026-09-15 12:40:10 [INFO]    -> QUALIFIED / HOT
+2026-09-15 12:40:10 [INFO] Processing: BFT Raffles CBD
+2026-09-15 12:40:13 [WARNING]    retrying in 863.0s (attempt 1/5)
+2026-09-15 12:54:39 [WARNING]    retrying in 461.0s (attempt 1/5)
+2026-09-15 13:02:20 [WARNING]    retrying in 21.0s (attempt 2/5)
+2026-09-15 13:02:51 [INFO]    -> QUALIFIED / HOT
+2026-09-15 13:02:51 [INFO] Processing: Go Fitness
+2026-09-15 13:02:53 [WARNING]    retrying in 494.0s (attempt 1/5)
+2026-09-15 13:11:10 [WARNING]    retrying in 787.0s (attempt 1/5)
+2026-09-15 13:24:17 [WARNING]    retrying in 23.0s (attempt 2/5)
+2026-09-15 13:24:49 [INFO]    -> QUALIFIED / HOT
+2026-09-15 13:24:49 [INFO] Processing: 24/7 FITNESS Yew Tee
+2026-09-15 13:24:53 [WARNING]    retrying in 484.0s (attempt 1/5)
+2026-09-15 13:32:57 [WARNING]    retrying in 18.0s (attempt 2/5)
+2026-09-15 13:33:18 [WARNING]    retrying in 812.0s (attempt 1/5)
+2026-09-15 13:46:59 [INFO]    -> QUALIFIED / WARM
+2026-09-15 13:46:59 [INFO] Processing: Elevate: The Barbell Club
+2026-09-15 13:47:00 [WARNING]    retrying in 483.0s (attempt 1/5)
+2026-09-15 13:55:06 [WARNING]    retrying in 804.0s (attempt 1/5)
+2026-09-15 15:35:48 [INFO]    -> QUALIFIED / WARM
+2026-09-15 15:35:48 [INFO] Processing: Move to Live
+2026-09-15 15:36:04 [INFO]    -> QUALIFIED / HOT
+2026-09-15 15:36:04 [INFO] Processing: Mobilus Clarke Quay
+2026-09-15 15:36:20 [INFO]    -> QUALIFIED / WARM
+2026-09-15 15:36:20 [INFO] Processing: CrossFit Urban Edge
+2026-09-15 15:36:22 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-15 15:36:27 [WARNING]    retrying in 715.0s (attempt 1/5)
+2026-09-15 15:48:32 [INFO]    -> QUALIFIED / WARM
+2026-09-15 15:48:32 [INFO] Processing: SPARKD
+2026-09-15 15:48:36 [WARNING]    retrying in 988.0s (attempt 1/5)
+2026-09-15 16:05:07 [WARNING]    retrying in 435.0s (attempt 1/5)
+2026-09-15 16:12:31 [INFO]    -> QUALIFIED / HOT
+2026-09-15 16:12:31 [INFO] Processing: Cornerstone movement
+2026-09-15 16:12:33 [WARNING]    retrying in 837.0s (attempt 1/5)
+2026-09-15 16:26:33 [WARNING]    retrying in 665.0s (attempt 1/5)
+2026-09-15 16:37:48 [INFO]    -> QUALIFIED / HOT
+2026-09-15 16:37:48 [INFO] Processing: GRITYARD (Paya Lebar)
+2026-09-15 16:37:49 [WARNING]    retrying in 494.0s (attempt 1/5)
+2026-09-15 16:46:06 [WARNING]    retrying in 807.0s (attempt 1/5)
+2026-09-15 16:59:33 [WARNING]    retrying in 20.0s (attempt 2/5)
+2026-09-15 16:59:54 [WARNING]    retrying in 6.0s (attempt 3/5)
+2026-09-15 17:00:10 [INFO]    -> QUALIFIED / HOT
+2026-09-15 17:00:10 [INFO] Processing: Anytime Fitness Clarke Quay
+2026-09-15 17:00:14 [WARNING]    retrying in 1002.0s (attempt 1/5)
+2026-09-16 07:18:13 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row36_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row36_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-16 07:18:13 [INFO] Loaded 96 rows -> 73 after dedupe
+2026-09-16 07:18:13 [INFO] Processing: U-Elite Martial Fitness
+2026-09-16 07:18:28 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:18:28 [INFO] Processing: King of Strength Boxing Gym
+2026-09-16 07:18:46 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:18:46 [INFO] Processing: Prakaipetch Muay Thai Academy @Ang Mo Kio
+2026-09-16 07:18:50 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-16 07:19:05 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:19:05 [INFO] Processing: NEW ERA MMA SG
+2026-09-16 07:19:08 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-16 07:19:12 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-16 07:19:23 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-16 07:19:36 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:19:36 [INFO] Processing: ELITE Sports Academy
+2026-09-16 07:19:37 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-16 07:19:42 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-16 07:20:05 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:20:05 [INFO] Processing: Spartans Boxing Jurong West
+2026-09-16 07:20:08 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-16 07:20:14 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-16 07:20:36 [INFO]    -> QUALIFIED / HOT
+2026-09-16 07:20:36 [INFO] Processing: Shogun Fight Gym
+2026-09-16 07:20:38 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-16 07:20:44 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-16 07:21:08 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:21:08 [INFO] Processing: Kapap Academy
+2026-09-16 07:21:09 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-16 07:21:16 [WARNING]    retrying in 19.0s (attempt 1/5)
+2026-09-16 07:21:44 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:21:45 [INFO] Processing: Evolve MMA (Orchard Central)
+2026-09-16 07:21:46 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-16 07:21:49 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-09-16 07:22:01 [WARNING]    retrying in 4.0s (attempt 2/5)
+2026-09-16 07:22:14 [INFO]    -> QUALIFIED / HOT
+2026-09-16 07:22:14 [INFO] Processing: MT30 @ Dhoby Ghaut Gym
+2026-09-16 07:22:17 [WARNING]    retrying in 17.0s (attempt 1/5)
+2026-09-16 07:22:43 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:22:43 [INFO] Processing: FaMA - Fitness and Martial Arts Brazilian Jiu-Jitsu (BJJ) Classes
+2026-09-16 07:22:48 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-16 07:23:09 [INFO]    -> QUALIFIED / HOT
+2026-09-16 07:23:09 [INFO] Processing: The Six Arena
+2026-09-16 07:23:10 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-16 07:23:13 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-16 07:23:33 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:23:33 [INFO] Processing: Fight Zone Velocity
+2026-09-16 07:23:35 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-16 07:23:40 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-16 07:24:03 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:24:03 [INFO] Processing: Pineapple Muay Thai & MMA
+2026-09-16 07:24:07 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-16 07:24:27 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:24:27 [INFO] Processing: Yod Muay Fitness
+2026-09-16 07:24:29 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-16 07:24:36 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-16 07:25:00 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:25:00 [INFO] Processing: Nine Blades Muay Thai
+2026-09-16 07:25:04 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-16 07:25:09 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-16 07:25:31 [INFO]    -> QUALIFIED / HOT
+2026-09-16 07:25:31 [INFO] Processing: Van Lee Fitness
+2026-09-16 07:25:33 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-16 07:25:37 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-16 07:25:43 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-09-16 07:26:03 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:26:03 [INFO] Processing: LFMT Fight Club (Muay Thai)
+2026-09-16 07:26:05 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-16 07:26:21 [INFO]    -> REVIEW / WARM
+2026-09-16 07:26:21 [INFO] Processing: Sweat Science Studio - Boxing Fitness
+2026-09-16 07:26:24 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-16 07:26:46 [INFO]    -> QUALIFIED / HOT
+2026-09-16 07:26:46 [INFO] Processing: Inspire Fitness Asia
+2026-09-16 07:26:47 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-09-16 07:26:56 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-16 07:27:16 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:27:16 [INFO] Processing: Lionheart MMA Singapore
+2026-09-16 07:27:21 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-16 07:27:41 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:27:41 [INFO] Processing: United Muay Thai
+2026-09-16 07:27:43 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-16 07:27:50 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-09-16 07:28:10 [INFO]    -> QUALIFIED / HOT
+2026-09-16 07:28:10 [INFO] Processing: Neue Fit (Raffles Place)
+2026-09-16 07:28:12 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-16 07:28:17 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-09-16 07:28:38 [INFO]    -> QUALIFIED / WARM
+2026-09-16 07:28:38 [INFO] Processing: Homeground MMA - #1 MMA Gym In Singapore
+2026-09-16 07:28:39 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-16 07:28:46 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-16 07:29:09 [INFO]    -> QUALIFIED / COLD
+2026-09-16 07:29:09 [INFO] Processing: Impact MMA
+2026-09-16 07:29:10 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-16 07:29:16 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-16 07:29:27 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-16 07:29:40 [INFO]    -> QUALIFIED / COLD
+2026-09-16 07:29:40 [INFO] Processing: Kai Muay Thai SG
+2026-09-16 07:29:42 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-16 07:29:52 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-16 07:30:16 [INFO]    -> QUALIFIED / HOT
+2026-09-16 07:30:16 [INFO] Processing: Muay Champ Fitness
+2026-09-16 07:30:19 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-16 07:30:30 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-16 07:30:43 [INFO]    -> QUALIFIED / HOT
+2026-09-16 07:30:43 [INFO] Processing: Rebel Muay Thai Boxing Gym
+2026-09-16 07:30:57 [WARNING]    retrying in 9.0s (attempt 1/5)
+2026-09-16 07:31:15 [INFO]    -> QUALIFIED / HOT
+2026-09-16 07:31:15 [INFO] Processing: Ghetto Fitness
+2026-09-16 07:31:16 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-16 07:31:23 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-16 07:31:35 [WARNING]    retrying in 2.0s (attempt 2/5)
+2026-09-16 07:31:46 [INFO]    -> QUALIFIED / HOT
+2026-09-16 07:31:46 [INFO] Processing: Stronghold MMA
+2026-09-16 07:31:58 [INFO]    -> REVIEW / HOT
+2026-09-16 07:31:58 [INFO] Processing: Jai Muay Thai
+2026-09-16 07:32:02 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-16 07:32:14 [INFO]    -> QUALIFIED / HOT
+2026-09-16 07:32:14 [INFO] Processing: Fight Academy Singapore - Martial Arts, Self Defense & Fitness
+2026-09-16 07:32:15 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-16 07:32:27 [WARNING]    retrying in 514.0s (attempt 1/5)
+2026-09-16 07:41:11 [INFO]    -> QUALIFIED / HOT
+2026-09-16 07:41:11 [INFO] Processing: Chok Dee Muay Thai
+2026-09-16 07:41:12 [WARNING]    retrying in 62.0s (attempt 1/5)
+2026-09-16 07:42:14 [WARNING]    retrying in 267.0s (attempt 2/5)
+2026-09-16 07:46:51 [INFO]    -> REVIEW / WARM
+2026-09-16 07:46:51 [INFO] Processing: Blessed MMA
+2026-09-16 07:46:52 [WARNING]    retrying in 740.0s (attempt 1/5)
+2026-09-16 07:59:15 [WARNING]    retrying in 709.0s (attempt 1/5)
+2026-09-16 08:11:13 [INFO]    -> QUALIFIED / HOT
+2026-09-16 08:11:13 [INFO] Processing: UBX Holland Village
+2026-09-16 08:11:17 [WARNING]    retrying in 817.0s (attempt 1/5)
+2026-09-16 08:24:57 [WARNING]    retrying in 511.0s (attempt 1/5)
+2026-09-16 08:33:28 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-16 08:33:39 [INFO]    -> QUALIFIED / HOT
+2026-09-16 08:33:39 [INFO] Processing: Onyx West
+2026-09-16 08:33:40 [WARNING]    retrying in 871.0s (attempt 1/5)
+2026-09-16 08:48:14 [WARNING]    retrying in 649.0s (attempt 1/5)
+2026-09-16 08:59:13 [INFO]    -> QUALIFIED / HOT
+2026-09-16 08:59:13 [INFO] Processing: Hydra Combat Fitness Gym
+2026-09-16 08:59:18 [WARNING]    retrying in 534.0s (attempt 1/5)
+2026-09-16 09:08:14 [WARNING]    retrying in 829.0s (attempt 1/5)
+2026-09-16 09:22:13 [INFO]    -> QUALIFIED / COLD
+2026-09-16 09:22:13 [INFO] Processing: Common Man Fight Club
+2026-09-16 09:22:15 [WARNING]    retrying in 420.0s (attempt 1/5)
+2026-09-16 09:29:15 [WARNING]    retrying in 35.0s (attempt 2/5)
+2026-09-16 09:29:53 [WARNING]    retrying in 969.0s (attempt 1/5)
+2026-09-16 09:46:11 [INFO]    -> QUALIFIED / WARM
+2026-09-16 09:46:11 [INFO] Processing: Naga Muay Thai Fitness
+2026-09-16 09:46:12 [WARNING]    retrying in 509.0s (attempt 1/5)
+2026-09-16 09:54:44 [WARNING]    retrying in 810.0s (attempt 1/5)
+2026-09-16 10:08:14 [WARNING]    retrying in 4.0s (attempt 2/5)
+2026-09-16 10:08:28 [INFO]    -> QUALIFIED / WARM
+2026-09-16 10:08:28 [INFO] Processing: Kaoklai Studio
+2026-09-16 10:08:28 [WARNING]    retrying in 458.0s (attempt 1/5)
+2026-09-16 10:16:06 [WARNING]    retrying in 4.0s (attempt 2/5)
+2026-09-16 10:16:13 [WARNING]    retrying in 783.0s (attempt 1/5)
+2026-09-16 10:29:26 [INFO]    -> QUALIFIED / WARM
+2026-09-16 10:29:26 [INFO] Processing: MMA FITNESS LAB
+2026-09-16 10:29:29 [WARNING]    retrying in 878.0s (attempt 1/5)
+2026-09-16 10:44:10 [WARNING]    retrying in 500.0s (attempt 1/5)
+2026-09-16 10:52:30 [WARNING]    retrying in 7.0s (attempt 2/5)
+2026-09-16 10:52:37 [WARNING]    retrying in 4.0s (attempt 3/5)
+2026-09-16 10:52:42 [WARNING]    retrying in 5.0s (attempt 4/5)
+2026-09-16 10:52:56 [INFO]    -> QUALIFIED / HOT
+2026-09-16 10:52:56 [INFO] Processing: Hilltop Academy
+2026-09-16 10:52:57 [WARNING]    retrying in 461.0s (attempt 1/5)
+2026-09-16 11:00:38 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-16 11:00:43 [WARNING]    retrying in 781.0s (attempt 1/5)
+2026-09-16 11:13:45 [WARNING]    retrying in 8.0s (attempt 2/5)
+2026-09-16 11:13:53 [WARNING]    retrying in 8.0s (attempt 3/5)
+2026-09-16 11:14:01 [WARNING]    retrying in 4.0s (attempt 4/5)
+2026-09-16 11:14:14 [INFO]    -> QUALIFIED / HOT
+2026-09-16 11:14:14 [INFO] Processing: Legends Fight Sport Clarke Quay
+2026-09-16 11:14:18 [WARNING]    retrying in 683.0s (attempt 1/5)
+2026-09-16 11:25:45 [WARNING]    retrying in 789.0s (attempt 1/5)
+2026-09-16 11:39:03 [INFO]    -> QUALIFIED / WARM
+2026-09-16 11:39:03 [INFO] Processing: Prime Fight Gym
+2026-09-16 11:39:04 [WARNING]    retrying in 457.0s (attempt 1/5)
+2026-09-16 11:46:41 [WARNING]    retrying in 23.0s (attempt 2/5)
+2026-09-16 11:47:05 [WARNING]    retrying in 10.0s (attempt 3/5)
+2026-09-16 11:47:17 [WARNING]    retrying in 814.0s (attempt 1/5)
+2026-09-16 12:01:01 [INFO]    -> QUALIFIED / HOT
+2026-09-16 12:01:01 [INFO] Processing: Khao Noi Gym
+2026-09-16 12:01:04 [WARNING]    retrying in 484.0s (attempt 1/5)
+2026-09-16 12:09:10 [WARNING]    retrying in 807.0s (attempt 1/5)
+2026-09-16 12:22:47 [INFO]    -> QUALIFIED / HOT
+2026-09-16 12:22:47 [INFO] Processing: KBP Muay Thai
+2026-09-16 12:22:49 [WARNING]    retrying in 488.0s (attempt 1/5)
+2026-09-16 12:31:00 [WARNING]    retrying in 796.0s (attempt 1/5)
+2026-09-16 12:44:16 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-16 12:44:20 [WARNING]    retrying in 4.0s (attempt 3/5)
+2026-09-16 12:44:33 [INFO]    -> QUALIFIED / COLD
+2026-09-16 12:44:33 [INFO] Processing: Eastside Fight Club
+2026-09-16 12:44:36 [WARNING]    retrying in 472.0s (attempt 1/5)
+2026-09-16 12:52:37 [INFO]    -> REVIEW / COLD
+2026-09-16 12:52:37 [INFO] Processing: Kru Prem Muay Thai
+2026-09-16 12:52:37 [WARNING]    retrying in 693.0s (attempt 1/5)
+2026-09-16 13:04:13 [WARNING]    retrying in 657.0s (attempt 1/5)
+2026-09-16 13:15:18 [INFO]    -> QUALIFIED / HOT
+2026-09-16 13:15:18 [INFO] Processing: Galaxy Boxing Gym Bukit Timah
+2026-09-16 13:15:20 [WARNING]    retrying in 494.0s (attempt 1/5)
+2026-09-16 13:23:37 [WARNING]    retrying in 794.0s (attempt 1/5)
+2026-09-16 13:43:00 [INFO] Groq keys configured: 3 (rotation enabled)
+2026-09-16 13:43:00 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row36_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row36_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-16 13:43:01 [INFO] Loaded 96 rows -> 73 after dedupe
+2026-09-16 13:43:01 [INFO] Processing: U-Elite Martial Fitness
+2026-09-16 13:43:07 [WARNING]    key ...Qh1l4H rate-limited (cooldown 312s) - 2 key(s) still available, trying next
+2026-09-16 13:43:07 [WARNING]    key ...Gv5GuH rate-limited (cooldown 311s) - 1 key(s) still available, trying next
+2026-09-16 13:43:08 [WARNING]    key ...Bf6Edy rate-limited (cooldown 316s) - 0 key(s) still available, trying next
+2026-09-16 13:43:08 [WARNING]    all 3 Groq key(s) are rate-limited or benched - waiting 310.6s for the next one to free up
+2026-09-16 13:48:58 [INFO] Groq keys configured: 3 (rotation enabled)
+2026-09-16 13:48:58 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row36_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row36_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-16 13:48:58 [INFO] Loaded 96 rows -> 73 after dedupe
+2026-09-16 13:48:58 [INFO] Processing: U-Elite Martial Fitness
+2026-09-16 13:49:04 [WARNING]    key ...Qh1l4H rate-limited (cooldown 579s) - 2 key(s) still available, trying next
+2026-09-16 13:49:04 [WARNING]    key ...Gv5GuH rate-limited (cooldown 572s) - 1 key(s) still available, trying next
+2026-09-16 13:49:04 [WARNING]    key ...Bf6Edy rate-limited (cooldown 571s) - 0 key(s) still available, trying next
+2026-09-16 13:49:04 [WARNING]    all 3 Groq key(s) are rate-limited or benched - waiting 571.0s for the next one to free up
+2026-09-16 13:58:40 [INFO]    -> QUALIFIED / WARM
+2026-09-16 13:58:40 [INFO] Processing: King of Strength Boxing Gym
+2026-09-16 13:58:44 [WARNING]    key ...Qh1l4H rate-limited (cooldown 488s) - 2 key(s) still available, trying next
+2026-09-16 13:58:45 [WARNING]    key ...Gv5GuH rate-limited (cooldown 981s) - 1 key(s) still available, trying next
+2026-09-16 13:58:46 [WARNING]    key ...Bf6Edy rate-limited (cooldown 980s) - 0 key(s) still available, trying next
+2026-09-16 13:58:46 [WARNING]    all 3 Groq key(s) are rate-limited or benched - waiting 486.2s for the next one to free up

@@ -34,6 +34,12 @@ BREVO_API_KEY = ""          # <-- put your Brevo API key here
 SENDER_EMAIL = "sanjaygh19052001@gmail.com"
 SENDER_NAME = "Sanjay"
 
+# Reply-to address — where replies from leads should actually land.
+# Set this separately if you ever want replies to go somewhere other
+# than SENDER_EMAIL (e.g. a dedicated business inbox).
+REPLY_TO_EMAIL = "sanjaygh19052001@gmail.com"
+REPLY_TO_NAME = "Sanjay"
+
 PERMANENT_LEADS_CSV = r"F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\out_reach details\permanent_leads.csv"
 OUTREACH_STATUS_CSV = r"F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\out_reach details\outreach_status.csv"
 
@@ -147,6 +153,7 @@ def send_outreach_email(to_email, business_name, outreach_message):
 
     payload = {
         "sender": {"email": SENDER_EMAIL, "name": SENDER_NAME},
+        "replyTo": {"email": REPLY_TO_EMAIL, "name": REPLY_TO_NAME},
         "to": [{"email": to_email}],
         "subject": f"Quick note about {business_name}'s website" if business_name else "Quick note about your website",
         "htmlContent": html_content

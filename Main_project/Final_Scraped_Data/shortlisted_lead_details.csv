@@ -1,0 +1,7 @@
+Business Name,Website,Phone,Email,Priority,Top Problem,Evidence,Recommended Pitch,Outreach Message
+U-Elite Martial Fitness,http://uelite.com.sg/,+65 9154 5914,martialfitness@uelite.com.sg,WARM,Missing recommended security headers,"Audit shows high severity missing security headers, lack of chatbot, no booking system, missing tel: link, and images without alt text.",EMAIL_OUTREACH,"Hi there, I was looking at U-Elite Martial Fitness and noticed missing security headers.
+A corporate client browsing at night runs their usual security scan and sees the site fails basic header checks, so they hesitate to engage and their procurement team refuses to move forward.
+Meanwhile a competitor with proper headers passes the scan and secures the inquiry.
+U-Elite Martial Fitness currently lacks the recommended security headers.
+Adding CSP, X‑Frame‑Options, HSTS and related headers will harden the site and clear those checks.
+Would you like a 60‑second example for U-Elite Martial Fitness?"
