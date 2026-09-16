@@ -1,0 +1,69 @@
+2026-09-16 16:55:26 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row1_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row1_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-16 16:55:26 [INFO] Loaded 100 rows -> 93 after dedupe
+2026-09-16 16:55:26 [INFO] Processing: RR Plumbing Roto-Rooter
+2026-09-16 16:55:42 [INFO]    -> QUALIFIED / WARM
+2026-09-16 16:55:42 [INFO] Processing: Citywide Sewer-Drain & Plumbing Corp
+2026-09-16 16:56:00 [INFO]    -> QUALIFIED / WARM
+2026-09-16 16:56:00 [INFO] Processing: Balkan Sewer & Water Main Service - Joseph L. Balkan Inc.
+2026-09-16 16:56:17 [INFO]    -> QUALIFIED / WARM
+2026-09-16 16:56:17 [INFO] Processing: Aladdin Plumbing Corp.
+2026-09-16 16:56:21 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-16 16:56:31 [WARNING]    retrying in 9.0s (attempt 1/5)
+2026-09-16 16:56:49 [INFO]    -> QUALIFIED / HOT
+2026-09-16 16:56:49 [INFO] Processing: Quix Plumbing Service
+2026-09-16 16:56:52 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-16 16:56:57 [WARNING]    retrying in 18.0s (attempt 1/5)
+2026-09-16 16:57:26 [INFO]    -> QUALIFIED / HOT
+2026-09-16 16:57:26 [INFO] Processing: 24 Hr. Emergency Plumbing & Hot Water Heater
+2026-09-16 16:57:32 [WARNING]    retrying in 495.0s (attempt 1/5)
+2026-09-16 17:05:57 [INFO]    -> QUALIFIED / HOT
+2026-09-16 17:05:57 [INFO] Processing: Allied/All City Inc.
+2026-09-16 17:05:58 [WARNING]    retrying in 440.0s (attempt 1/5)
+2026-09-16 17:13:19 [WARNING]    retrying in 5.0s (attempt 2/5)
+2026-09-16 17:13:26 [WARNING]    retrying in 844.0s (attempt 1/5)
+2026-09-16 17:27:30 [WARNING]    retrying in 8.0s (attempt 2/5)
+2026-09-16 17:27:47 [INFO]    -> QUALIFIED / HOT
+2026-09-16 17:27:47 [INFO] Processing: Victor Sewer & Drain Services
+2026-09-16 17:27:49 [WARNING]    retrying in 500.0s (attempt 1/5)
+2026-09-16 17:36:11 [WARNING]    retrying in 810.0s (attempt 1/5)
+2026-09-16 18:47:24 [INFO]    -> QUALIFIED / WARM
+2026-09-16 18:47:24 [INFO] Processing: No.1 Sewer & Drain Cleaning Services
+2026-09-16 18:47:38 [INFO]    -> QUALIFIED / WARM
+2026-09-16 18:47:38 [INFO] Processing: Taylor Group Plumbing, Heating, Mechanical & Sprinkler
+2026-09-16 18:47:45 [WARNING]    retrying in 433.0s (attempt 1/5)
+2026-09-16 18:55:08 [INFO]    -> QUALIFIED / HOT
+2026-09-16 18:55:08 [INFO] Processing: Success Sewer & Drain Cleaning
+2026-09-16 18:55:13 [WARNING]    retrying in 920.0s (attempt 1/5)
+2026-09-16 19:10:36 [WARNING]    retrying in 518.0s (attempt 1/5)
+2026-09-16 19:19:15 [WARNING]    retrying in 2.0s (attempt 2/5)
+2026-09-16 19:19:27 [INFO]    -> QUALIFIED / HOT
+2026-09-16 19:19:27 [INFO] Processing: Consider It Done Plumbing, Water Heaters, and Drain Cleaning
+2026-09-16 19:19:29 [WARNING]    retrying in 486.0s (attempt 1/5)
+2026-09-16 19:27:38 [WARNING]    retrying in 817.0s (attempt 1/5)
+2026-09-16 19:41:25 [INFO]    -> QUALIFIED / WARM
+2026-09-16 19:41:25 [INFO] Processing: Nationwide Plumbers
+2026-09-16 19:41:29 [WARNING]    retrying in 898.0s (attempt 1/5)
+2026-09-16 19:56:29 [WARNING]    retrying in 570.0s (attempt 1/5)
+2026-09-16 20:06:08 [INFO]    -> QUALIFIED / WARM
+2026-09-16 20:06:08 [INFO] Processing: Perfect Flow Sewer & Drain Services
+2026-09-16 20:06:11 [WARNING]    retrying in 842.0s (attempt 1/5)
+2026-09-16 20:20:16 [WARNING]    retrying in 636.0s (attempt 1/5)
+2026-09-16 20:31:01 [INFO]    -> QUALIFIED / WARM
+2026-09-16 20:31:01 [INFO] Processing: HBNY Plumbing & Heating
+2026-09-16 20:31:08 [WARNING]    retrying in 488.0s (attempt 1/5)
+2026-09-16 20:39:17 [WARNING]    retrying in 7.0s (attempt 2/5)
+2026-09-16 20:39:27 [WARNING]    retrying in 844.0s (attempt 1/5)
+2026-09-16 20:53:40 [INFO]    -> QUALIFIED / WARM
+2026-09-16 20:53:40 [INFO] Processing: 24 Hours Plumbing
+2026-09-16 20:53:41 [WARNING]    retrying in 495.0s (attempt 1/5)
+2026-09-16 21:01:57 [WARNING]    retrying in 13.0s (attempt 2/5)
+2026-09-16 21:02:10 [WARNING]    retrying in 22.0s (attempt 3/5)
+2026-09-16 21:02:35 [WARNING]    retrying in 846.0s (attempt 1/5)
+2026-09-16 21:16:51 [INFO]    -> QUALIFIED / HOT
+2026-09-16 21:16:51 [INFO] Processing: Balkan Sewer & Drain Cleaning Service
+2026-09-16 21:16:58 [WARNING]    retrying in 503.0s (attempt 1/5)
+2026-09-16 21:25:23 [WARNING]    retrying in 826.0s (attempt 1/5)
+2026-09-16 21:39:19 [INFO]    -> QUALIFIED / HOT
+2026-09-16 21:39:19 [INFO] Processing: ADV Mechanical Services
+2026-09-16 21:39:23 [WARNING]    retrying in 522.0s (attempt 1/5)
+2026-09-16 21:48:07 [WARNING]    retrying in 833.0s (attempt 1/5)

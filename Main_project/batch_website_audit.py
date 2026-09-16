@@ -24,11 +24,11 @@ REQUIREMENTS:
   - This file must sit in the SAME FOLDER as website_audit.py.
 
 USAGE:
-    python batch_website_audit.py qualified_leads_row1.csv
-    python batch_website_audit.py qualified_leads_row1.csv --out results.csv
-    python batch_website_audit.py qualified_leads_row1.csv --limit 5   # test run first
-    python batch_website_audit.py qualified_leads_row1.csv --resume    # skip already-done sites
-    python batch_website_audit.py qualified_leads_row1.csv --full-lighthouse  # slow, full scores
+    python batch_website_audit.py qualified_leads_row.csv
+    python batch_website_audit.py qualified_leads_row.csv --out results.csv
+    python batch_website_audit.py qualified_leads_row.csv --limit 5   # test run first
+    python batch_website_audit.py qualified_leads_row.csv --resume    # skip already-done sites
+    python batch_website_audit.py qualified_leads_row.csv --full-lighthouse  # slow, full scores
 
 OUTPUT CSV COLUMNS:
     Every column from your input leads CSV, unchanged (e.g. Business Name,
