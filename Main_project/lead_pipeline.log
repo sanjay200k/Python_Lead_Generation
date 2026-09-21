@@ -1,0 +1,98 @@
+
+2026-09-19 10:18:01 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row10_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row10_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-19 10:18:01 [INFO] Loaded 26 rows -> 26 after dedupe
+2026-09-19 10:18:01 [INFO] Processing: ALLFIX Handyman Services
+2026-09-19 10:18:15 [INFO]    -> QUALIFIED / WARM
+2026-09-19 10:18:15 [INFO] Processing: AAA Hills Handyman services
+2026-09-19 10:18:35 [INFO]    -> QUALIFIED / WARM
+2026-09-19 10:18:35 [INFO] Processing: That Lady Tradie
+2026-09-19 10:18:48 [INFO]    -> QUALIFIED / COLD
+2026-09-19 10:18:48 [INFO] Processing: Bell’s Handyman Pty Ltd
+2026-09-19 10:18:50 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-19 10:18:54 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-19 10:19:18 [INFO]    -> QUALIFIED / HOT
+2026-09-19 10:19:18 [INFO] Processing: Handyman Blacktown Services
+2026-09-19 10:19:19 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-19 10:19:25 [WARNING]    retrying in 2.0s (attempt 2/5)
+2026-09-19 10:19:29 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-19 10:19:53 [INFO]    -> QUALIFIED / HOT
+2026-09-19 10:19:53 [INFO] Processing: Igor The Handyman
+2026-09-19 10:19:55 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-19 10:20:01 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-19 10:20:25 [INFO]    -> QUALIFIED / WARM
+2026-09-19 10:20:25 [INFO] Processing: Mista Fixa Handyman Services
+2026-09-19 10:20:26 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-09-19 10:20:38 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-19 10:21:00 [INFO]    -> QUALIFIED / HOT
+2026-09-19 10:21:00 [INFO] Processing: Shaun’s Handyman & Painting Services Blacktown
+2026-09-19 10:21:04 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-19 10:21:28 [INFO]    -> QUALIFIED / HOT
+2026-09-19 10:21:28 [INFO] Processing: Bondi Beach Handyman/Roof repairs
+2026-09-19 10:21:28 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-19 10:21:33 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-19 10:21:39 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-19 10:22:00 [INFO]    -> QUALIFIED / COLD
+2026-09-19 10:22:00 [INFO] Processing: Auburn Handyman
+2026-09-19 10:22:03 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-19 10:22:13 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-09-19 10:22:35 [INFO]    -> QUALIFIED / HOT
+2026-09-19 10:22:35 [INFO] Processing: Harry's Home Maintenance Solutions
+2026-09-19 10:22:39 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-19 10:23:01 [INFO]    -> QUALIFIED / WARM
+2026-09-19 10:23:01 [INFO] Processing: Sydney Shine Property Services
+2026-09-19 10:23:02 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-19 10:23:07 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-19 10:23:30 [INFO]    -> QUALIFIED / HOT
+2026-09-19 10:23:30 [INFO] Processing: Handy Management
+2026-09-19 10:23:34 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-19 10:23:54 [INFO]    -> QUALIFIED / WARM
+2026-09-19 10:23:54 [INFO] Processing: Gavin K Handyman
+2026-09-19 10:23:58 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-19 10:24:20 [INFO]    -> QUALIFIED / HOT
+2026-09-19 10:24:20 [INFO] Processing: ITS NEVER TOO LATE HANDYMAN SERVICES
+2026-09-19 10:24:23 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-19 10:24:31 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-09-19 10:24:52 [INFO]    -> QUALIFIED / COLD
+2026-09-19 10:24:52 [INFO] Processing: Fix About Handyman Services
+2026-09-19 10:24:54 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-19 10:24:57 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-19 10:25:12 [WARNING]    retrying in 2.0s (attempt 2/5)
+2026-09-19 10:25:22 [INFO]    -> QUALIFIED / HOT
+2026-09-19 10:25:22 [INFO] Processing: The Cove Handyman Services
+2026-09-19 10:25:27 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-19 10:25:31 [WARNING]    retrying in 2.0s (attempt 2/5)
+2026-09-19 10:25:43 [INFO]    -> QUALIFIED / HOT
+2026-09-19 10:25:43 [INFO] Processing: HandyManDan
+2026-09-19 10:25:44 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-19 10:25:54 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-19 10:26:18 [INFO]    -> QUALIFIED / WARM
+2026-09-19 10:26:18 [INFO] Processing: Sami Handyman & Painter
+2026-09-19 10:26:21 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-19 10:26:34 [INFO]    -> QUALIFIED / HOT
+2026-09-19 10:26:34 [INFO] Processing: AAA Handyman Sydney
+2026-09-19 10:26:52 [INFO]    -> REVIEW / WARM
+2026-09-19 10:26:52 [INFO] Processing: Tim's Handyman Services
+2026-09-19 10:26:54 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-19 10:27:18 [INFO]    -> QUALIFIED / WARM
+2026-09-19 10:27:18 [INFO] Processing: iWill Handyman & Computer services
+2026-09-19 10:27:26 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-19 10:27:40 [INFO]    -> QUALIFIED / WARM
+2026-09-19 10:27:40 [INFO] Processing: Your Sydney Handyman
+2026-09-19 10:27:41 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-19 10:27:46 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-19 10:27:52 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-19 10:28:16 [INFO]    -> QUALIFIED / WARM
+2026-09-19 10:28:16 [INFO] Processing: European Quality Handyman
+2026-09-19 10:28:20 [WARNING]    retrying in 16.0s (attempt 1/5)
+2026-09-19 10:28:45 [INFO]    -> QUALIFIED / WARM
+2026-09-19 10:28:45 [INFO] Processing: Hills Handyman Services
+2026-09-19 10:28:49 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-19 10:28:54 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-19 10:29:17 [INFO]    -> QUALIFIED / HOT
+2026-09-19 10:29:17 [INFO] Processing: Sydney Handyman Service Hire
+2026-09-19 10:29:18 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-19 10:29:25 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-09-19 10:29:36 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-19 10:29:48 [INFO]    -> QUALIFIED / HOT
+2026-09-19 10:29:48 [INFO] Done. Wrote 26 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row10_audited_qualified.csv
+2026-09-19 10:29:48 [INFO] Shortlisted 25 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
