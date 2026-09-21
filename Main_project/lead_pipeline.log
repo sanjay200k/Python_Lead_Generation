@@ -551,3 +551,43 @@
 2026-09-21 16:15:53 [INFO]    -> QUALIFIED / HOT
 2026-09-21 16:15:53 [INFO] Done. Wrote 28 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row40_audited_qualified.csv
 2026-09-21 16:15:53 [INFO] Shortlisted 21 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
+2026-09-21 21:38:25 [INFO] Groq key OK (gsk_...HA53).
+2026-09-21 21:38:25 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row44_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row44_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-21 21:38:25 [INFO] Loaded 112 rows -> 97 after dedupe
+2026-09-21 21:38:25 [INFO] Processing: Crunch Fitness Mortdale
+2026-09-21 21:38:39 [INFO]    -> QUALIFIED / HOT
+2026-09-21 21:38:39 [INFO] Processing: One Playground Surry Hills
+2026-09-21 21:38:53 [INFO]    -> QUALIFIED / HOT
+2026-09-21 21:38:53 [INFO] Processing: Anytime Fitness Surry Hills
+2026-09-21 21:39:08 [INFO]    -> QUALIFIED / HOT
+2026-09-21 21:39:08 [INFO] Processing: F45 Training Woolloomooloo
+2026-09-21 21:39:13 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-21 21:39:34 [INFO]    -> QUALIFIED / WARM
+2026-09-21 21:39:34 [INFO] Processing: Anytime Fitness Hyde Park
+2026-09-21 21:39:36 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-21 21:39:46 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-21 21:40:00 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-21 21:40:10 [INFO]    -> QUALIFIED / HOT
+2026-09-21 21:40:10 [INFO] Processing: ONYX Gym & Fitness
+2026-09-21 21:40:13 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-21 21:40:19 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-21 21:40:45 [INFO]    -> QUALIFIED / HOT
+2026-09-21 21:40:45 [INFO] Processing: Camperdown Fitness
+2026-09-21 21:40:51 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-09-21 21:41:07 [INFO]    -> QUALIFIED / HOT
+2026-09-21 21:41:07 [INFO] Processing: City Gym Sydney
+2026-09-21 21:41:15 [WARNING]    retrying in 17.0s (attempt 1/5)
+2026-09-21 21:41:42 [INFO]    -> QUALIFIED / WARM
+2026-09-21 21:41:42 [INFO] Processing: Anytime Fitness Redfern
+2026-09-21 21:41:44 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-21 21:41:50 [WARNING]    retrying in 16.0s (attempt 1/5)
+2026-09-21 21:42:14 [INFO]    -> QUALIFIED / HOT
+2026-09-21 21:42:14 [INFO] Processing: Flow Athletic
+2026-09-21 21:42:22 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-09-21 21:42:43 [INFO]    -> QUALIFIED / HOT
+2026-09-21 21:42:43 [INFO] Processing: SOMA Health & Wellness Club
+2026-09-21 21:42:51 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-21 21:43:01 [INFO]    -> QUALIFIED / WARM
+2026-09-21 21:43:01 [INFO] Processing: Fitness First Bond St Platinum
+2026-09-21 21:43:05 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-21 21:43:09 [WARNING]    retrying in 889.0s (attempt 1/5)

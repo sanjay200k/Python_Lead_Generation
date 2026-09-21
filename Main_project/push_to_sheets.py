@@ -1,11 +1,11 @@
 """
-push_to_sheets.py (v2) - send shortlisted leads to a call-friendly Google Sheet
+push_to_sheets.py (v2.2) - send shortlisted leads to a call-friendly Google Sheet
 ==============================================================================
 Reads shortlisted_lead_details.csv (made by lead_pipeline.py) and ADDS the leads to
 a Google Sheet that is laid out for calling / follow-up:
 
   * dark header row, frozen header + business name, filter buttons on every column
-  * colour-coded DROPDOWN status columns (like your reference sheet):
+  * colour-coded DROPDOWN status columns:
         Priority | Called | Picked Up | Call Status | Email Sent | WhatsApp Sent
   * Next Follow-Up date picker, Notes, Date Added
   * clickable Website links, best leads (HOT) first
@@ -13,18 +13,19 @@ a Google Sheet that is laid out for calling / follow-up:
 NO DUPLICATES
   A lead is skipped if ANY of these already exists in the sheet:
   the website (domain), the phone number, or the email address.
-  Duplicate phone/website cells are also highlighted in the sheet, in case you paste
-  a lead in by hand. Your notes and statuses are never overwritten.
 
-If your sheet still has the OLD layout, the script offers to convert it to the new
-layout. Nothing is lost: old columns that don't exist in the new layout are kept at
-the far right.
+v2.2 CHANGES
+  * The script first finds where your data ENDS (last row that has a Business Name,
+    Phone, Email or Website - stray notes/dates below the table are ignored).
+  * Completely empty tab  -> writes header + leads from A1.
+  * Data exists           -> writes new leads directly after the last real lead.
+  * Blank header row but data below -> header is restored, data is KEPT (never wiped).
 
 ONE-TIME SETUP: Google Cloud project + Sheets API + Drive API + service account JSON key,
 then share the sheet with the service account email as EDITOR.
     pip install gspread google-auth pandas python-dotenv
 
-Usage (PyCharm: just run it, then paste the paths in the Run window):
+Usage:
     python push_to_sheets.py
     python push_to_sheets.py --dry-run     # preview only, changes nothing
     python push_to_sheets.py --format      # re-apply the look (widths, colours, dropdowns)
@@ -46,21 +47,13 @@ except ImportError:
     pass
 
 # ============================ SETTINGS - EDIT HERE ============================
-# 1) PASTE YOUR GOOGLE SHEET LINK between the quotes below (the full URL from the
-#    browser address bar). If you leave it empty, the script asks for it when you run.
-SHEET_URL = ""
-
-# 2) Name of the tab inside the sheet where leads are added (created if missing).
+SHEET_URL = "https://docs.google.com/spreadsheets/d/1j2Y6WXQrS17HjACvS78VsTq9qABduE28FEAAW8_GfQM/edit?usp=sharing"
 WORKSHEET_NAME = "Leads"
-
-# (The path to your service_account.json key and the CSV are asked when you RUN
-#  the script - just paste them in the Run window.)
 # ==============================================================================
 
 SHORTLIST_FILENAME = "shortlisted_lead_details.csv"
 FORMAT_ROWS = 2000  # dropdowns / colours are applied down to this row
 
-# Column order in the sheet. The first 9 come from the pipeline CSV; the rest are for you.
 DESIRED_HEADER = [
     "Business Name", "Phone", "Email", "Website", "Priority", "Top Problem",
     "Recommended Pitch", "Outreach Message", "Evidence",
@@ -68,7 +61,9 @@ DESIRED_HEADER = [
     "Next Follow-Up", "Notes", "Date Added",
 ]
 
-# Colours: (background, text) as hex.
+# Columns that prove a row is a real lead
+KEY_COLUMNS = ("Business Name", "Phone", "Email", "Website")
+
 GREEN = ("#B6D7A8", "#274E13")
 RED = ("#F4CCCC", "#990000")
 YELLOW = ("#FFF2CC", "#7F6000")
@@ -78,7 +73,6 @@ ORANGE = ("#F9CB9C", "#B45F06")
 GRAY = ("#D9D9D9", "#434343")
 TEAL = ("#B7E1CD", "#0B5345")
 
-# Dropdown columns: value -> colour. Order here = order in the dropdown.
 DROPDOWNS = {
     "Priority": {"HOT": RED, "WARM": YELLOW, "COLD": BLUE},
     "Called": {"CALLED": GREEN, "NOT CALLED": GRAY},
@@ -104,7 +98,7 @@ HEADER_BG = "#0B2A3C"
 # ---------------------------------------------------------------- duplicate logic
 def norm_domain(url):
     u = (url or "").strip().lower()
-    if u.startswith("=hyperlink"):  # a cell we wrote earlier, read back as formula text
+    if u.startswith("=hyperlink"):
         return ""
     for prefix in ("https://", "http://"):
         if u.startswith(prefix):
@@ -138,7 +132,6 @@ def row_keys(website, phone, email, name):
 
 # ---------------------------------------------------------------- cell helpers
 def safe_text(v):
-    """Stops text from being read as a formula (=, +, -, @) when USER_ENTERED."""
     v = "" if v is None else str(v)
     return "'" + v if v[:1] in ("=", "+", "-", "@") else v
 
@@ -153,16 +146,28 @@ def finalize_cell(col, value):
 
 # ---------------------------------------------------------------- table planning (pure logic)
 def plan_table(existing_values, csv_df):
-    """Given the sheet's current values (first row = header) and the CSV, decide the final
-    header, the rows to write, and what changed. No network access here.
+    """Decide the final header, the rows to write, and what changed. No network access.
     Returns dict: header, existing_rows, new_rows, skipped, migrated, is_new_sheet."""
-    old_header = [h for h in (existing_values[0] if existing_values else [])]
+    old_header = list(existing_values[0]) if existing_values else []
     body = existing_values[1:] if existing_values else []
-    is_new_sheet = not any(h.strip() for h in old_header)
+
+    # "new" only if the tab is COMPLETELY empty (no value in any cell)
+    is_new_sheet = not any((c or "").strip() for row in existing_values for c in row)
+    # data exists but row 1 (the header) is blank -> keep the data, restore the header
+    missing_header = (not is_new_sheet) and not any((h or "").strip() for h in old_header)
 
     migrated = False
     if is_new_sheet:
         header, existing_rows = list(DESIRED_HEADER), []
+    elif missing_header:
+        migrated = True  # rewrites the tab WITH the header; existing rows are kept
+        header = list(DESIRED_HEADER)
+        existing_rows = []
+        for r in existing_values:  # row 1 is data too
+            r = list(r)[:len(header)]
+            existing_rows.append(r + [""] * (len(header) - len(r)))
+        # drop fully empty rows so blank gaps don't survive the rewrite
+        existing_rows = [r for r in existing_rows if any((c or "").strip() for c in r)]
     elif old_header[:len(DESIRED_HEADER)] == DESIRED_HEADER:
         header = list(old_header)
         existing_rows = [list(r) + [""] * (len(header) - len(r)) for r in body]
@@ -213,6 +218,25 @@ def to_sheet_rows(header, rows):
     return [[finalize_cell(header[i], v) for i, v in enumerate(row)] for row in rows]
 
 
+def first_empty_row(values, header=None):
+    """1-based row after the last real lead. A row counts as a lead only if it has a
+    Business Name, Phone, Email or Website - stray notes/dates/dropdowns are ignored."""
+    hdr = header or (values[0] if values else [])
+    key_idx = [i for i, h in enumerate(hdr) if h in KEY_COLUMNS] or [0]
+    last = 1  # header is row 1
+    for n, row in enumerate(values, start=1):
+        if n == 1:
+            continue
+        if any(i < len(row) and (row[i] or "").strip() for i in key_idx):
+            last = n
+    return last + 1
+
+
+def ensure_rows(ws, needed):
+    if ws.row_count < needed:
+        ws.add_rows(needed - ws.row_count)
+
+
 # ---------------------------------------------------------------- formatting (Sheets API requests)
 def _rgb(hex_color):
     h = hex_color.lstrip("#")
@@ -229,7 +253,6 @@ def _col_letter(i):
 
 
 def build_format_requests(sheet_id, header, end_row, existing_rule_count):
-    """All the Sheets API requests that style the tab. Safe to run again and again."""
     ncols = len(header)
     idx = {h: i for i, h in enumerate(header)}
 
@@ -239,23 +262,19 @@ def build_format_requests(sheet_id, header, end_row, existing_rule_count):
 
     reqs = []
 
-    # start clean: remove old colour rules so re-running never stacks duplicates
     for _ in range(existing_rule_count):
         reqs.append({"deleteConditionalFormatRule": {"sheetId": sheet_id, "index": 0}})
 
-    # freeze header row + first column
     reqs.append({"updateSheetProperties": {
         "properties": {"sheetId": sheet_id, "gridProperties": {"frozenRowCount": 1, "frozenColumnCount": 1}},
         "fields": "gridProperties.frozenRowCount,gridProperties.frozenColumnCount"}})
 
-    # body: vertically centred, single line (click a cell to read the full text)
     reqs.append({"repeatCell": {
         "range": rng(0, ncols),
         "cell": {"userEnteredFormat": {"verticalAlignment": "MIDDLE", "wrapStrategy": "CLIP",
                                         "textFormat": {"fontSize": 10}}},
         "fields": "userEnteredFormat(verticalAlignment,wrapStrategy,textFormat)"}})
 
-    # header: dark background, white bold centred text
     reqs.append({"repeatCell": {
         "range": rng(0, ncols, 0, 1),
         "cell": {"userEnteredFormat": {
@@ -264,7 +283,6 @@ def build_format_requests(sheet_id, header, end_row, existing_rule_count):
             "textFormat": {"bold": True, "fontSize": 10, "foregroundColor": _rgb("#FFFFFF")}}},
         "fields": "userEnteredFormat(backgroundColor,horizontalAlignment,verticalAlignment,wrapStrategy,textFormat)"}})
 
-    # row heights
     reqs.append({"updateDimensionProperties": {
         "range": {"sheetId": sheet_id, "dimension": "ROWS", "startIndex": 0, "endIndex": 1},
         "properties": {"pixelSize": 42}, "fields": "pixelSize"}})
@@ -272,13 +290,11 @@ def build_format_requests(sheet_id, header, end_row, existing_rule_count):
         "range": {"sheetId": sheet_id, "dimension": "ROWS", "startIndex": 1, "endIndex": end_row},
         "properties": {"pixelSize": 30}, "fields": "pixelSize"}})
 
-    # column widths
     for name, i in idx.items():
         reqs.append({"updateDimensionProperties": {
             "range": {"sheetId": sheet_id, "dimension": "COLUMNS", "startIndex": i, "endIndex": i + 1},
             "properties": {"pixelSize": COLUMN_WIDTHS.get(name, 130)}, "fields": "pixelSize"}})
 
-    # centre the status / date columns
     for name in CENTER_COLUMNS:
         if name in idx:
             i = idx[name]
@@ -287,7 +303,6 @@ def build_format_requests(sheet_id, header, end_row, existing_rule_count):
                 "cell": {"userEnteredFormat": {"horizontalAlignment": "CENTER"}},
                 "fields": "userEnteredFormat.horizontalAlignment"}})
 
-    # date columns: date picker + tidy format
     for name in DATE_COLUMNS:
         if name in idx:
             i = idx[name]
@@ -299,7 +314,6 @@ def build_format_requests(sheet_id, header, end_row, existing_rule_count):
                 "cell": {"userEnteredFormat": {"numberFormat": {"type": "DATE", "pattern": "dd mmm yyyy"}}},
                 "fields": "userEnteredFormat.numberFormat"}})
 
-    # dropdown columns: list validation + colour rules
     for name, options in DROPDOWNS.items():
         if name not in idx:
             continue
@@ -317,7 +331,6 @@ def build_format_requests(sheet_id, header, end_row, existing_rule_count):
                     "format": {"backgroundColor": _rgb(bg),
                                "textFormat": {"foregroundColor": _rgb(fg), "bold": True}}}}}})
 
-    # highlight duplicate phone / website cells (e.g. if you paste a lead in by hand)
     for name in ("Phone", "Website"):
         if name in idx:
             i = idx[name]
@@ -330,7 +343,6 @@ def build_format_requests(sheet_id, header, end_row, existing_rule_count):
                     "format": {"backgroundColor": _rgb("#FFD966"),
                                "textFormat": {"foregroundColor": _rgb("#7F6000"), "bold": True}}}}}})
 
-    # filter buttons on the header row
     reqs.append({"setBasicFilter": {"filter": {"range": {
         "sheetId": sheet_id, "startRowIndex": 0, "startColumnIndex": 0, "endColumnIndex": ncols}}}})
     return reqs
@@ -481,21 +493,40 @@ def main():
     print(f"Read {len(df)} leads from {csv_path}")
 
     sh, ws = connect(args.credentials, args.sheet_id, args.worksheet)
-    plan = plan_table(ws.get_all_values(), df)
+    print(f"Spreadsheet: '{sh.title}' | Tab: '{ws.title}'\n{sh.url}")
+
+    existing_values = ws.get_all_values()
+    plan = plan_table(existing_values, df)
     header, new_rows = plan["header"], plan["new_rows"]
+
+    ignored = [c for c in df.columns if c not in header]
+    if ignored:
+        print(f"WARNING: these CSV columns are not in the sheet and were ignored: {ignored}")
+    missing = [c for c in DESIRED_HEADER[:9] if c not in df.columns]
+    if missing:
+        print(f"WARNING: these sheet columns were not found in the CSV (will be blank): {missing}")
 
     print(f"{len(new_rows)} new, {plan['skipped']} skipped as duplicates "
           f"(same website, phone or email already in the sheet).")
 
+    if plan["is_new_sheet"]:
+        print("Sheet is empty -> will write header + leads from A1.")
+    elif plan["migrated"]:
+        print("Sheet needs its header/layout fixed -> existing rows are kept and rewritten with the new header.")
+    else:
+        print(f"Sheet has data -> new leads will start at row {first_empty_row(existing_values, header)}.")
+
     if plan["migrated"]:
-        print("Your sheet uses the OLD layout. It can be converted to the new call-friendly layout "
-              "(all existing rows are kept; old extra columns move to the far right).")
-        if not args.dry_run and not args.yes and not ask_yes("Convert it now?", True):
+        print("(Old extra columns, if any, move to the far right. Nothing is deleted.)")
+        if not args.dry_run and not args.yes and not ask_yes("Continue?", True):
             sys.exit("Stopped - nothing was changed.")
 
     if args.dry_run:
         for r in new_rows[:10]:
             print("  would add:", r[0], "|", r[1])
+        if not (plan["is_new_sheet"] or plan["migrated"]) and new_rows:
+            start = first_empty_row(existing_values, header)
+            print(f"  would write to rows {start} to {start + len(new_rows) - 1}")
         print("Dry run - nothing written.")
         return
 
@@ -503,11 +534,21 @@ def main():
     try:
         if plan["is_new_sheet"] or plan["migrated"]:
             all_rows = plan["existing_rows"] + new_rows
+            ensure_rows(ws, len(all_rows) + 1)
             ws.clear()
             ws.update(range_name="A1", values=[header] + to_sheet_rows(header, all_rows),
                       value_input_option="USER_ENTERED")
+            print(f"Wrote header + {len(all_rows)} rows starting at A1.")
         elif new_rows:
-            ws.append_rows(to_sheet_rows(header, new_rows), value_input_option="USER_ENTERED")
+            start = first_empty_row(existing_values, header)
+            end = start + len(new_rows) - 1
+            ensure_rows(ws, end)
+            ws.update(range_name=f"A{start}",
+                      values=to_sheet_rows(header, new_rows),
+                      value_input_option="USER_ENTERED")
+            print(f"Wrote {len(new_rows)} leads to rows {start} to {end}.")
+        else:
+            print("Nothing new to write.")
 
         if plan["is_new_sheet"] or plan["migrated"] or args.format:
             apply_formatting(sh, ws, header)
