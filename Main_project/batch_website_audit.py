@@ -90,7 +90,7 @@ AUDIT_FIELDS = [
     "opportunity_score", "max_opportunity_score",
     "ssl_valid", "has_chatbot", "chatbot_providers", "has_whatsapp",
     "has_lead_form", "has_phone_cta", "has_appointment_booking", "has_trust_signals",
-    "has_local_schema", "critical_issue_count", "high_issue_count",
+    "has_local_schema", "phone_number", "phone_valid", "critical_issue_count", "high_issue_count",
     "top_issues", "fetch_warning",
     "review_type",
 ]
@@ -139,6 +139,18 @@ def find_name_column(fieldnames: list[str]) -> str | None:
     return None
 
 
+def find_phone_region_column(fieldnames: list[str]) -> str | None:
+    """Looks for a per-lead ISO region column (e.g. one added by
+    run_pipeline.py's `phone_region` column for multi-country batches).
+    Returns None if the input CSV doesn't have one -- callers should
+    fall back to the single global --phone-region flag in that case."""
+    for candidate in ("phone_region", "country_code", "region"):
+        for name in fieldnames:
+            if name.strip().lower() == candidate:
+                return name
+    return None
+
+
 def count_issues_by_priority(issues) -> dict[str, int]:
     counts = {"CRITICAL": 0, "HIGH": 0, "MEDIUM": 0, "LOW": 0}
     for issue in issues:
@@ -172,12 +184,20 @@ def determine_review_type(audit_status: str, fetch_warning: str | None) -> str:
     return REVIEW_AUTOMATIC
 
 
-def audit_one(lead: dict, website_url: str, output_fields: list[str], args) -> dict:
+def audit_one(lead: dict, website_url: str, output_fields: list[str], args,
+              phone_region_col: str | None = None) -> dict:
     """Runs the audit for one lead and returns a full output row: every
     original input column (carried through unchanged) plus the audit
     columns filled in."""
     row = {field: "" for field in output_fields}
     row.update(lead)  # carry through every original column as-is
+
+    # Per-lead region (e.g. from run_pipeline.py's `phone_region` column,
+    # for a batch spanning multiple countries) takes priority over the
+    # single global --phone-region flag; falls back to it when the lead
+    # has no region of its own or the CSV doesn't have that column at all.
+    lead_region = (lead.get(phone_region_col) or "").strip() if phone_region_col else ""
+    effective_phone_region = lead_region or args.phone_region
 
     url = normalize_url(website_url)
     config = AuditConfig(
@@ -187,6 +207,7 @@ def audit_one(lead: dict, website_url: str, output_fields: list[str], args) -> d
         skip_lighthouse=not args.full_lighthouse,
         reports_dir=args.reports_dir,
         lighthouse_timeout=args.lighthouse_timeout,
+        default_phone_region=effective_phone_region,
     )
 
     try:
@@ -214,6 +235,12 @@ def audit_one(lead: dict, website_url: str, output_fields: list[str], args) -> d
     row["has_appointment_booking"] = result.appointment_booking["detected"]
     row["has_trust_signals"] = result.trust_signals["detected"]
     row["has_local_schema"] = result.schema.get("schema_found")
+    row["phone_number"] = result.business_info.get("telephone") or ""
+    # None means "phonenumbers isn't installed / no number found to check",
+    # not the same as False ("checked and invalid") — keep that distinction
+    # in the CSV rather than collapsing it to a blank/0.
+    phone_valid = result.business_info.get("telephone_valid")
+    row["phone_valid"] = "" if phone_valid is None else phone_valid
 
     counts = count_issues_by_priority(result.issues)
     row["critical_issue_count"] = counts["CRITICAL"]
@@ -278,6 +305,9 @@ def main() -> int:
                          help="Skip websites that already have a row in the output CSV "
                               "(from a previous run that stopped partway) instead of "
                               "re-auditing everything from scratch.")
+    parser.add_argument("--phone-region", default="IN",
+                         help="ISO 3166-1 alpha-2 region used to validate phone numbers that have "
+                              "no country code (default: IN). Passed through to AuditConfig.")
     ran_with_no_args = len(sys.argv) == 1
     args = parser.parse_args()
 
@@ -296,7 +326,16 @@ def main() -> int:
     fieldnames = list(leads[0].keys())
     website_col = find_website_column(fieldnames)
     name_col = find_name_column(fieldnames)
+    phone_region_col = find_phone_region_column(fieldnames)
     output_fields = build_output_fields(fieldnames)
+
+    if phone_region_col:
+        logger.info("Found a '%s' column — using each lead's own region for phone "
+                     "validation (falling back to --phone-region %s where it's blank).",
+                     phone_region_col, args.phone_region)
+    else:
+        logger.info("No per-lead region column found — validating all phone numbers "
+                     "against --phone-region %s.", args.phone_region)
 
     if args.limit:
         leads = leads[: args.limit]
@@ -342,7 +381,7 @@ def main() -> int:
 
             logger.info("[%d/%d] Auditing %s (%s) ...", i, len(leads), name or "(unnamed)", website)
             start = time.monotonic()
-            row = audit_one(lead, website, output_fields, args)
+            row = audit_one(lead, website, output_fields, args, phone_region_col)
             elapsed = time.monotonic() - start
             if row.get("review_type") == REVIEW_MANUAL:
                 manual_review_count += 1

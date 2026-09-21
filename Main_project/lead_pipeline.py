@@ -1,5 +1,5 @@
 """
-Lead Qualification Pipeline v3 (fully standalone Python — no n8n needed)
+Lead Qualification Pipeline v5 (fully standalone Python — no n8n needed)
 =========================================================================
 Input:  a CSV like qualified_leads_row_audited.csv (already has
         health_score / opportunity_score / top_issues / etc. from
@@ -8,20 +8,56 @@ Output: a new CSV with AI qualification, email extraction/verification,
         priority, outreach message, etc. — same shape as the n8n
         "output lead data table".
 
-v3 change (this version): outreach messages are no longer a single fixed
-template. Each QUALIFIED lead gets its own Groq call (generate_ai_outreach)
-that writes a UNIQUE message about that specific lead's REAL missing
-feature (no chatbot/WhatsApp, no lead form, no phone CTA, no booking, or
-whatever its top audit issue is) while following the same fixed 6-beat
-scenario structure every time:
+v5 changes (fixes on top of v4)
+-------------------------------
+ A. Sellable-gap scope: a lead only counts as QUALIFIED if the audit shows a gap
+    this business actually fixes (no AI chatbot/instant replies, no lead form,
+    no tap-to-call, no online booking). Technical-only issues (security headers,
+    schema, viewport, alt text...) -> REVIEW, and messages never pitch them.
+    An out-of-scope-pitch validator (like the security-claim one) enforces it.
+ B. Leads with NO website go to REVIEW (no AI call, no website-pitch message).
+ C. Blank business names are recovered from the Google Maps URL.
+ D. Leads whose website fetch failed are NOT shortlisted (gate = 0, action
+    MANUAL_REVIEW). Set STRICT_FETCH_CHECK = False to relax this.
+ E. primary_problem and evidence are now built/aligned in code (one clean
+    problem + a tidy "Missing: ... | Audit issues: ..." evidence line).
+ F. Emails get a free MX/DNS check when no ZeroBounce key is set
+    (email_verified = mx_ok / no_mx / mx_unknown).
+ G. Startup Groq key check + mid-run abort on 401/403, so a bad key stops the
+    run immediately instead of failing every lead.
+ H. recommended_action is enforced in code (email -> EMAIL_OUTREACH, else phone ->
+    PHONE_OUTREACH ...). AI-failure rows now show only the top issue.
+
+v4 changes (fixes on top of v3)
+-------------------------------
+ 1. Tri-state audit flags: a BLANK ssl_valid / has_chatbot / has_whatsapp /
+    has_lead_form / has_phone_cta / has_appointment_booking /
+    has_trust_signals / has_local_schema is now None ("unknown"), not False.
+    Only an explicit "False" counts as a real gap, so failed/partial audits
+    can no longer create fake weaknesses or bypass the security-claim check.
+ 2. Ollama mode now also generates outreach through Ollama (no hidden Groq
+    dependency). All AI calls go through call_llm().
+ 3. shortlisted_lead_details.csv now requires passed_quality_gate == 1
+    AND an outreach message (matches what the comment always claimed).
+ 4. Fallback problem order fixed: a real invalid-SSL problem is checked
+    BEFORE the milder missing-schema one.
+ 5. Fallback templates rewritten: each problem carries its own full story +
+    pitch sentence, so the security-header / schema cases read logically.
+    The fallback now also includes the "restate + pitch" beats properly.
+ 6. Security-claim validator is now regex-based and much broader
+    (e.g. "flagged as unsafe", "red warning", "browser marks it...").
+    It checks the subject line as well as the message body.
+ 7. Minor: duplicate `pass` removed, DEFAULT_OUTPUT_DIR can be overridden
+    with the LEAD_OUTPUT_DIR env var, safer JSON / retry-after parsing.
+
+Every QUALIFIED lead still gets its own AI-written message about that
+specific lead's REAL missing feature, following the fixed 6-beat structure:
   1. notice a specific weakness on THIS business's site
   2. a short "someone visits your site" scenario
   3. they leave / a competitor gets them instead
   4. restate the weakness briefly
   5. pitch the specific fix that solves THAT problem
   6. ask for a 60-second walkthrough
-If Groq fails twice, a local rule-based fallback (same 6-beat shape, no API
-call) fills in so a lead never ends up with a blank outreach message.
 
 Usage:
     1) Create a .env file next to this script:
@@ -49,6 +85,7 @@ Optional env vars (in .env or exported):
     AI_PROVIDER          -> "groq" (default, cloud, free tier) or "ollama" (local, unlimited)
     OLLAMA_URL           -> default http://localhost:11434/api/chat
     OLLAMA_MODEL         -> default qwen2.5:14b
+    LEAD_OUTPUT_DIR      -> default folder for output CSVs
 
 Requires:
     pip install pandas requests tqdm python-dotenv
@@ -61,10 +98,12 @@ import json
 import logging
 import os
 import re
+import socket
 import sqlite3
 import sys
 import time
 from pathlib import Path
+from urllib.parse import unquote_plus
 
 import pandas as pd
 import requests
@@ -113,8 +152,12 @@ MAX_RETRIES = 5
 BASE_BACKOFF = 2.0  # seconds, doubles each retry
 
 # All output CSVs default to this folder unless you type a different path
-# when prompted (or pass a different output_csv on the CLI).
-DEFAULT_OUTPUT_DIR = r"F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data"
+# when prompted (or pass a different output_csv on the CLI). Override with
+# the LEAD_OUTPUT_DIR environment variable if you move machines/folders.
+DEFAULT_OUTPUT_DIR = os.environ.get(
+    "LEAD_OUTPUT_DIR",
+    r"F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data",
+)
 
 # Filename for the second, "talk to these leads" CSV — a slimmed-down view
 # saved in the same folder as the main output_csv, containing only the
@@ -155,6 +198,38 @@ PLACEHOLDER_EMAILS = {
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
               "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
 
+# Audit feature flags that are tri-state (True / False / None=unknown).
+TRI_STATE_FLAGS = [
+    "ssl_valid", "has_chatbot", "has_whatsapp", "has_lead_form", "has_phone_cta",
+    "has_appointment_booking", "has_trust_signals", "has_local_schema",
+]
+
+# If True, a lead whose website fetch failed is not shortlisted and is routed
+# to MANUAL_REVIEW (verify the site by hand first).
+STRICT_FETCH_CHECK = True
+
+# The ONLY problems this consultant sells a fix for (AI + WhatsApp systems).
+# A lead is only QUALIFIED when at least one of these is an explicit gap.
+SCOPE_GAPS = [
+    {"flag": "has_chatbot", "label": "AI chatbot / instant replies",
+     "problem": "No AI chatbot or instant-reply system",
+     "keywords": ["chatbot", "live-chat", "live chat", "instant repl", "whatsapp"]},
+    {"flag": "has_lead_form", "label": "lead-capture form",
+     "problem": "No lead-capture form",
+     "keywords": ["lead-capture", "lead capture", "lead form", "enquiry form", "contact form"]},
+    {"flag": "has_phone_cta", "label": "tap-to-call button",
+     "problem": "No clear tap-to-call button",
+     "keywords": ["tap-to-call", "phone cta", "call button", "click-to-call", "clickable phone"]},
+    {"flag": "has_appointment_booking", "label": "online appointment booking",
+     "problem": "No online appointment booking",
+     "keywords": ["appointment", "booking"]},
+]
+
+
+class AIAuthError(Exception):
+    """Raised when the AI provider rejects the API key (401/403)."""
+
+
 logger = logging.getLogger("lead_pipeline")
 
 
@@ -174,19 +249,43 @@ def setup_logging(log_path: str):
     logger.addHandler(ch)
 
 
+def fmt_flag(v):
+    """Render a tri-state flag for prompts: True / False / 'unknown'."""
+    return "unknown" if v is None else v
+
+
 # ----------------------------------------------------------------------
 # 1. Normalize
 # ----------------------------------------------------------------------
+def name_from_maps_url(url):
+    """Recovers a business name from a Google Maps place URL when the scraped
+    name cell is blank (e.g. .../maps/place/NP+Engineering+Pte+Ltd/data=...)."""
+    m = re.search(r"/maps/place/([^/@?]+)", url or "")
+    if not m:
+        return None
+    name = unquote_plus(m.group(1)).strip()
+    return name or None
+
+
 def normalize_row(row: dict) -> dict:
     """Maps the raw audited-CSV columns to the lowercase snake_case fields
-    every later stage expects (mirrors the n8n 'Normalize Lead Fields' node)."""
+    every later stage expects (mirrors the n8n 'Normalize Lead Fields' node).
 
-    def to_bool(v):
+    Audit feature flags are TRI-STATE: "true" -> True, "false" -> False,
+    blank/anything else -> None (unknown). Unknown is never treated as a
+    real gap downstream."""
+
+    def to_tri(v):
         if isinstance(v, bool):
             return v
-        if v is None or (isinstance(v, float) and pd.isna(v)) or str(v).strip() == "":
+        if v is None or (isinstance(v, float) and pd.isna(v)):
+            return None
+        s = str(v).strip().lower()
+        if s in ("true", "1", "yes", "y"):
+            return True
+        if s in ("false", "0", "no", "n"):
             return False
-        return str(v).strip().lower() == "true"
+        return None
 
     def to_num(v):
         try:
@@ -200,10 +299,11 @@ def normalize_row(row: dict) -> dict:
     # Trust the actual website value first; audit_status is a secondary signal
     # only used when the website field itself is blank.
     has_website = bool(website) and row.get("audit_status") != "SKIPPED_NO_WEBSITE"
+    biz_name = (row.get("Business Name") or "").strip() or name_from_maps_url(row.get("Google Maps URL"))
 
     r = {
-        "title": row.get("Business Name"),
-        "business_name": row.get("Business Name"),
+        "title": biz_name,
+        "business_name": biz_name,
         "category": row.get("Category"),
         "complete_address": row.get("Address"),
         "phone": row.get("Phone"),
@@ -220,20 +320,15 @@ def normalize_row(row: dict) -> dict:
         "max_health_score": to_num(row.get("max_health_score")),
         "opportunity_score": to_num(row.get("opportunity_score")),
         "max_opportunity_score": to_num(row.get("max_opportunity_score")),
-        "ssl_valid": to_bool(row.get("ssl_valid")),
-        "has_chatbot": to_bool(row.get("has_chatbot")),
         "chatbot_providers": row.get("chatbot_providers") or None,
-        "has_whatsapp": to_bool(row.get("has_whatsapp")),
-        "has_lead_form": to_bool(row.get("has_lead_form")),
-        "has_phone_cta": to_bool(row.get("has_phone_cta")),
-        "has_appointment_booking": to_bool(row.get("has_appointment_booking")),
-        "has_trust_signals": to_bool(row.get("has_trust_signals")),
-        "has_local_schema": to_bool(row.get("has_local_schema")),
         "critical_issue_count": to_num(row.get("critical_issue_count")) or 0,
         "high_issue_count": to_num(row.get("high_issue_count")) or 0,
         "top_issues_raw": row.get("top_issues") or "",
         "fetch_warning": row.get("fetch_warning") or None,
     }
+    for flag in TRI_STATE_FLAGS:
+        r[flag] = to_tri(row.get(flag))
+
     r["input_id"] = make_lead_id(r)
     return r
 
@@ -482,6 +577,13 @@ Return VALID JSON ONLY — one JSON object, no markdown, no code fences, no expl
 Separate LEAD QUALITY from CONTACTABILITY. A missing email must never by itself
 cause qualification_status = NOT_QUALIFIED. Choose exactly one primary_problem
 (specific, not vague). Never promise revenue/traffic/customer increases.
+A feature value of "unknown" means the audit could not determine it — never treat
+"unknown" as missing/false and never build a problem on it.
+The input lists "sellable_gaps" — the ONLY problems this consultant can fix (AI instant
+replies, lead capture, tap-to-call, online booking). primary_problem MUST be one of the
+sellable_gaps. If sellable_gaps is "none", qualification_status must be "REVIEW"
+(technical issues like security headers, schema, alt text or viewport tags are NOT
+sellable and must never be chosen as primary_problem).
 confidence must be "High"/"Medium"/"Low". priority must be "HOT"/"WARM"/"COLD".
 qualification_status must be "QUALIFIED"/"REVIEW"/"NOT_QUALIFIED".
 contactability_status must be "CONTACTABLE"/"PARTIALLY_CONTACTABLE"/"NOT_CONTACTABLE".
@@ -509,6 +611,79 @@ Output schema:
 """
 
 
+def sellable_gaps_text(r):
+    return ", ".join(r.get("scope_gap_labels") or []) or "none"
+
+
+def top_issue_text(r):
+    """Just the single top audit issue (used instead of dumping the whole list)."""
+    first = (r.get("mistakes_text") or "").split(";")[0].strip()
+    first = re.sub(r"^(CRITICAL|HIGH|MEDIUM|LOW)\s*:\s*", "", first, flags=re.I)
+    return first or "unknown"
+
+
+def build_evidence(r):
+    """Deterministic, tidy evidence line built from real audit data."""
+    parts = []
+    if r.get("scope_gap_labels"):
+        parts.append("Missing: " + ", ".join(r["scope_gap_labels"]))
+    sev = []
+    if r.get("critical_issue_count"):
+        sev.append(f"{int(r['critical_issue_count'])} critical")
+    if r.get("high_issue_count"):
+        sev.append(f"{int(r['high_issue_count'])} high")
+    if sev:
+        parts.append("Audit issues: " + ", ".join(sev))
+    if r.get("health_score") is not None and r.get("max_health_score"):
+        parts.append(f"Health {r['health_score']:g}/{r['max_health_score']:g}")
+    if r.get("opportunity_score") is not None and r.get("max_opportunity_score"):
+        parts.append(f"Opportunity {r['opportunity_score']:g}/{r['max_opportunity_score']:g}")
+    return " | ".join(parts) or "No sellable gap found in audit"
+
+
+def align_primary_problem(ai_problem, r):
+    """Keeps the AI's wording only if it is about a real sellable gap;
+    otherwise replaces it with the first real sellable gap."""
+    gaps = [g for g in SCOPE_GAPS if r.get(g["flag"]) is False]
+    if not gaps:
+        return ai_problem
+    text = (ai_problem or "").lower()
+    for g in gaps:
+        if any(k in text for k in g["keywords"]):
+            return ai_problem
+    return gaps[0]["problem"]
+
+
+def review_no_website(r):
+    """Leads with no website: not part of the AI/WhatsApp offer - park for a
+    human decision instead of generating a website-pitch message."""
+    has_contact = bool(r.get("phone") or r.get("email"))
+    return {
+        **r,
+        "primary_problem": "No website",
+        "secondary_problems": [],
+        "evidence": "No website listed - outside the AI/WhatsApp automation offer; needs a custom pitch",
+        "confidence": "High",
+        "priority": (r.get("lead_tier") or "Cold").upper(),
+        "commercial_opportunity_score": r.get("opportunity_score"),
+        "qualification_status": "REVIEW",
+        "contactability_status": "PARTIALLY_CONTACTABLE" if has_contact else "NOT_CONTACTABLE",
+        "contact_channels": {
+            "email": bool(r.get("email")), "phone": bool(r.get("phone")),
+            "website": False, "contact_form": False, "other": False,
+        },
+        "recommended_action": "MANUAL_REVIEW",
+        "review_reason": "no website - not shortlisted; decide manually if a website pitch is worth it",
+        "passed_quality_gate": 0,
+        "outreach_subject": None,
+        "outreach_message": None,
+        "audit_summary": r.get("mistakes_text"),
+        "email_verified": "not_checked",
+        "extracted_email": r.get("email"),
+        "fetch_ok": None,
+    }
+
+
 def build_ai_user_prompt(r):
     return f"""
 id: {r['input_id']}
@@ -531,15 +706,17 @@ low_issue_count: {r.get('low_issue_count')}
 verified issues (highest severity first): {r['mistakes_text']}
 audit reliability note: {r.get('fetch_warning') or 'none'}
 
-feature checklist:
-ssl_valid: {r['ssl_valid']}
-has_chatbot: {r['has_chatbot']} (provider: {r['chatbot_providers']})
-has_whatsapp: {r['has_whatsapp']}
-has_lead_form: {r['has_lead_form']}
-has_phone_cta: {r['has_phone_cta']}
-has_appointment_booking: {r['has_appointment_booking']}
-has_trust_signals: {r['has_trust_signals']}
-has_local_schema: {r['has_local_schema']}
+sellable_gaps: {sellable_gaps_text(r)}
+
+feature checklist (unknown = audit could not determine):
+ssl_valid: {fmt_flag(r.get('ssl_valid'))}
+has_chatbot: {fmt_flag(r.get('has_chatbot'))} (provider: {r['chatbot_providers']})
+has_whatsapp: {fmt_flag(r.get('has_whatsapp'))}
+has_lead_form: {fmt_flag(r.get('has_lead_form'))}
+has_phone_cta: {fmt_flag(r.get('has_phone_cta'))}
+has_appointment_booking: {fmt_flag(r.get('has_appointment_booking'))}
+has_trust_signals: {fmt_flag(r.get('has_trust_signals'))}
+has_local_schema: {fmt_flag(r.get('has_local_schema'))}
 """
 
 
@@ -549,17 +726,11 @@ def _sleep_with_backoff(attempt, retry_after=None):
     time.sleep(wait)
 
 
-def call_groq(model, user_prompt):
-    """Calls Groq with exponential backoff on 429 / 5xx / network errors,
-    using the qualification system prompt (AI_SYSTEM_PROMPT). Non-retryable
-    errors (4xx other than 429) fail immediately."""
-    return _call_groq_with_system(model, AI_SYSTEM_PROMPT, user_prompt, temperature=0.3)
-
-
 def _call_groq_with_system(model, system_prompt, user_prompt, temperature=0.3):
     """Generic Groq caller with retry/backoff — parameterized system prompt
     and temperature so it can serve both qualification (low temp, strict
-    JSON) and outreach generation (higher temp, more varied phrasing)."""
+    JSON) and outreach generation (higher temp, more varied phrasing).
+    Non-retryable errors (4xx other than 429) fail immediately."""
     if not GROQ_API_KEY:
         return None, "no GROQ_API_KEY set"
 
@@ -588,12 +759,14 @@ def _call_groq_with_system(model, system_prompt, user_prompt, temperature=0.3):
         if resp.status_code == 200:
             try:
                 return resp.json()["choices"][0]["message"]["content"], None
-            except (KeyError, IndexError, json.JSONDecodeError) as e:
+            except (KeyError, IndexError, TypeError, ValueError) as e:
                 return None, f"groq returned malformed response: {e}"
 
         if resp.status_code == 429:
-            retry_after = resp.headers.get("retry-after")
-            retry_after = float(retry_after) if retry_after else None
+            try:
+                retry_after = float(resp.headers.get("retry-after"))
+            except (TypeError, ValueError):
+                retry_after = None
             if attempt < MAX_RETRIES - 1:
                 _sleep_with_backoff(attempt, retry_after)
                 continue
@@ -605,24 +778,31 @@ def _call_groq_with_system(model, system_prompt, user_prompt, temperature=0.3):
                 continue
             return None, f"groq HTTP {resp.status_code} after retries"
 
-        # non-retryable 4xx (bad key, bad request, etc.)
+        if resp.status_code in (401, 403):
+            raise AIAuthError(
+                f"Groq rejected the API key (HTTP {resp.status_code}). Create a new key at "
+                f"console.groq.com/keys and put it in .env as GROQ_API_KEY=gsk_... "
+                f"(no quotes/spaces), then run again."
+            )
+
+        # other non-retryable 4xx (bad request, etc.)
         return None, f"groq HTTP {resp.status_code}: {resp.text[:200]}"
 
     return None, "groq: exhausted retries"
 
 
-def call_ollama(model, user_prompt):
+def call_ollama_with_system(model, system_prompt, user_prompt, temperature=0.3):
     try:
         resp = requests.post(
             OLLAMA_URL,
             json={
                 "model": model,
                 "messages": [
-                    {"role": "system", "content": AI_SYSTEM_PROMPT},
+                    {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt},
                 ],
                 "stream": False,
-                "options": {"temperature": 0.3},
+                "options": {"temperature": temperature},
                 "format": "json",
             },
             timeout=120,
@@ -637,6 +817,44 @@ def call_ollama(model, user_prompt):
         return None, str(e)
 
 
+def mask_key(key):
+    return (key[:4] + "..." + key[-4:]) if key and len(key) > 10 else "(too short)"
+
+
+def check_groq_key():
+    """One cheap request at startup. Returns (True/False/None, message):
+    True = key works, False = key rejected, None = could not tell (network)."""
+    try:
+        resp = requests.get(
+            "https://api.groq.com/openai/v1/models",
+            headers={"Authorization": f"Bearer {GROQ_API_KEY}"},
+            timeout=15,
+        )
+    except requests.RequestException as e:
+        return None, f"Could not reach Groq to test the key ({e}) - continuing anyway."
+    if resp.status_code == 200:
+        return True, f"Groq key OK ({mask_key(GROQ_API_KEY)})."
+    if resp.status_code in (401, 403):
+        return False, (f"Groq rejected the API key {mask_key(GROQ_API_KEY)} (HTTP {resp.status_code}). "
+                       f"Create a new key at console.groq.com/keys and put it in a .env file next to "
+                       f"this script as GROQ_API_KEY=gsk_... (no quotes/spaces).")
+    return None, f"Groq key test returned HTTP {resp.status_code} - continuing anyway."
+
+
+def call_llm(system_prompt, user_prompt, temperature=0.3):
+    """Single entry point for ALL AI calls (qualification AND outreach), so
+    AI_PROVIDER is respected everywhere. Groq: primary model, then fallback
+    model. Ollama: local model."""
+    if AI_PROVIDER == "ollama":
+        return call_ollama_with_system(OLLAMA_MODEL, system_prompt, user_prompt, temperature)
+
+    raw, err = _call_groq_with_system(GROQ_MODEL_PRIMARY, system_prompt, user_prompt, temperature)
+    if raw is None:
+        logger.warning(f"   primary model failed ({err}) - trying fallback model")
+        raw, err = _call_groq_with_system(GROQ_MODEL_FALLBACK, system_prompt, user_prompt, temperature)
+    return raw, err
+
+
 def parse_ai_json(text):
     if not text:
         return None
@@ -649,25 +867,14 @@ def parse_ai_json(text):
 
 
 # ----------------------------------------------------------------------
-# 6b. UNIQUE, PROBLEM-AWARE outreach (Groq-generated, scenario structure)
+# 6b. UNIQUE, PROBLEM-AWARE outreach (AI-generated, scenario structure)
 # ----------------------------------------------------------------------
-# Replaces the old single fixed STATIC_OUTREACH_TEMPLATE. For every
-# QUALIFIED lead, generate_ai_outreach() sends Groq that lead's real audit
-# fields (has_chatbot, has_whatsapp, has_lead_form, has_phone_cta,
-# has_appointment_booking, mistakes_text, primary_problem, evidence) and
-# asks it to WRITE a message describing THAT business's actual weakness —
-# never a generic one-size-fits-all message — while following a fixed
-# 6-beat scenario structure so tone and length stay consistent:
-#   1. notice a specific weakness on THIS business's site
-#   2. a short "someone visits your site" scenario
-#   3. they leave / a competitor gets them instead, because faster/easier
-#   4. restate the weakness briefly
-#   5. pitch the specific fix that solves THAT weakness
-#   6. ask for a 60-second walkthrough, using the business name
-#
-# If Groq fails twice (network/rate-limit/parse failure), a local
-# rule-based fallback (no API call) fills in with the same structure so a
-# qualified lead is never left with a blank outreach message.
+# For every QUALIFIED lead, generate_ai_outreach() sends the model that
+# lead's real audit fields and asks it to WRITE a message describing THAT
+# business's actual weakness while following a fixed 6-beat structure.
+# If the AI fails (or fails the hard validator), a local rule-based
+# fallback with the same structure fills in, so a qualified lead is never
+# left with a blank outreach message.
 # ----------------------------------------------------------------------
 
 OUTREACH_SYSTEM_PROMPT = """You are a cold-outreach copywriter for a small AI-automation
@@ -676,13 +883,17 @@ consultant who builds simple website + WhatsApp AI systems for local businesses
 
 You will be given ONE lead's real website-audit data. Write ONE outreach message
 about THIS business's ACTUAL problem — never a generic message that could apply
-to any business. If has_chatbot=false and has_whatsapp=false, the problem is
-"no instant reply after hours." If has_lead_form=false, the problem is "visitors
-who aren't ready to call can't leave their details." If has_phone_cta=false, the
-problem is "no easy way to call, especially on mobile." If has_appointment_booking
-=false, the problem is "can't book outside business hours." If none of those are
-missing, use the single most severe item in the audit issues text. Pick exactly
-ONE problem — the most severe one — do not list several.
+to any business. A feature value of "unknown" means the audit could not determine
+it: it is NOT a problem and must never be described as one. Only treat a feature
+as missing when its value is explicitly false.
+The problem you write about MUST be the primary_problem given below, and it must be one
+of the sellable_gaps. Mapping: no AI chatbot/instant reply -> "no instant answer after
+hours"; no lead form -> "visitors who aren't ready to call can't leave their details";
+no phone CTA -> "no easy way to call, especially on mobile"; no appointment booking ->
+"can't book outside business hours". Pick exactly ONE problem — do not list several.
+Technical issues (security headers, SSL, schema, viewport tags, alt text, title tags,
+page speed, SEO) are NOT what this consultant sells: never write the message about them
+and never offer to fix them.
 
 CRITICAL — DO NOT INVENT A VISIBLE SYMPTOM A REAL VISITOR WOULD NOT SEE.
 Every problem you describe falls into exactly one of these two categories.
@@ -695,9 +906,9 @@ You must know which one your chosen problem is in, and write accordingly:
     - no appointment booking -> can't book anything outside business hours
     - no trust signals (reviews/certifications shown) -> nothing on the page to reassure
       an unfamiliar visitor they're dealing with a legitimate business
-    - actual expired/invalid SSL certificate or non-HTTPS site -> browser DOES show a
-      real "Not Secure" / certificate warning — this is the ONLY case where a visible
-      browser security warning is accurate
+    - actual expired/invalid SSL certificate or non-HTTPS site (ssl_valid explicitly
+      false) -> browser DOES show a real "Not Secure" / certificate warning — this is
+      the ONLY case where a visible browser security warning is accurate
 
   NOT VISIBLE to an ordinary visitor — these are backend/technical risks. NEVER
   claim a visitor "sees a warning", "gets a security alert", or "notices" these.
@@ -742,6 +953,7 @@ Rules:
 - Never promise specific revenue, customer counts, or percentage increases.
 - Never use the word "revolutionize", "unlock", "game-changer", or similar hype.
 - Never mention pricing.
+- The only fix you may pitch is an AI + WhatsApp system: instant replies, lead capture, booking, follow-ups. Never offer web design, responsive/viewport fixes, SEO, security, schema or SSL work.
 - Use the business name naturally, at most twice.
 - Return VALID JSON ONLY, no markdown fences, in this exact schema:
 {"subject": "short 4-7 word subject line naming the specific problem", "message": "the full message with \\n between the beats"}
@@ -753,24 +965,25 @@ def build_outreach_user_prompt(r: dict) -> str:
 business_name: {r.get('business_name') or r.get('title')}
 category: {r.get('category')}
 
-ssl_valid: {r.get('ssl_valid')}
-has_chatbot: {r.get('has_chatbot')}
-has_whatsapp: {r.get('has_whatsapp')}
-has_lead_form: {r.get('has_lead_form')}
-has_phone_cta: {r.get('has_phone_cta')}
-has_appointment_booking: {r.get('has_appointment_booking')}
-has_trust_signals: {r.get('has_trust_signals')}
+(unknown = audit could not determine it; NOT a problem)
+ssl_valid: {fmt_flag(r.get('ssl_valid'))}
+has_chatbot: {fmt_flag(r.get('has_chatbot'))}
+has_whatsapp: {fmt_flag(r.get('has_whatsapp'))}
+has_lead_form: {fmt_flag(r.get('has_lead_form'))}
+has_phone_cta: {fmt_flag(r.get('has_phone_cta'))}
+has_appointment_booking: {fmt_flag(r.get('has_appointment_booking'))}
+has_trust_signals: {fmt_flag(r.get('has_trust_signals'))}
 
 top audit issues (highest severity first): {r.get('mistakes_text')}
-primary_problem (from qualification step): {r.get('primary_problem')}
+sellable_gaps (the problem must come from these): {sellable_gaps_text(r)}
+primary_problem (write about THIS one): {r.get('primary_problem')}
 evidence: {r.get('evidence')}
 
-REMINDER: ssl_valid is given above as a real boolean. You may ONLY describe a
-visitor seeing a browser security warning, "not secure" label, or missing lock
-icon if ssl_valid is explicitly False. If ssl_valid is True (or not shown as
-False), do not use ANY of that language for ANY issue, including missing
-security headers — headers are invisible to a normal visitor regardless of
-ssl_valid.
+REMINDER: You may ONLY describe a visitor seeing a browser security warning,
+"not secure" label, or missing lock icon if ssl_valid is explicitly False above.
+If ssl_valid is True or unknown, do not use ANY of that language for ANY issue,
+including missing security headers — headers are invisible to a normal visitor
+regardless of ssl_valid.
 """
 
 
@@ -791,59 +1004,84 @@ def parse_outreach_json(text):
 # ----------------------------------------------------------------------
 # HARD VALIDATOR — this is what actually guarantees no false claims, not
 # the prompt wording (models can still ignore instructions). Any outreach
-# message, whether from Groq or the local fallback, gets checked here
-# before it's allowed into the pipeline. If it fails, the lead falls back
-# to the rule-based local template, which is built to never make this
-# mistake in the first place.
+# text, whether from the AI or the local fallback, gets checked here
+# before it's allowed into the pipeline. Regex-based so it catches
+# rewordings like "flagged as unsafe", "red warning", "browser marks it".
 # ----------------------------------------------------------------------
-FALSE_SECURITY_SYMPTOM_PHRASES = [
-    "browser warning", "security warning", "not secure", "isn't secure",
-    "is not secure", "unsecure", "insecure connection", "lock icon",
-    "no lock icon", "shows a warning", "sees a warning", "security alert",
-    "certificate warning", "ssl warning", "gets a warning about",
-    "warns visitors", "warning about the connection", "warning about insecure",
+_FALSE_SECURITY_PATTERNS = [
+    r"\bnot secure\b", r"\bisn'?t secure\b", r"\bis not secure\b", r"\bunsecure\b",
+    r"\binsecure (connection|site|website|page)\b",
+    r"\bunsafe\b", r"\bnot safe\b",
+    r"\b(padlock|lock (icon|symbol))\b",
+    r"\b(security|browser|certificate|ssl|https|connection) (warning|alert|notice|error|banner)s?\b",
+    r"\bwarning (message|banner|screen|page|sign|label|icon)s?\b",
+    r"\bred (warning|banner|screen|label|alert)s?\b",
+    r"\b(browser|chrome|safari|firefox|edge)\b.{0,50}\b(warn|warns|warning|flag|flags|flagged|marks?|marked|alerts?|blocks?|blocked)\b",
+    r"\bflagged?( it)?( as)? (unsafe|insecure|not secure|risky|dangerous|suspicious)\b",
+    r"\b(sees?|gets?|receives?|notices?|hits?|is shown|are shown|shown|shows?|displays?)\b.{0,40}\b(warning|alert)s?\b",
+    r"\bwarns? (visitors|users|people|customers)\b",
+    r"\bconnection is not private\b", r"\bnot private\b",
 ]
+_FALSE_SECURITY_RE = re.compile("|".join(_FALSE_SECURITY_PATTERNS), re.I | re.S)
 
 
 def message_makes_false_security_claim(message: str, r: dict) -> bool:
-    """Returns True if the message claims a visible browser/security warning
-    while the lead's real ssl_valid is True (or unknown) — i.e. the only
-    case that produces a real browser warning is an actual invalid/expired
-    SSL certificate. Missing security headers, missing schema, etc. are
-    never visible to an ordinary visitor, so any such claim for those is
-    always false and must be blocked regardless of what the model wrote."""
+    """Returns True if the text claims a visible browser/security warning
+    while the lead's real ssl_valid is NOT explicitly False. Only a truly
+    invalid/expired SSL certificate produces a real browser warning;
+    missing security headers, missing schema, etc. are never visible to an
+    ordinary visitor. Unknown (None) ssl_valid is treated as 'not proven
+    invalid', so such claims are blocked."""
     if not message:
         return False
-    ssl_actually_invalid = (r.get("ssl_valid") is False)
-    if ssl_actually_invalid:
+    if r.get("ssl_valid") is False:
         return False  # a real cert problem legitimately CAN produce a browser warning
-    lower = message.lower()
-    return any(phrase in lower for phrase in FALSE_SECURITY_SYMPTOM_PHRASES)
+    return bool(_FALSE_SECURITY_RE.search(message))
+
+
+_OUT_OF_SCOPE_RE = re.compile(
+    r"\b(viewport|meta tags?|meta description|responsive design|mobile[- ]friendly (layout|design|site|website)"
+    r"|alt text|title tag|security headers?|content security|ssl|https|structured data|schema"
+    r"|page speed|seo|redesign|web design|new website|build (you )?a website)\b",
+    re.I,
+)
+
+
+def message_pitches_out_of_scope_fix(text: str) -> bool:
+    """True if the text talks about / offers work outside the AI + WhatsApp
+    offer (viewport tags, security headers, SEO, schema, redesigns...)."""
+    return bool(text and _OUT_OF_SCOPE_RE.search(text))
 
 
 def generate_ai_outreach(r: dict) -> dict:
-    """Calls Groq to write a unique, structured outreach message for this
-    specific lead, then runs it through message_makes_false_security_claim()
-    as a hard code-level check (not just a prompt instruction). If Groq's
-    output fails the check, or fails to parse, or fails twice on the API,
+    """Asks the AI to write a unique, structured outreach message for this
+    specific lead, then runs subject + body through the hard validator.
+    If the AI output fails to parse, fails the check, or the API fails,
     falls back to the local rule-based template, which is built to never
     make a false visible-symptom claim."""
     prompt = build_outreach_user_prompt(r)
 
-    raw, err = _call_groq_with_system(GROQ_MODEL_PRIMARY, OUTREACH_SYSTEM_PROMPT, prompt, temperature=0.6)
-    if raw is None:
-        logger.warning(f"   outreach primary model failed ({err}) - trying fallback model")
-        raw, err = _call_groq_with_system(GROQ_MODEL_FALLBACK, OUTREACH_SYSTEM_PROMPT, prompt, temperature=0.6)
-
+    raw, err = call_llm(OUTREACH_SYSTEM_PROMPT, prompt, temperature=0.6)
     parsed = parse_outreach_json(raw) if raw else None
 
     if not parsed:
-        logger.warning(f"   outreach generation failed for '{r.get('business_name')}' ({err}) - using local fallback")
+        logger.warning(f"   outreach generation failed for '{r.get('business_name')}' "
+                       f"({err or 'parse failure'}) - using local fallback")
         return _local_fallback_outreach(r)
 
     candidate_message = parsed.get("message")
+    candidate_subject = parsed.get("subject") or ""
 
-    if message_makes_false_security_claim(candidate_message, r):
+    if (message_pitches_out_of_scope_fix(candidate_message)
+            or message_pitches_out_of_scope_fix(candidate_subject)):
+        logger.warning(
+            f"   outreach for '{r.get('business_name')}' pitched an out-of-scope fix - "
+            f"discarding AI message and using in-scope local fallback instead"
+        )
+        return _local_fallback_outreach(r)
+
+    if (message_makes_false_security_claim(candidate_message, r)
+            or message_makes_false_security_claim(candidate_subject, r)):
         logger.warning(
             f"   outreach for '{r.get('business_name')}' claimed a false visible "
             f"security symptom (ssl_valid={r.get('ssl_valid')}) - discarding AI "
@@ -853,150 +1091,122 @@ def generate_ai_outreach(r: dict) -> dict:
 
     return {
         **r,
-        "outreach_subject": parsed.get("subject") or f"Quick idea for {r.get('business_name')}",
+        "outreach_subject": candidate_subject or f"Quick idea for {r.get('business_name')}",
         "outreach_message": candidate_message,
     }
 
 
 def _pick_fallback_problem(r):
-    if not r.get("has_chatbot") and not r.get("has_whatsapp"):
+    """Returns {weakness, story, pitch, subject} for the most relevant
+    SELLABLE problem (AI chatbot / lead form / tap-to-call / booking). Only
+    EXPLICIT False flags count as gaps - None (unknown) never does. Technical
+    issues (security headers, schema, SSL...) are deliberately not pitched."""
+
+    if r.get("has_chatbot") is False:
         return {
-            "weakness": "there's no way for a visitor to get an instant answer outside business hours",
-            "scenario": "at night or on a weekend, looking for your service",
-            "friction": "there's no one to answer, so they get no reply",
-            "fix": "answer questions and capture enquiries instantly",
+            "subject": "No instant replies after hours",
+            "weakness": "there's no instant automated reply when someone reaches out outside business hours",
+            "story": ("Picture someone visiting your website at night or on a weekend, looking for "
+                      "your service. They're interested, but there's no one to answer, so they leave "
+                      "and a competitor who replies faster gets them instead."),
+            "pitch": ("That gap is easy to close: I build simple AI + WhatsApp systems that answer "
+                      "questions and capture enquiries instantly."),
         }
-    if not r.get("has_lead_form"):
+    if r.get("has_lead_form") is False:
         return {
+            "subject": "Nowhere to leave contact details",
             "weakness": "there's no way to leave contact details without calling first",
-            "scenario": "browsing your site, not ready to call yet",
-            "friction": "they can't leave their number anywhere on the page",
-            "fix": "capture enquiries even when someone isn't ready to call",
+            "story": ("Picture someone browsing your site who isn't ready to call yet. They can't "
+                      "leave their number anywhere on the page, so they leave and a competitor with "
+                      "a simple enquiry form gets them instead."),
+            "pitch": ("I build simple AI + WhatsApp systems that capture those enquiries and follow "
+                      "up, even when someone isn't ready to call."),
         }
-    if not r.get("has_phone_cta"):
+    if r.get("has_phone_cta") is False:
         return {
+            "subject": "No easy tap-to-call on mobile",
             "weakness": "there's no clear call button, especially on mobile",
-            "scenario": "on their phone, looking to contact you quickly",
-            "friction": "they have to hunt for a number instead of tapping to call",
-            "fix": "make it effortless to reach you, and follow up if they don't",
+            "story": ("Picture someone on their phone who wants to reach you quickly. They have to "
+                      "hunt for a number instead of tapping to call, so they leave and a competitor "
+                      "who makes it easier gets them instead."),
+            "pitch": ("I build simple AI + WhatsApp systems that make it effortless to reach you, "
+                      "and follow up if someone doesn't."),
         }
-    if not r.get("has_appointment_booking"):
+    if r.get("has_appointment_booking") is False:
         return {
+            "subject": "Can't book outside business hours",
             "weakness": "there's no way to book an appointment online",
-            "scenario": "after you've closed for the day",
-            "friction": "they can't book anything and have to remember to call tomorrow",
-            "fix": "let people book automatically, any time of day",
-        }
-    if not r.get("has_trust_signals"):
-        return {
-            "weakness": "the site doesn't show any reviews or credentials up front",
-            "scenario": "comparing a few options they haven't used before",
-            "friction": "they have nothing on the page to reassure them you're established",
-            "fix": "surface trust signals and answer follow-up questions instantly",
+            "story": ("Picture someone visiting after you've closed for the day. They can't book "
+                      "anything and would have to remember to call tomorrow, so a competitor they "
+                      "can book with straight away gets them instead."),
+            "pitch": ("I build simple AI + WhatsApp systems that let people book automatically, "
+                      "any time of day."),
         }
 
-    mistakes_text_lower = (r.get("mistakes_text") or "").lower()
-
-    # honest, non-visible framing for known backend-only issues — never claim
-    # a visitor "sees" or "gets a warning" for these
-    if "security header" in mistakes_text_lower:
-        return {
-            "weakness": "the site is missing some standard security protections",
-            "scenario": "browsing normally, with no visible sign anything is wrong",
-            "friction": "the risk is invisible to them, but it leaves the site more "
-                        "exposed to attacks and can fail security checks some "
-                        "partners or corporate clients run before working with you",
-            "fix": "add the missing protections so the site passes those checks cleanly",
-        }
-    if "schema" in mistakes_text_lower or not r.get("has_local_schema"):
-        return {
-            "weakness": "the site is missing structured data that helps it show up in local search",
-            "scenario": "searching Google or Maps for your service nearby",
-            "friction": "your business is less likely to appear prominently, so they "
-                        "never even reach your site",
-            "fix": "add the missing local search markup to improve that visibility",
-        }
-    if "ssl" in mistakes_text_lower and not r.get("ssl_valid", True):
-        return {
-            "weakness": "the site doesn't have a valid SSL certificate",
-            "scenario": "visiting the site on any modern browser",
-            "friction": "they see an actual 'Not Secure' warning before the page even loads",
-            "fix": "fix the certificate so visitors see a secure, trustworthy site",
-        }
-
-    top_issue = (r.get("mistakes_text") or "").split(";")[0].strip().lower() \
-        or "a slower response setup than visitors expect"
+    # No sellable gap (such leads are normally sent to REVIEW before we get here).
     return {
-        "weakness": top_issue,
-        "scenario": "using the site normally",
-        "friction": "it quietly costs you enquiries without being obvious to a casual visitor",
-        "fix": "fix the underlying issue and add a faster way to respond and follow up",
+        "subject": "A quick idea for your website",
+        "weakness": "a few things that could be costing you enquiries quietly",
+        "story": ("It isn't obvious to a casual visitor, but people who don't get a quick, easy "
+                  "response often go with whichever business makes things easier."),
+        "pitch": ("I build simple AI + WhatsApp systems that reply instantly and follow up, so "
+                  "fewer enquiries slip away."),
     }
 
 
 def _local_fallback_outreach(r: dict) -> dict:
-    """Same 6-beat scenario shape as the AI version, built with simple
-    rule-based branching — used only if Groq fails twice or fails the
-    validator. Includes its own defensive check against the exact class
-    of bug this whole layer exists to prevent."""
+    """Same 6-beat shape as the AI version, built with rule-based branching —
+    used only if the AI fails or fails the validator. Includes its own
+    defensive check against the exact class of bug the validator exists to
+    prevent."""
     business_name = r.get("business_name") or r.get("title") or "your business"
     p = _pick_fallback_problem(r)
     message = (
         f"Hi there,\n"
         f"I was looking at {business_name} and noticed {p['weakness']}.\n"
-        f"Here's a quick scenario: someone visits your website {p['scenario']}. "
-        f"They're interested, but {p['friction']}, so they leave and a competitor "
-        f"who makes it easier gets them instead.\n"
-        f"I build simple AI + WhatsApp systems that {p['fix']}.\n"
+        f"{p['story']}\n"
+        f"{p['pitch']}\n"
         f"Would you like a 60-second example of how this could work for {business_name}?"
     )
+    subject = p.get("subject") or f"Quick idea for {business_name}"
 
-    if message_makes_false_security_claim(message, r):
-        # Should never happen — every branch in _pick_fallback_problem() is
-        # written to avoid this — but if a future edit breaks that, fall
-        # back to the one framing that's always true regardless of the
-        # specific issue: a slower response setup than visitors expect.
+    if (message_makes_false_security_claim(message, r)
+            or message_makes_false_security_claim(subject, r)):
+        # Should never happen — every branch above avoids this — but if a
+        # future edit breaks that, fall back to a fully generic, always-true
+        # framing that makes no claim about any specific feature.
         logger.error(
             f"   local fallback for '{business_name}' unexpectedly failed its own "
             f"safety check - using generic safe framing instead"
         )
+        subject = f"Quick idea for {business_name}"
         message = (
             f"Hi there,\n"
             f"I was looking at {business_name} and noticed a few things on the "
-            f"site that are likely costing you enquiries without being obvious "
-            f"day to day.\n"
-            f"A visitor looking for your service outside business hours has no "
-            f"quick way to get an answer, so they often end up going with "
-            f"whichever business responds first.\n"
-            f"I build simple AI + WhatsApp systems that reply instantly and "
-            f"capture the enquiry automatically, even when your team is offline.\n"
+            f"site that could be costing you enquiries without being obvious day to day.\n"
+            f"People who don't get a quick, easy response often go with whichever "
+            f"business makes things easier.\n"
+            f"I build simple AI + WhatsApp systems that reply instantly and capture "
+            f"the enquiry automatically, even when your team is offline.\n"
             f"Would you like a 60-second example of how this could work for {business_name}?"
         )
 
     return {
         **r,
-        "outreach_subject": f"Quick idea for {business_name}",
+        "outreach_subject": subject,
         "outreach_message": message,
     }
 
 
 def ai_qualify(r):
     prompt = build_ai_user_prompt(r)
-
-    if AI_PROVIDER == "ollama":
-        raw, err = call_ollama(OLLAMA_MODEL, prompt)
-    else:
-        raw, err = call_groq(GROQ_MODEL_PRIMARY, prompt)
-        if raw is None:
-            logger.warning(f"   primary model failed ({err}) - trying fallback model")
-            raw, err = call_groq(GROQ_MODEL_FALLBACK, prompt)
-
+    raw, err = call_llm(AI_SYSTEM_PROMPT, prompt, temperature=0.3)
     parsed = parse_ai_json(raw) if raw else None
 
     if not parsed:
         return {
             **r,
-            "primary_problem": r["mistakes_text"] or "unknown",
+            "primary_problem": top_issue_text(r),
             "secondary_problems": [],
             "evidence": f"AI response could not be parsed or fetched ({err or 'parse failure'})",
             "confidence": "Low",
@@ -1019,10 +1229,10 @@ def ai_qualify(r):
 
     result = {
         **r,
-        "business_name": parsed.get("business_name", r["title"]),
-        "primary_problem": parsed.get("primary_problem"),
+        "business_name": parsed.get("business_name") or r["title"],
+        "primary_problem": align_primary_problem(parsed.get("primary_problem"), r),
         "secondary_problems": parsed.get("secondary_problems", []),
-        "evidence": parsed.get("evidence"),
+        "evidence": build_evidence(r),
         "confidence": parsed.get("confidence"),
         "priority": parsed.get("priority"),
         "commercial_opportunity_score": parsed.get("commercial_opportunity_score") or r.get("opportunity_score"),
@@ -1038,8 +1248,16 @@ def ai_qualify(r):
         "ai_parse_failed": False,
     }
 
+    # Only leads with a gap we actually sell a fix for can be QUALIFIED.
+    if result.get("qualification_status") == "QUALIFIED" and not r.get("scope_gap_labels"):
+        result["qualification_status"] = "REVIEW"
+        result["recommended_action"] = "MANUAL_REVIEW"
+        result["passed_quality_gate"] = 0
+        result["review_reason"] = ("no gap matching the services offered (AI/WhatsApp automation) - "
+                                   "technical issues only")
+
     # Generate a UNIQUE, problem-specific outreach message for qualified
-    # leads only — this is a separate Groq call from qualification, using
+    # leads only — this is a separate AI call from qualification, using
     # this lead's real audit data so the message matches its actual issue.
     if result.get("qualification_status") == "QUALIFIED":
         result = generate_ai_outreach(result)
@@ -1079,16 +1297,31 @@ def quality_gate(r):
     if r.get("fetch_warning"):
         reasons.append(f"audit reliability warning: {r['fetch_warning']}")
 
+    qualified = r.get("qualification_status") == "QUALIFIED"
+    fetch_blocked = STRICT_FETCH_CHECK and r.get("fetch_ok") is False
     passed = (
         r.get("passed_quality_gate") == 1
+        and qualified
         and not r.get("ai_parse_failed")
-        and not (r.get("qualification_status") != "QUALIFIED" and message)
+        and not fetch_blocked
     )
 
-    qualified = r.get("qualification_status") == "QUALIFIED"
+    # Enforce the recommended action in code instead of trusting the AI.
+    action = r.get("recommended_action")
+    if qualified:
+        if fetch_blocked:
+            action = "MANUAL_REVIEW"
+        elif email:
+            action = "EMAIL_OUTREACH"
+        elif r.get("phone"):
+            action = "PHONE_OUTREACH"
+        elif r.get("website"):
+            action = "WEBSITE_ENRICHMENT"
+
     return {
         **r,
         "extracted_email": email,
+        "recommended_action": action,
         "outreach_message": message if qualified else None,
         "outreach_subject": r.get("outreach_subject") if qualified else None,
         "passed_quality_gate": 1 if passed else 0,
@@ -1099,9 +1332,40 @@ def quality_gate(r):
 # ----------------------------------------------------------------------
 # 8. Email deliverability (ZeroBounce, optional)
 # ----------------------------------------------------------------------
+def _domain_can_receive_mail(domain):
+    """True / False / None(unknown). Uses dnspython MX lookup if installed,
+    otherwise falls back to a plain DNS resolve of the domain."""
+    try:
+        import dns.resolver
+        import dns.exception
+    except ImportError:
+        dns = None
+    if dns is not None:
+        try:
+            dns.resolver.resolve(domain, "MX", lifetime=5)
+            return True
+        except dns.resolver.NoAnswer:
+            pass  # no MX record - fall through to the plain lookup below
+        except dns.resolver.NXDOMAIN:
+            return False
+        except dns.exception.DNSException:
+            return None
+    try:
+        socket.getaddrinfo(domain, None)
+        return True
+    except socket.gaierror:
+        return False
+
+
 def verify_email(email):
+    """ZeroBounce if a key is set; otherwise a free domain-level check
+    (mx_ok / no_mx / mx_unknown). The free check proves the domain can
+    receive mail, NOT that the mailbox exists."""
     if not ZEROBOUNCE_API_KEY:
-        return "not_checked"
+        if not EMAIL_RE.match(email or ""):
+            return "invalid_format"
+        ok = _domain_can_receive_mail(email.rsplit("@", 1)[1])
+        return "mx_ok" if ok else "no_mx" if ok is False else "mx_unknown"
     try:
         resp = requests.get(
             "https://api.zerobounce.net/v2/validate",
@@ -1151,7 +1415,7 @@ def load_already_processed_ids(output_csv: str) -> set:
         existing = pd.read_csv(output_csv, dtype=str, keep_default_na=False)
         if "input_id" in existing.columns:
             return set(existing["input_id"].tolist())
-    except (pd.errors.EmptyDataError, Exception) as e:
+    except Exception as e:
         logger.warning(f"Could not read existing output_csv for resume: {e}")
     return set()
 
@@ -1177,10 +1441,15 @@ def upsert_sqlite(conn: sqlite3.Connection, row: dict):
 # ----------------------------------------------------------------------
 def process_lead(r: dict, use_ai: bool, sleep_between_ai_calls: float) -> dict:
     if is_low_chance(r):
-        logger.info(f"   -> archived (low chance)")
+        logger.info("   -> archived (low chance)")
         return archive_low_chance(r)
 
     r = website_mistake_check(r)
+    r["scope_gap_labels"] = [g["label"] for g in SCOPE_GAPS if r.get(g["flag"]) is False]
+
+    if not r["website"]:
+        logger.info("   -> REVIEW (no website - outside the automation offer)")
+        return review_no_website(r)
 
     if r["website"] and not r.get("email"):
         r = extract_email_for_lead(r)
@@ -1283,6 +1552,8 @@ def run_pipeline(input_csv: str, output_csv: str, use_ai: bool = True,
             logger.info(f"Processing: {r['title']}")
             try:
                 result = process_lead(r, use_ai, sleep_between_ai_calls)
+            except AIAuthError:
+                raise
             except Exception as e:
                 logger.error(f"   unhandled error on '{r['title']}': {e}")
                 result = {
@@ -1302,10 +1573,10 @@ def run_pipeline(input_csv: str, output_csv: str, use_ai: bool = True,
             if sqlite_conn:
                 upsert_sqlite(sqlite_conn, out_row)
 
-            # Only leads that actually cleared the quality gate and got an
+            # Only leads that actually cleared the quality gate AND got an
             # outreach message written are worth putting in front of you -
             # that's the whole point of the shortlist CSV.
-            if result.get("outreach_message"):
+            if result.get("outreach_message") and result.get("passed_quality_gate") == 1:
                 shortlist_row = {}
                 for key, label in SHORTLIST_COLUMNS:
                     val = result.get(key)
@@ -1470,6 +1741,19 @@ if __name__ == "__main__":
         logger.error(f"Input CSV not found: {cfg['input_csv']}")
         sys.exit(1)
 
+    if cfg["use_ai"] and AI_PROVIDER != "ollama":
+        key_ok, key_msg = check_groq_key()
+        if key_ok is False:
+            logger.error(key_msg)
+            print(f"\nERROR: {key_msg}")
+            if len(sys.argv) <= 1:
+                try:
+                    input("\nPress Enter to exit...")
+                except EOFError:
+                    pass
+            sys.exit(1)
+        logger.info(key_msg)
+
     logger.info(f"Starting pipeline: input={cfg['input_csv']} output={cfg['output_csv']} "
                 f"ai={'off' if not cfg['use_ai'] else AI_PROVIDER} "
                 f"resume={cfg['resume']} limit={cfg['limit']}")
@@ -1484,6 +1768,17 @@ if __name__ == "__main__":
             resume=cfg["resume"],
             sqlite_path=cfg["sqlite"],
         )
+    except AIAuthError as e:
+        logger.error(str(e))
+        print(f"\nERROR: {e}")
+        print("Stopped early - nothing after this point was processed. Fix the key, then run "
+              "again with --resume to continue.")
+        if len(sys.argv) <= 1:
+            try:
+                input("\nPress Enter to exit...")
+            except EOFError:
+                pass
+        sys.exit(1)
     except (PermissionError, IsADirectoryError, ValueError) as e:
         logger.error(f"Could not write output: {e}")
         print(f"\nERROR: {e}")
@@ -1499,5 +1794,4 @@ if __name__ == "__main__":
         try:
             input("\nDone. Press Enter to exit...")
         except EOFError:
-            pass
             pass

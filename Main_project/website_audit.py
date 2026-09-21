@@ -40,6 +40,11 @@ shell. Install with:
 If Playwright isn't installed, this script still runs fine on ordinary
 server-rendered sites, and clearly flags JS-shell pages it can't read.
 
+Phone-number validation (format/plausibility, via Google's libphonenumber)
+is also optional but recommended. Install with:
+    pip install phonenumbers
+Without it, phone numbers are only checked for *presence*, not validity.
+
 CLI:
     python website_audit.py https://example.com
     python website_audit.py https://example.com --runs 5 --no-desktop
@@ -84,6 +89,12 @@ try:
     PLAYWRIGHT_AVAILABLE = True
 except ImportError:  # optional dependency — see _fetch_html_rendered
     PLAYWRIGHT_AVAILABLE = False
+
+try:
+    import phonenumbers
+    PHONENUMBERS_AVAILABLE = True
+except ImportError:  # optional dependency — see validate_phone_number()
+    PHONENUMBERS_AVAILABLE = False
 
 logger = logging.getLogger("website_auditor")
 
@@ -254,6 +265,14 @@ class AuditConfig:
     lighthouse_timeout: int = DEFAULT_LIGHTHOUSE_TIMEOUT
     reports_dir: str = field(default_factory=lambda: os.path.join(os.getcwd(), "reports"))
     skip_lighthouse: bool = False
+    # ISO 3166-1 alpha-2 region used to parse phone numbers that have no
+    # leading "+country code" (e.g. a bare "98765 43210" found in body text
+    # or a schema `telephone` field). Only matters for numbers without a
+    # country code; numbers written as "+91 98765 43210" are parsed correctly
+    # regardless of this setting. Defaults to India since that's the most
+    # common lead market for this tool; override per-run if auditing sites
+    # in another country.
+    default_phone_region: str = "IN"
 
     @property
     def screenshots_dir(self) -> str:
@@ -375,6 +394,45 @@ def looks_like_js_rendered_shell(html: str) -> bool:
 
 def needs_headless_render(html: str) -> bool:
     return looks_like_js_rendered_shell(html) or bool(JS_REDIRECT_PATTERN.search(html))
+
+
+PHONE_NUMBER_TYPE_NAMES = {
+    0: "FIXED_LINE", 1: "MOBILE", 2: "FIXED_LINE_OR_MOBILE", 3: "TOLL_FREE",
+    4: "PREMIUM_RATE", 5: "SHARED_COST", 6: "VOIP", 7: "PERSONAL_NUMBER",
+    8: "PAGER", 9: "UAN", 10: "VOICEMAIL", 27: "UNKNOWN",
+}
+
+
+def validate_phone_number(raw: str, default_region: str) -> dict[str, Any]:
+    """Parse and validate a phone number string with Google's libphonenumber
+    (via the `phonenumbers` package). Checks *format* validity (correct
+    length/pattern for its country and, for numbers with a country code,
+    a real assigned range) — it cannot confirm the number is actually in
+    service or reachable, since that requires a paid carrier-lookup API.
+
+    Returns {"checked": False} if the `phonenumbers` library isn't
+    installed, so callers can distinguish "not installed" from "checked
+    and invalid"."""
+    if not PHONENUMBERS_AVAILABLE:
+        return {"checked": False}
+    if not raw or not raw.strip():
+        return {"checked": True, "valid": False, "reason": "empty"}
+    try:
+        parsed = phonenumbers.parse(raw.strip(), default_region)
+    except phonenumbers.NumberParseException as exc:
+        return {"checked": True, "valid": False, "reason": str(exc)}
+
+    valid = phonenumbers.is_valid_number(parsed)
+    return {
+        "checked": True,
+        "valid": valid,
+        "possible": phonenumbers.is_possible_number(parsed),
+        "type": PHONE_NUMBER_TYPE_NAMES.get(
+            phonenumbers.number_type(parsed) if valid else -1, "UNKNOWN"
+        ),
+        "e164": phonenumbers.format_number(parsed, phonenumbers.PhoneNumberFormat.E164) if valid else None,
+        "national": phonenumbers.format_number(parsed, phonenumbers.PhoneNumberFormat.NATIONAL) if valid else None,
+    }
 
 
 def is_ignorable_link(url: str) -> bool:
@@ -1100,7 +1158,27 @@ class WebsiteAuditor:
                 fix="Wrap the phone number in a tel: link, especially in the header/footer.",
                 priority="MEDIUM",
             )
-        return {"detected": detected, "count": len(tel_links)}
+
+        invalid_numbers = []
+        for link in tel_links:
+            raw_number = link["href"].split(":", 1)[-1]
+            validation = validate_phone_number(raw_number, self.config.default_phone_region)
+            if validation.get("checked") and not validation.get("valid"):
+                invalid_numbers.append(raw_number)
+        if invalid_numbers:
+            sample = ", ".join(invalid_numbers[:3])
+            self._add_issue(
+                category="Conversion",
+                problem="One or more tel: links don't contain a valid, dialable phone number.",
+                evidence=f"{len(invalid_numbers)} of {len(tel_links)} tel: link(s) failed validation, "
+                         f"e.g. \"{sample}\" (checked against default region "
+                         f"'{self.config.default_phone_region}').",
+                why_it_matters="A tap-to-call link with a malformed number fails silently on mobile — "
+                               "visitors get a dialer error instead of reaching the business.",
+                fix="Fix the number(s) in the tel: href, e.g. tel:+919876543210 with the full country code.",
+                priority="HIGH",
+            )
+        return {"detected": detected, "count": len(tel_links), "invalid_count": len(invalid_numbers)}
 
     def _detect_trust_signals(self, soup: BeautifulSoup, schema: dict[str, Any]) -> dict[str, Any]:
         body_text = soup.get_text(" ", strip=True).lower()
@@ -1208,10 +1286,53 @@ class WebsiteAuditor:
             for node in self._flatten_jsonld(data):
                 self._inspect_jsonld_node(node, result, business_info)
 
+        body_phone_match = None
         if not result["phone_found"]:
             body_text = soup.get_text(" ", strip=True)
-            if PHONE_PATTERN.search(body_text):
+            for candidate in PHONE_PATTERN.finditer(body_text):
+                start, end = candidate.span()
+                # Reject matches that are really a fragment of a longer
+                # dot-separated digit chain — an IPv4 address (103.217.238.55)
+                # or a version string (Chrome/103.217.238) matches the
+                # phone-shaped regex on 3 of its groups just as well as a
+                # real "103.217.238" phone number would. If there's another
+                # ".digit" immediately before or after the match, it's part
+                # of something longer than a phone number and gets skipped.
+                before = body_text[max(0, start - 2):start]
+                after = body_text[end:end + 2]
+                if re.search(r"\.\d$", before) or re.search(r"^\.\d", after):
+                    continue
+                body_phone_match = candidate
+                break
+            if body_phone_match:
                 result["phone_found"] = True
+                business_info["telephone"] = body_phone_match.group(0).strip()
+
+        phone_validation = {"checked": False}
+        if business_info.get("telephone"):
+            phone_validation = validate_phone_number(
+                business_info["telephone"], self.config.default_phone_region
+            )
+            business_info["telephone_valid"] = phone_validation.get("valid") if phone_validation["checked"] else None
+            if phone_validation.get("valid"):
+                # Prefer the library's clean national-format rendering over
+                # whatever raw punctuation/spacing the site used.
+                business_info["telephone"] = phone_validation.get("national") or business_info["telephone"]
+        result["phone_validation"] = phone_validation
+
+        if phone_validation.get("checked") and business_info.get("telephone") and not phone_validation.get("valid"):
+            self._add_issue(
+                category="Local SEO",
+                problem="Listed phone number doesn't look like a valid, dialable number.",
+                evidence=f"\"{business_info['telephone']}\" failed libphonenumber validation "
+                         f"(parsed against default region '{self.config.default_phone_region}'): "
+                         f"{phone_validation.get('reason', 'not a valid number for its country')}.",
+                why_it_matters="A malformed phone number silently loses every call-based lead — "
+                               "visitors either can't dial it or reach a wrong/disconnected number.",
+                fix="Correct the phone number shown on the site and in its schema/tel: link "
+                    "(include the country code if the site serves visitors outside its home country).",
+                priority="HIGH",
+            )
 
         if not result["schema_found"]:
             self._add_issue(
@@ -1255,16 +1376,23 @@ class WebsiteAuditor:
                     result["schema_types"].append(type_name)
         if node.get("telephone"):
             result["phone_found"] = True
-            business_info.setdefault("telephone", node["telephone"])
+            # NOTE: business_info is pre-populated with {"telephone": None, ...},
+            # so plain .setdefault() would never fire (the key already exists).
+            # Only fill it in if it's still unset, same intent as setdefault
+            # but working correctly against a dict whose keys start as None.
+            if not business_info.get("telephone"):
+                business_info["telephone"] = node["telephone"]
         if node.get("address"):
             result["address_found"] = True
             address = node["address"]
             if isinstance(address, dict):
                 parts = [address.get(k) for k in
                          ("streetAddress", "addressLocality", "addressRegion", "postalCode")]
-                business_info.setdefault("address", ", ".join(p for p in parts if p))
-            elif isinstance(address, str):
-                business_info.setdefault("address", address)
+                formatted = ", ".join(p for p in parts if p)
+                if formatted and not business_info.get("address"):
+                    business_info["address"] = formatted
+            elif isinstance(address, str) and not business_info.get("address"):
+                business_info["address"] = address
         if node.get("name") and not business_info.get("name"):
             business_info["name"] = node["name"]
         if node.get("aggregateRating"):
@@ -1286,6 +1414,7 @@ class WebsiteAuditor:
         return {
             "name": name,
             "telephone": schema_business_info.get("telephone"),
+            "telephone_valid": schema_business_info.get("telephone_valid"),
             "address": schema_business_info.get("address"),
         }
 
@@ -1531,7 +1660,9 @@ def print_report(result: AuditResult) -> None:
     if result.business_info.get("name"):
         print(f"\nBusiness: {result.business_info['name']}")
     if result.business_info.get("telephone"):
-        print(f"Phone: {result.business_info['telephone']}")
+        valid = result.business_info.get("telephone_valid")
+        valid_note = "" if valid is None else (" [VALID]" if valid else " [INVALID — see issues]")
+        print(f"Phone: {result.business_info['telephone']}{valid_note}")
     if result.business_info.get("address"):
         print(f"Address: {result.business_info['address']}")
 
@@ -1648,9 +1779,11 @@ def save_html_report(path: str, result: AuditResult) -> None:
     )
 
     business = result.business_info
+    phone_valid = business.get("telephone_valid")
+    phone_note = "" if phone_valid is None else (" ✓ valid" if phone_valid else " ⚠ invalid")
     business_html = (
         f"<p><strong>Business:</strong> {business.get('name') or '—'} | "
-        f"<strong>Phone:</strong> {business.get('telephone') or '—'} | "
+        f"<strong>Phone:</strong> {business.get('telephone') or '—'}{phone_note} | "
         f"<strong>Address:</strong> {business.get('address') or '—'}</p>"
     )
 
@@ -1737,6 +1870,10 @@ def build_arg_parser() -> argparse.ArgumentParser:
                          help=f"Max internal links to crawl (default: {DEFAULT_MAX_LINKS})")
     parser.add_argument("--out", default=os.path.join(os.getcwd(), "reports"),
                          help="Output directory for reports/screenshots (default: ./reports)")
+    parser.add_argument("--phone-region", default="IN",
+                         help="ISO 3166-1 alpha-2 region (e.g. IN, US, GB) used to validate phone "
+                              "numbers that have no country code (default: IN). Numbers written "
+                              "with a leading + are validated correctly regardless.")
     parser.add_argument("--verbose", "-v", action="store_true", help="Debug-level logging")
     return parser
 
@@ -1813,6 +1950,7 @@ def main(argv: list[str] | None = None) -> int:
         reports_dir=args.out,
         skip_lighthouse=args.skip_lighthouse,
         lighthouse_timeout=args.lighthouse_timeout,
+        default_phone_region=args.phone_region,
     )
 
     try:

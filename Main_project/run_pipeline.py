@@ -37,8 +37,9 @@ import pandas as pd
 # Everything you're likely to tweak lives here, in one place.
 # =========================================================================
 
-CSV_PATH = r"F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\lead scaping data\handyman.csv"
-ROW_NUMBER = 40          # 1 = first row, 2 = second row, etc.
+CSV_PATH = r"F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\lead scaping data\fitness_ai_automation_leads.csv"
+ROW_NUMBER = 44
+# 1 = first row, 2 = second row, etc.
 BASE_DEPTH = 5          # gosom scroll depth baseline; scaled by `priority` per row
 EXIT_ON_INACTIVITY = "3m"
 WORK_DIR = os.path.abspath("gosom_run")             # per-run raw scrape + per-row output files
@@ -55,6 +56,16 @@ MASTER_EXCEL_PATH = os.path.abspath("master_qualified_leads.xlsx")
 CONTACTED_LEADS_PATH = os.path.abspath("contacted_leads.csv")
 
 PRIORITY_DEPTH_MAP = {"high": 7, "medium": 5, "low": 3}
+
+# A handful of common informal country names that trip up pycountry's
+# fuzzy matcher (it handles most spellings/variants fine on its own --
+# "USA", "South Korea", "Vietnam", etc. all resolve correctly without
+# help). Add an entry here if you scrape a country whose name your
+# criteria CSV writes in a way that logs a "couldn't map country" note.
+COUNTRY_NAME_ALIASES = {
+    "uk": "united kingdom",
+    "ivory coast": "cote d'ivoire",
+}
 
 # Fallback cap used when a criteria row leaves max_leads blank.
 # Prevents an unbounded "qualified leads" file from shipping silently.
@@ -184,6 +195,59 @@ def resolve_column(df, candidates):
         if c in df.columns:
             return c
     return None
+
+
+# Cache country-string -> ISO code lookups (pycountry's fuzzy search
+# isn't free) and only print the "couldn't map" note once per distinct
+# unmapped country string, not once per row.
+_PHONE_REGION_CACHE: dict[str, str] = {}
+_PHONE_REGION_WARNED: set[str] = set()
+
+
+def resolve_phone_region(country_raw):
+    """Map a criteria row's free-text `country` value (e.g. "Singapore",
+    "USA", "sg") to the ISO 3166-1 alpha-2 code (e.g. "SG", "US") that
+    batch_website_audit.py's --phone-region / per-row phone_region
+    column expects for phone-number validation.
+
+    Returns "" (with a one-time console note) if the country is blank
+    or can't be confidently mapped -- callers should treat that as
+    "unknown region", not crash on it. Requires `pip install pycountry`;
+    without it, this always returns "" and prints one note explaining why.
+    """
+    if not country_raw or not str(country_raw).strip():
+        return ""
+    key = str(country_raw).strip()
+    if key in _PHONE_REGION_CACHE:
+        return _PHONE_REGION_CACHE[key]
+
+    normalized = COUNTRY_NAME_ALIASES.get(key.lower(), key)
+    code = ""
+    try:
+        import pycountry
+        if len(normalized) == 2 and normalized.isalpha():
+            match = pycountry.countries.get(alpha_2=normalized.upper())
+            if match:
+                code = match.alpha_2
+        if not code:
+            match = pycountry.countries.search_fuzzy(normalized)[0]
+            code = match.alpha_2
+    except ImportError:
+        if "pycountry" not in _PHONE_REGION_WARNED:
+            print("Note: `pip install pycountry` to auto-fill the 'phone_region' column "
+                  "from your criteria CSV's country field -- left blank without it.")
+            _PHONE_REGION_WARNED.add("pycountry")
+    except (LookupError, IndexError):
+        pass
+
+    if not code and key not in _PHONE_REGION_WARNED:
+        print(f"Note: couldn't map country '{key}' to an ISO region code for phone "
+              f"validation -- 'phone_region' left blank for these leads. Add an entry "
+              f"to COUNTRY_NAME_ALIASES above if you'll scrape this country regularly.")
+        _PHONE_REGION_WARNED.add(key)
+
+    _PHONE_REGION_CACHE[key] = code
+    return code
 
 
 # =========================================================================
@@ -932,10 +996,27 @@ def run_one_row(row_number):
 
     qualified = filter_leads(raw_results_path, row, master_history_cids, contacted_ids)
 
+    # Tag every lead with the ISO region code for its source row's
+    # `country`, so a later `batch_website_audit.py` run on a
+    # multi-country master/output file can validate each lead's phone
+    # number against the RIGHT country automatically (per-row), instead
+    # of relying on one global --phone-region flag that only suits a
+    # single-country batch.
+    if not qualified.empty:
+        qualified = qualified.copy()
+        qualified["phone_region"] = resolve_phone_region(row.get("country"))
+
     master_df = upsert_master_csv(qualified, row, row_number, MASTER_CSV_PATH)
     write_excel(master_df, MASTER_EXCEL_PATH, url_labels={"website", "link"})
 
     display_df = reshape_output_columns(qualified, row)
+    if not display_df.empty and "phone_region" in qualified.columns:
+        # reshape_output_columns rebuilds the frame from scratch when
+        # output_columns is customized, which would otherwise silently
+        # drop this column unless the user explicitly requests it --
+        # keep it always, since it's what makes the audit step work
+        # correctly for mixed-country batches.
+        display_df["phone_region"] = qualified["phone_region"]
     row_csv_path = os.path.join(WORK_DIR, f"qualified_leads_row{row_number}.csv")
     row_xlsx_path = os.path.join(WORK_DIR, f"qualified_leads_row{row_number}.xlsx")
     display_df.to_csv(row_csv_path, index=False)
