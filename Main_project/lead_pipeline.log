@@ -591,3 +591,333 @@
 2026-09-21 21:43:01 [INFO] Processing: Fitness First Bond St Platinum
 2026-09-21 21:43:05 [WARNING]    retrying in 1.0s (attempt 1/5)
 2026-09-21 21:43:09 [WARNING]    retrying in 889.0s (attempt 1/5)
+2026-09-29 09:37:35 [ERROR] Groq rejected the API key gsk_...GHaM (HTTP 401). Create a new key at console.groq.com/keys and put it in a .env file next to this script as GROQ_API_KEY=gsk_... (no quotes/spaces).
+2026-09-29 09:38:24 [ERROR] Groq rejected the API key gsk_...lHFI (HTTP 401). Create a new key at console.groq.com/keys and put it in a .env file next to this script as GROQ_API_KEY=gsk_... (no quotes/spaces).
+2026-09-29 09:39:12 [ERROR] Groq rejected the API key gsk_...lHFI (HTTP 401). Create a new key at console.groq.com/keys and put it in a .env file next to this script as GROQ_API_KEY=gsk_... (no quotes/spaces).
+2026-09-29 09:39:37 [ERROR] Groq rejected the API key gsk_...1l4H (HTTP 401). Create a new key at console.groq.com/keys and put it in a .env file next to this script as GROQ_API_KEY=gsk_... (no quotes/spaces).
+2026-09-29 09:40:46 [INFO] Groq key OK (gsk_...UMtT).
+2026-09-29 09:40:46 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row44_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row44_audited_qualified.csv ai=groq resume=False limit=None
+2026-09-29 09:40:46 [INFO] Loaded 126 rows -> 103 after dedupe
+2026-09-29 09:40:46 [INFO] Processing: Crunch Fitness Mortdale
+2026-09-29 09:41:01 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:41:01 [INFO] Processing: One Playground Surry Hills
+2026-09-29 09:41:14 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:41:14 [INFO] Processing: Anytime Fitness Surry Hills
+2026-09-29 09:41:19 [WARNING]    retrying in 9.0s (attempt 1/5)
+2026-09-29 09:41:38 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:41:38 [INFO] Processing: F45 Training Woolloomooloo
+2026-09-29 09:41:43 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-29 09:42:05 [INFO]    -> QUALIFIED / COLD
+2026-09-29 09:42:05 [INFO] Processing: Anytime Fitness Hyde Park
+2026-09-29 09:42:06 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-29 09:42:13 [WARNING]    retrying in 16.0s (attempt 1/5)
+2026-09-29 09:42:37 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:42:37 [INFO] Processing: ONYX Gym & Fitness
+2026-09-29 09:42:42 [WARNING]    retrying in 16.0s (attempt 1/5)
+2026-09-29 09:42:58 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-29 09:43:08 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:43:08 [INFO] Processing: Camperdown Fitness
+2026-09-29 09:43:11 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-29 09:43:13 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-29 09:43:18 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-29 09:43:41 [INFO]    -> QUALIFIED / COLD
+2026-09-29 09:43:41 [INFO] Processing: Fitness First Kings Cross Platinum
+2026-09-29 09:43:45 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-29 09:43:51 [WARNING]    retrying in 16.0s (attempt 1/5)
+2026-09-29 09:44:16 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:44:16 [INFO] Processing: City Gym Sydney
+2026-09-29 09:44:20 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-29 09:44:26 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-09-29 09:44:45 [INFO]    -> QUALIFIED / WARM
+2026-09-29 09:44:45 [INFO] Processing: Anytime Fitness Redfern
+2026-09-29 09:44:48 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-29 09:44:54 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-29 09:45:17 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:45:17 [INFO] Processing: Flow Athletic
+2026-09-29 09:45:22 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-29 09:45:26 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-29 09:45:46 [INFO]    -> QUALIFIED / WARM
+2026-09-29 09:45:46 [INFO] Processing: SOMA Health & Wellness Club
+2026-09-29 09:45:51 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-29 09:45:55 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-29 09:46:09 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-29 09:46:18 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:46:18 [INFO] Processing: Premier Health & Fitness
+2026-09-29 09:46:26 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-29 09:46:49 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:46:49 [INFO] Processing: 肌肌练大大
+2026-09-29 09:46:54 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-09-29 09:47:13 [INFO]    -> QUALIFIED / WARM
+2026-09-29 09:47:13 [INFO] Processing: Flat White Fitness
+2026-09-29 09:47:51 [INFO]    -> QUALIFIED / WARM
+2026-09-29 09:47:51 [INFO] Processing: Breakthrough Fitness Australia
+2026-09-29 09:47:55 [WARNING]    retrying in 9.0s (attempt 1/5)
+2026-09-29 09:48:05 [WARNING]    retrying in 2.0s (attempt 2/5)
+2026-09-29 09:48:16 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:48:16 [INFO] Processing: 168 Sydney City
+2026-09-29 09:48:19 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-09-29 09:48:23 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-29 09:48:48 [INFO]    -> QUALIFIED / WARM
+2026-09-29 09:48:48 [INFO] Processing: RIG Movement
+2026-09-29 09:48:51 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-29 09:49:12 [INFO]    -> QUALIFIED / WARM
+2026-09-29 09:49:12 [INFO] Processing: BFT Town Hall
+2026-09-29 09:49:19 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-29 09:49:24 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-29 09:49:34 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:49:34 [INFO] Processing: Plus Fitness 24/7
+2026-09-29 09:49:37 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-09-29 09:49:53 [INFO]    -> QUALIFIED / COLD
+2026-09-29 09:49:53 [INFO] Processing: CrossFit New Beginning
+2026-09-29 09:50:00 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-29 09:50:15 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:50:15 [INFO] Processing: AGOGA
+2026-09-29 09:50:16 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-29 09:50:24 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-09-29 09:50:45 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:50:45 [INFO] Processing: F45 Training Darlinghurst
+2026-09-29 09:50:47 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-29 09:50:53 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-29 09:51:07 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-29 09:51:16 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:51:16 [INFO] Processing: Be Athletic City
+2026-09-29 09:51:18 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-29 09:51:24 [WARNING]    retrying in 9.0s (attempt 1/5)
+2026-09-29 09:51:42 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:51:42 [INFO] Processing: CFH Fitness - Home of CrossFit Hurstville
+2026-09-29 09:51:43 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-29 09:51:50 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-29 09:52:14 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:52:14 [INFO] Processing: CrossFit Narellan
+2026-09-29 09:52:19 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-29 09:52:38 [INFO]    -> QUALIFIED / WARM
+2026-09-29 09:52:38 [INFO] Processing: S30 Surry Hills
+2026-09-29 09:52:42 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-09-29 09:52:58 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:52:58 [INFO] Processing: G-Force CrossFit
+2026-09-29 09:53:08 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-29 09:53:21 [INFO]    -> QUALIFIED / WARM
+2026-09-29 09:53:21 [INFO] Processing: Soultrain
+2026-09-29 09:53:26 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-29 09:53:38 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:53:38 [INFO] Processing: Kindred Training
+2026-09-29 09:53:47 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-09-29 09:54:06 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:54:06 [INFO] Processing: InnerWest CrossFit
+2026-09-29 09:54:11 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-29 09:54:14 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-29 09:54:24 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:54:24 [INFO] Processing: Snap Fitness 24/7 Sydney City
+2026-09-29 09:54:28 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-09-29 09:54:44 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:54:44 [INFO] Processing: Steed Fitness Chippendale
+2026-09-29 09:54:46 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-09-29 09:54:55 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-29 09:55:15 [INFO]    -> QUALIFIED / WARM
+2026-09-29 09:55:15 [INFO] Processing: CrossFit Marrickville
+2026-09-29 09:55:21 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-29 09:55:34 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:55:34 [INFO] Processing: BBB Gym Waterloo
+2026-09-29 09:55:40 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-29 09:55:57 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:55:57 [INFO] Processing: Orangetheory Fitness Mosman
+2026-09-29 09:55:58 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-29 09:56:07 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-29 09:56:31 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:56:31 [INFO] Processing: Primal NRG Fitness
+2026-09-29 09:56:36 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-29 09:56:53 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:56:53 [INFO] Processing: Rise & Conquer CrossFit
+2026-09-29 09:56:55 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-29 09:57:03 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-29 09:57:19 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-29 09:57:29 [INFO]    -> QUALIFIED / WARM
+2026-09-29 09:57:29 [INFO] Processing: The Mona Gym | Functional Training Gym & CrossFit Mona Vale
+2026-09-29 09:57:35 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-29 09:57:51 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:57:51 [INFO] Processing: All Grit CrossFit
+2026-09-29 09:57:53 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-29 09:57:56 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-29 09:57:59 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-29 09:58:22 [INFO]    -> QUALIFIED / WARM
+2026-09-29 09:58:22 [INFO] Processing: Creature Fitness Bondi Junction
+2026-09-29 09:58:23 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-29 09:58:30 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-29 09:58:50 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:58:50 [INFO] Processing: NYF GYM
+2026-09-29 09:58:52 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-29 09:58:59 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-09-29 09:59:22 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:59:22 [INFO] Processing: CrossFit Training & Group Fitness in Balmain – Accelerate Strength
+2026-09-29 09:59:26 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-09-29 09:59:47 [INFO]    -> QUALIFIED / HOT
+2026-09-29 09:59:47 [INFO] Processing: Berryfit sydney
+2026-09-29 09:59:48 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-29 09:59:53 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-09-29 10:00:17 [INFO]    -> QUALIFIED / HOT
+2026-09-29 10:00:17 [INFO] Processing: Fitillion: Personalised Group Fitness
+2026-09-29 10:00:18 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-29 10:00:25 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-09-29 10:00:50 [INFO]    -> QUALIFIED / WARM
+2026-09-29 10:00:50 [INFO] Processing: SOHO Gym + Recovery
+2026-09-29 10:00:56 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-29 10:01:09 [INFO]    -> QUALIFIED / HOT
+2026-09-29 10:01:09 [INFO] Processing: The Gym Condell Park | Crossfit & Hyrox
+2026-09-29 10:01:14 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-09-29 10:01:19 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-09-29 10:01:37 [INFO]    -> QUALIFIED / WARM
+2026-09-29 10:01:37 [INFO] Processing: CrossFit Never Quit
+2026-09-29 10:01:42 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-29 10:01:46 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-29 10:01:56 [INFO]    -> QUALIFIED / HOT
+2026-09-29 10:01:56 [INFO] Processing: Prime Strength
+2026-09-29 10:02:16 [INFO]    -> QUALIFIED / HOT
+2026-09-29 10:02:16 [INFO] Processing: South West Strength & Conditioning
+2026-09-29 10:02:23 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-29 10:02:35 [INFO]    -> QUALIFIED / WARM
+2026-09-29 10:02:35 [INFO] Processing: Botany Fitness Performance Centre
+2026-09-29 10:02:41 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-09-29 10:02:56 [INFO]    -> QUALIFIED / WARM
+2026-09-29 10:02:56 [INFO] Processing: HIRT club
+2026-09-29 10:03:01 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-09-29 10:03:05 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-29 10:03:15 [INFO]    -> QUALIFIED / HOT
+2026-09-29 10:03:15 [INFO] Processing: PARC Fitness
+2026-09-29 10:03:21 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-29 10:03:38 [INFO]    -> QUALIFIED / HOT
+2026-09-29 10:03:38 [INFO] Processing: Play Fitness and Performance
+2026-09-29 10:03:41 [WARNING]    retrying in 8.0s (attempt 1/5)
+2026-09-29 10:03:59 [INFO]    -> QUALIFIED / HOT
+2026-09-29 10:03:59 [INFO] Processing: The Training Collective
+2026-09-29 10:04:03 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-09-29 10:04:24 [INFO]    -> QUALIFIED / HOT
+2026-09-29 10:04:24 [INFO] Processing: 98 Gym Riley Street
+2026-09-29 10:04:25 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-09-29 10:04:32 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-09-29 10:04:42 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-29 10:04:52 [INFO]    -> QUALIFIED / HOT
+2026-09-29 10:04:52 [INFO] Processing: Ultimate Fitness Centre - 305 Kent & 120 Sussex St Sydney
+2026-09-29 10:04:56 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-09-29 10:05:12 [INFO]    -> QUALIFIED / HOT
+2026-09-29 10:05:12 [INFO] Processing: The Gym
+2026-09-29 10:05:20 [WARNING]    retrying in 343.0s (attempt 1/5)
+2026-09-29 10:11:13 [INFO]    -> QUALIFIED / HOT
+2026-09-29 10:11:13 [INFO] Processing: Feel Good Health and Performance
+2026-09-29 10:11:18 [WARNING]    retrying in 655.0s (attempt 1/5)
+2026-09-29 10:22:13 [WARNING]    retrying in 15.0s (attempt 2/5)
+2026-09-29 10:22:38 [INFO]    -> QUALIFIED / WARM
+2026-09-29 10:22:38 [INFO] Processing: CrossFit Active
+2026-09-29 10:22:41 [WARNING]    retrying in 543.0s (attempt 1/5)
+2026-09-29 10:31:44 [WARNING]    retrying in 7.0s (attempt 2/5)
+2026-09-29 10:31:54 [WARNING]    retrying in 863.0s (attempt 1/5)
+2026-09-29 10:46:17 [WARNING]    retrying in 17.0s (attempt 2/5)
+2026-09-29 10:46:43 [INFO]    -> QUALIFIED / WARM
+2026-09-29 10:46:43 [INFO] Processing: Total Conditioning Group Fitness & Strength Gym - Inner West Sydney
+2026-09-29 10:46:45 [WARNING]    retrying in 804.0s (attempt 1/5)
+2026-09-29 11:00:11 [WARNING]    retrying in 753.0s (attempt 1/5)
+2026-09-29 11:12:45 [WARNING]    retrying in 8.0s (attempt 2/5)
+2026-09-29 11:12:53 [WARNING]    retrying in 10.0s (attempt 3/5)
+2026-09-29 11:13:12 [INFO]    -> QUALIFIED / HOT
+2026-09-29 11:13:12 [INFO] Processing: The Body Factory
+2026-09-29 11:13:16 [WARNING]    retrying in 660.0s (attempt 1/5)
+2026-09-29 12:45:59 [INFO]    -> REVIEW / COLD
+2026-09-29 12:45:59 [INFO] Processing: Rec Gym Kirrawee
+2026-09-29 12:46:14 [INFO]    -> QUALIFIED / HOT
+2026-09-29 12:46:15 [INFO] Processing: Crossfit 2010
+2026-09-29 12:46:15 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-09-29 12:46:15 [INFO] Processing: CrossFit Valve
+2026-09-29 12:46:30 [INFO]    -> QUALIFIED / HOT
+2026-09-29 12:46:30 [INFO] Processing: Flat White CrossFit Strathfield
+2026-09-29 12:46:35 [WARNING]    retrying in 914.0s (attempt 1/5)
+2026-09-29 13:01:59 [INFO]    -> QUALIFIED / HOT
+2026-09-29 13:01:59 [INFO] Processing: Southend CrossFit Maroubra
+2026-09-29 13:02:01 [WARNING]    retrying in 855.0s (attempt 1/5)
+2026-09-29 13:16:19 [WARNING]    retrying in 699.0s (attempt 1/5)
+2026-09-29 13:28:08 [INFO]    -> QUALIFIED / WARM
+2026-09-29 13:28:08 [INFO] Processing: MaxFit Strength & Conditioning Gym Rouse Hill
+2026-09-29 13:28:12 [WARNING]    retrying in 414.0s (attempt 1/5)
+2026-09-29 13:35:09 [WARNING]    retrying in 850.0s (attempt 1/5)
+2026-09-29 13:49:19 [WARNING]    retrying in 23.0s (attempt 2/5)
+2026-09-29 13:49:52 [INFO]    -> QUALIFIED / WARM
+2026-09-29 13:49:52 [INFO] Processing: Aspire Strength & Conditioning
+2026-09-29 13:49:58 [WARNING]    retrying in 530.0s (attempt 1/5)
+2026-09-29 13:58:48 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-09-29 13:58:53 [WARNING]    retrying in 853.0s (attempt 1/5)
+2026-09-29 14:13:06 [WARNING]    retrying in 13.0s (attempt 2/5)
+2026-09-29 14:13:28 [INFO]    -> QUALIFIED / HOT
+2026-09-29 14:13:28 [INFO] Processing: CrossFit Parramatta
+2026-09-29 14:13:35 [WARNING]    retrying in 535.0s (attempt 1/5)
+2026-09-29 14:22:31 [WARNING]    retrying in 16.0s (attempt 2/5)
+2026-09-29 14:22:50 [WARNING]    retrying in 864.0s (attempt 1/5)
+2026-09-29 14:37:24 [INFO]    -> QUALIFIED / HOT
+2026-09-29 14:37:24 [INFO] Processing: CONDITN. Training Martin Place
+2026-09-29 14:37:25 [WARNING]    retrying in 897.0s (attempt 1/5)
+2026-09-29 14:52:27 [WARNING]    retrying in 498.0s (attempt 1/5)
+2026-09-29 15:00:46 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-29 15:00:58 [INFO]    -> QUALIFIED / HOT
+2026-09-29 15:00:58 [INFO] Processing: Performance Playground
+2026-09-29 15:01:00 [WARNING]    retrying in 540.0s (attempt 1/5)
+2026-09-29 15:10:00 [WARNING]    retrying in 4.0s (attempt 2/5)
+2026-09-29 15:10:05 [WARNING]    retrying in 4.0s (attempt 3/5)
+2026-09-29 15:10:12 [WARNING]    retrying in 848.0s (attempt 1/5)
+2026-09-29 15:24:20 [WARNING]    retrying in 14.0s (attempt 2/5)
+2026-09-29 15:24:35 [WARNING]    retrying in 11.0s (attempt 3/5)
+2026-09-29 15:24:55 [INFO]    -> QUALIFIED / HOT
+2026-09-29 15:24:55 [INFO] Processing: CrossFit Oran Park
+2026-09-29 15:24:59 [WARNING]    retrying in 563.0s (attempt 1/5)
+2026-09-29 15:34:26 [WARNING]    retrying in 865.0s (attempt 1/5)
+2026-09-29 15:49:00 [INFO]    -> QUALIFIED / WARM
+2026-09-29 15:49:00 [INFO] Processing: CrossFit Geo
+2026-09-29 15:49:05 [WARNING]    retrying in 560.0s (attempt 1/5)
+2026-09-29 15:58:28 [WARNING]    retrying in 858.0s (attempt 1/5)
+2026-09-29 16:12:54 [INFO]    -> QUALIFIED / HOT
+2026-09-29 16:12:54 [INFO] Processing: Generation Fitness
+2026-09-29 16:12:56 [WARNING]    retrying in 551.0s (attempt 1/5)
+2026-09-29 16:22:11 [WARNING]    retrying in 857.0s (attempt 1/5)
+2026-09-29 16:36:39 [INFO]    -> QUALIFIED / HOT
+2026-09-29 16:36:39 [INFO] Processing: Everyday Performance Training
+2026-09-29 16:36:43 [WARNING]    retrying in 541.0s (attempt 1/5)
+2026-09-29 16:45:44 [WARNING]    retrying in 7.0s (attempt 2/5)
+2026-09-29 16:45:54 [WARNING]    retrying in 857.0s (attempt 1/5)
+2026-09-29 17:00:12 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-09-29 17:00:24 [INFO]    -> QUALIFIED / HOT
+2026-09-29 17:00:24 [INFO] Processing: FORT Strength and Conditioning Gym
+2026-09-29 17:00:27 [WARNING]    retrying in 567.0s (attempt 1/5)
+2026-09-29 17:09:57 [WARNING]    retrying in 853.0s (attempt 1/5)
+2026-09-29 17:24:10 [WARNING]    retrying in 20.0s (attempt 2/5)
+2026-09-29 17:24:40 [INFO]    -> QUALIFIED / HOT
+2026-09-29 17:24:40 [INFO] Processing: CrossFit Conditioning Narrabeen
+2026-09-29 17:24:40 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-09-29 17:24:40 [INFO] Processing: CrossFit Living The Dream
+2026-09-29 17:24:42 [WARNING]    retrying in 566.0s (attempt 1/5)
+2026-09-29 17:34:11 [WARNING]    retrying in 872.0s (attempt 1/5)
+2026-09-29 17:48:52 [INFO]    -> QUALIFIED / WARM
+2026-09-29 17:48:52 [INFO] Processing: Salt Shed Training
+2026-09-29 17:48:54 [WARNING]    retrying in 786.0s (attempt 1/5)
+2026-09-29 18:02:03 [WARNING]    retrying in 798.0s (attempt 1/5)
+2026-09-29 18:15:30 [INFO]    -> QUALIFIED / HOT
+2026-09-29 18:15:30 [INFO] Processing: GREATER WEST HQ
+2026-09-29 18:15:35 [WARNING]    retrying in 539.0s (attempt 1/5)
+2026-09-29 18:24:35 [WARNING]    retrying in 19.0s (attempt 2/5)
+2026-09-29 18:24:56 [WARNING]    retrying in 872.0s (attempt 1/5)
+2026-09-29 18:39:37 [INFO]    -> QUALIFIED / HOT
+2026-09-29 18:39:37 [INFO] Processing: Nepean CrossFit
+2026-09-29 18:39:38 [WARNING]    retrying in 863.0s (attempt 1/5)
+2026-09-29 18:54:04 [WARNING]    retrying in 739.0s (attempt 1/5)
+2026-09-29 19:06:32 [INFO]    -> QUALIFIED / HOT
+2026-09-29 19:06:32 [INFO] Processing: MOVE METHOD SYDNEY
+2026-09-29 19:06:34 [WARNING]    retrying in 868.0s (attempt 1/5)
+2026-09-29 19:21:05 [WARNING]    retrying in 765.0s (attempt 1/5)
+2026-09-29 19:33:59 [INFO]    -> QUALIFIED / WARM
+2026-09-29 19:33:59 [INFO] Processing: Elite Functional Training
+2026-09-29 19:34:03 [WARNING]    retrying in 824.0s (attempt 1/5)
+2026-09-29 19:47:50 [WARNING]    retrying in 745.0s (attempt 1/5)
+2026-09-29 20:00:25 [INFO]    -> QUALIFIED / HOT
+2026-09-29 20:00:25 [INFO] Processing: Forte Training Club
+2026-09-29 20:00:28 [WARNING]    retrying in 710.0s (attempt 1/5)
+2026-09-29 20:12:21 [WARNING]    retrying in 860.0s (attempt 1/5)
+2026-09-29 20:26:42 [WARNING]    retrying in 12.0s (attempt 2/5)
+2026-09-29 20:27:04 [INFO]    -> QUALIFIED / HOT
+2026-09-29 20:27:04 [INFO] Processing: B.U Functional Fitness
+2026-09-29 20:27:10 [WARNING]    retrying in 816.0s (attempt 1/5)
+2026-09-29 20:40:49 [WARNING]    retrying in 665.0s (attempt 1/5)
