@@ -921,3 +921,135 @@
 2026-09-29 20:27:04 [INFO] Processing: B.U Functional Fitness
 2026-09-29 20:27:10 [WARNING]    retrying in 816.0s (attempt 1/5)
 2026-09-29 20:40:49 [WARNING]    retrying in 665.0s (attempt 1/5)
+2026-10-06 14:07:40 [INFO] Groq key OK (gsk_...UMtT).
+2026-10-06 14:07:40 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row48_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row48_audited_qualified.csv ai=groq resume=False limit=None
+2026-10-06 14:07:40 [INFO] Loaded 49 rows -> 35 after dedupe
+2026-10-06 14:07:40 [INFO] Processing: Anytime Fitness Haymarket
+2026-10-06 14:07:54 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:07:54 [INFO] Processing: Revo Fitness - Pitt St Sydney
+2026-10-06 14:08:08 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:08:08 [INFO] Processing: Anytime Fitness Hyde Park
+2026-10-06 14:08:13 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-10-06 14:08:33 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:08:33 [INFO] Processing: ONYX Gym & Fitness
+2026-10-06 14:08:37 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-10-06 14:08:45 [WARNING]    retrying in 17.0s (attempt 1/5)
+2026-10-06 14:09:11 [INFO]    -> QUALIFIED / WARM
+2026-10-06 14:09:11 [INFO] Processing: Gold's Gym
+2026-10-06 14:09:17 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-10-06 14:09:34 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:09:34 [INFO] Processing: Camperdown Fitness
+2026-10-06 14:09:40 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-10-06 14:09:50 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-10-06 14:10:02 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:10:02 [INFO] Processing: Fitness First Pitt St Platinum
+2026-10-06 14:10:08 [WARNING]    retrying in 17.0s (attempt 1/5)
+2026-10-06 14:10:34 [INFO]    -> QUALIFIED / WARM
+2026-10-06 14:10:34 [INFO] Processing: Virgin Active Pitt Street (MidCity Centre)
+2026-10-06 14:10:35 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-10-06 14:10:37 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-10-06 14:10:40 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-10-06 14:10:51 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-10-06 14:11:04 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:11:04 [INFO] Processing: Anytime Fitness Pyrmont
+2026-10-06 14:11:07 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-10-06 14:11:13 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-10-06 14:11:35 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:11:35 [INFO] Processing: Hardcore Gym
+2026-10-06 14:11:37 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-10-06 14:11:47 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-10-06 14:12:09 [INFO]    -> QUALIFIED / WARM
+2026-10-06 14:12:09 [INFO] Processing: SOMA Health & Wellness Club
+2026-10-06 14:12:13 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-10-06 14:12:16 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-10-06 14:12:38 [INFO]    -> QUALIFIED / COLD
+2026-10-06 14:12:38 [INFO] Processing: Premier Health & Fitness
+2026-10-06 14:12:44 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-10-06 14:12:49 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-10-06 14:13:13 [INFO]    -> QUALIFIED / WARM
+2026-10-06 14:13:13 [INFO] Processing: 168 Sydney City
+2026-10-06 14:13:17 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-10-06 14:13:20 [WARNING]    retrying in 16.0s (attempt 1/5)
+2026-10-06 14:13:47 [INFO]    -> QUALIFIED / WARM
+2026-10-06 14:13:47 [INFO] Processing: The Bunker Gym
+2026-10-06 14:13:48 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-10-06 14:13:55 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-10-06 14:14:08 [WARNING]    retrying in 2.0s (attempt 2/5)
+2026-10-06 14:14:20 [INFO]    -> QUALIFIED / WARM
+2026-10-06 14:14:20 [INFO] Processing: BFT Town Hall
+2026-10-06 14:14:26 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-10-06 14:14:32 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-10-06 14:14:42 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:14:42 [INFO] Processing: Plus Fitness 24/7
+2026-10-06 14:14:45 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-10-06 14:14:49 [WARNING]    retrying in 16.0s (attempt 1/5)
+2026-10-06 14:15:15 [INFO]    -> QUALIFIED / COLD
+2026-10-06 14:15:15 [INFO] Processing: Snap Fitness Pyrmont
+2026-10-06 14:15:20 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-10-06 14:15:36 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-10-06 14:15:46 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:15:46 [INFO] Processing: Movement District
+2026-10-06 14:15:54 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-10-06 14:16:14 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:16:14 [INFO] Processing: Be Athletic City
+2026-10-06 14:16:16 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-10-06 14:16:24 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-10-06 14:16:47 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:16:47 [INFO] Processing: Newtown Gym
+2026-10-06 14:16:58 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-10-06 14:17:13 [INFO]    -> QUALIFIED / COLD
+2026-10-06 14:17:13 [INFO] Processing: Steed Fitness Chippendale
+2026-10-06 14:17:17 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-10-06 14:17:36 [INFO]    -> QUALIFIED / WARM
+2026-10-06 14:17:36 [INFO] Processing: Sydney Strength Training
+2026-10-06 14:17:44 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-10-06 14:18:00 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:18:00 [INFO] Processing: NYF GYM
+2026-10-06 14:18:04 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-10-06 14:18:19 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:18:19 [INFO] Processing: SOHO Gym + Recovery
+2026-10-06 14:18:22 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-10-06 14:18:28 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-10-06 14:18:43 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-10-06 14:18:54 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:18:54 [INFO] Processing: Prime Strength
+2026-10-06 14:19:03 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-10-06 14:19:27 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:19:27 [INFO] Processing: 98 Gym Riley Street
+2026-10-06 14:19:29 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-10-06 14:19:37 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-10-06 14:19:59 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:19:59 [INFO] Processing: Ultimate Fitness Centre - 305 Kent & 120 Sussex St Sydney
+2026-10-06 14:20:03 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-10-06 14:20:18 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:20:18 [INFO] Processing: The Yard Gym Darlinghurst
+2026-10-06 14:20:22 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-10-06 14:20:41 [INFO]    -> QUALIFIED / WARM
+2026-10-06 14:20:41 [INFO] Processing: Affordable Fitness
+2026-10-06 14:20:45 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-10-06 14:20:50 [WARNING]    retrying in 16.0s (attempt 1/5)
+2026-10-06 14:21:15 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:21:15 [INFO] Processing: Genius Fitness Training
+2026-10-06 14:21:17 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-10-06 14:21:25 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-10-06 14:21:44 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:21:44 [INFO] Processing: Bondi Gym
+2026-10-06 14:21:45 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-10-06 14:21:53 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-10-06 14:22:17 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:22:17 [INFO] Processing: CONDITN. Training Martin Place
+2026-10-06 14:22:18 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-10-06 14:22:26 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-10-06 14:22:47 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:22:47 [INFO] Processing: Sydney Uni Sport & Fitness
+2026-10-06 14:22:47 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-06 14:22:47 [INFO] Processing: Edge Fit Surry Hills
+2026-10-06 14:22:51 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-10-06 14:22:53 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-10-06 14:22:57 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-10-06 14:23:21 [INFO]    -> QUALIFIED / HOT
+2026-10-06 14:23:21 [INFO] Processing: The Foundation Gym
+2026-10-06 14:23:26 [WARNING]    retrying in 11.0s (attempt 1/5)
+2026-10-06 14:23:45 [INFO]    -> QUALIFIED / WARM
+2026-10-06 14:23:45 [INFO] Done. Wrote 35 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row48_audited_qualified.csv
+2026-10-06 14:23:45 [INFO] Shortlisted 32 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
