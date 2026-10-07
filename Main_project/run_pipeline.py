@@ -42,7 +42,7 @@ import pandas as pd
 # Everything you're likely to tweak lives here, in one place.
 # =========================================================================
 
-CSV_PATH = r"F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\lead scaping data\fitness_ai_automation_leads.csv"
+CSV_PATH = r"F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\lead scaping data\fitness_ai_automation_leads_india.csv"
 ROW_NUMBER = 48
 # 1 = first row, 2 = second row, etc.
 BASE_DEPTH = 5          # gosom scroll depth baseline; scaled by `priority` per row
