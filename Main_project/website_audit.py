@@ -77,7 +77,7 @@ import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from typing import Any
-from urllib.parse import urljoin, urlparse
+from urllib.parse import unquote, urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -165,26 +165,47 @@ CHATBOT_SIGNATURES: dict[str, tuple[str, ...]] = {
     "LiveChat": ("cdn.livechatinc.com",),
     "Crisp": ("client.crisp.chat",),
     "Tawk.to": ("embed.tawk.to",),
-    "HubSpot Chat": ("js.hs-scripts.com", "js.usemessages.com"),
+    # js.hs-scripts.com is HubSpot's generic tracking script (present on
+    # sites with no chat at all) -- only usemessages = the actual chat widget.
+    "HubSpot Chat": ("js.usemessages.com", "hubspot-messages-iframe"),
     "Freshchat": ("wchat.freshchat.com", "freshchat.com"),
     "Olark": ("static.olark.com",),
     "ManyChat": ("widget.manychat.com",),
     "Chatbot.com": ("chatbot.com/widget",),
-    "Facebook Messenger Plugin": ("connect.facebook.net", "fb-customerchat"),
+    # connect.facebook.net is the generic FB SDK / Pixel loader, so it
+    # false-positived on any site with a Facebook Like button or pixel.
+    "Facebook Messenger Plugin": ("fb-customerchat", "customerchat", "m.me/"),
+    "Smartsupp": ("smartsuppchat.com",),
+    "JivoChat": ("code.jivosite.com", "jivo.chat"),
+    "Gupshup / WATI / Interakt": ("wati.io", "interakt.ai", "gupshup.io"),
 }
 
-WHATSAPP_SIGNATURES = ("wa.me/", "api.whatsapp.com/send")
+WHATSAPP_SIGNATURES = (
+    "wa.me/", "api.whatsapp.com/", "web.whatsapp.com/send", "wa.link/",
+    "whatsapp://send", "chat.whatsapp.com/",
+)
 
 APPOINTMENT_BOOKING_SIGNATURES = (
     "calendly.com", "acuityscheduling.com", "squareup.com/appointments",
     "booksy.com", "setmore.com", "appointlet.com", "simplybook.me",
     "vagaro.com", "fresha.com", "book-now", "book an appointment",
     "schedule an appointment", "schedule a consultation",
+    # Gyms / studios / salons book classes & trials rather than "appointments"
+    "book a free trial", "book your free trial", "book a trial", "free trial",
+    "book a class", "book your class", "book a session", "book now",
+    "book online", "class schedule", "mindbodyonline.com", "healcode",
+    "cultfit", "zenoti.com", "fitnessforce", "gymmaster", "glofox.com",
+    "booking-form", "online booking",
 )
 
 TRUST_SIGNAL_KEYWORDS = (
-    "testimonial", "testimonials", "review", "reviews", "verified by",
-    "as seen in", "5 star", "5-star", "★★★★★", "trusted by",
+    "testimonial", "testimonials", "reviews", "customer review", "client review",
+    "what our clients say", "what our members say", "success stories",
+    "verified by", "as seen in", "5 star", "5-star", "★★★★★", "trusted by",
+    "google reviews", "rated",
+)
+TRUST_SIGNAL_REGEX = re.compile(
+    r"(?<![a-z])(?:" + "|".join(re.escape(k) for k in TRUST_SIGNAL_KEYWORDS) + r")(?![a-z])"
 )
 
 SECURITY_HEADERS_CHECKED = (
@@ -201,7 +222,11 @@ LOCAL_BUSINESS_SCHEMA_TYPES = (
     "Restaurant", "Store", "Organization",
 )
 
-PHONE_PATTERN = re.compile(r"(\+?\d{1,3}[\s.-]?)?\(?\d{2,4}\)?[\s.-]\d{3,4}[\s.-]\d{3,4}")
+PHONE_PATTERN = re.compile(r"(?<![\d.])(\+?\d{1,3}[\s.-]?)?\(?\d{2,5}\)?[\s.-]?\d{3,5}[\s.-]?\d{3,5}(?![\d.])")
+EMAIL_PATTERN = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
+SOCIAL_DOMAINS = ("facebook.com", "instagram.com", "linkedin.com", "twitter.com", "x.com",
+                  "youtube.com", "youtu.be", "justdial.com")
+JUNK_EMAIL_FRAGMENTS = ("example.", "sentry", "wixpress", "@2x", ".png", ".jpg", ".webp", "yourdomain", "domain.com")
 
 # Cloudflare's email-obfuscation rewrites mailto: links into
 # /cdn-cgi/l/email-protection#<hex>. These intentionally 404 for any
@@ -265,6 +290,8 @@ class AuditConfig:
     lighthouse_timeout: int = DEFAULT_LIGHTHOUSE_TIMEOUT
     reports_dir: str = field(default_factory=lambda: os.path.join(os.getcwd(), "reports"))
     skip_lighthouse: bool = False
+    skip_link_crawl: bool = False
+    try_url_variants: bool = True   # on connection failure retry http:// and www./non-www
     # ISO 3166-1 alpha-2 region used to parse phone numbers that have no
     # leading "+country code" (e.g. a bare "98765 43210" found in body text
     # or a schema `telephone` field). Only matters for numbers without a
@@ -505,7 +532,8 @@ class WebsiteAuditor:
         seo = self._check_technical_seo(soup)
         schema, schema_business_info = self._check_local_business_schema(soup)
         trust_signals = self._detect_trust_signals(soup, schema)
-        links = self._crawl_internal_links(soup, response.text)
+        links = (self._empty_link_result() if cfg.skip_link_crawl
+                 else self._crawl_internal_links(soup, response.text))
         business_info = self._extract_business_info(soup, seo, open_graph, schema_business_info)
 
         untested_health = list(LIGHTHOUSE_ONLY_CATEGORIES) if lh_mobile is None else []
@@ -825,8 +853,43 @@ class WebsiteAuditor:
 
         return response, None
 
+    def _url_variants(self) -> list[str]:
+        """Alternative spellings of the URL to try if the given one won't
+        connect: flip www., then flip http/https. Many small-business sites
+        only answer on one of them, and a lead CSV rarely records which."""
+        p = urlparse(self.config.url)
+        host = p.netloc
+        alt_host = host[4:] if host.lower().startswith("www.") else "www." + host
+        rest = p.path or "/"
+        if p.query:
+            rest += "?" + p.query
+        variants = []
+        for scheme in (p.scheme, "http" if p.scheme == "https" else "https"):
+            for h in (host, alt_host):
+                u = f"{scheme}://{h}{rest}"
+                if u != self.config.url and u not in variants:
+                    variants.append(u)
+        return variants
+
+    def _get_with_fallback(self) -> requests.Response:
+        try:
+            return self.session.get(self.config.url, allow_redirects=True)
+        except requests.RequestException as first_exc:
+            if not self.config.try_url_variants:
+                raise
+            for variant in self._url_variants():
+                try:
+                    resp = self.session.get(variant, allow_redirects=True)
+                except requests.RequestException:
+                    continue
+                logger.info("Original URL failed (%s); %s works -- auditing that instead.",
+                            type(first_exc).__name__, variant)
+                self.config.url = variant
+                return resp
+            raise first_exc
+
     def _fetch_html_static(self) -> tuple[requests.Response, str | None]:
-        response = self.session.get(self.config.url, allow_redirects=True)
+        response = self._get_with_fallback()
         warning = self._detect_block_page(response)
 
         if warning:
@@ -1112,11 +1175,22 @@ class WebsiteAuditor:
             )
         return {"detected": detected}
 
+    @staticmethod
+    def _is_search_form(form) -> bool:
+        """WordPress/theme search boxes are <form>s with a text input and
+        used to be counted as lead-capture forms."""
+        attrs = " ".join(str(form.get(a, "")) for a in ("role", "class", "id", "action")).lower()
+        if "search" in attrs or form.find("input", attrs={"type": "search"}):
+            return True
+        names = " ".join(str(i.get("name", "")) for i in form.find_all("input")).lower()
+        return names.strip() in ("s", "q", "search", "query")
+
     def _detect_lead_capture_form(self, soup: BeautifulSoup) -> dict[str, Any]:
-        forms = soup.find_all("form")
+        forms = [f for f in soup.find_all("form") if not self._is_search_form(f)]
         meaningful_forms = [
             f for f in forms
-            if f.find(["input", "textarea"], attrs={"type": lambda t: t not in ("submit", "button", "hidden")})
+            if f.find(["input", "textarea"], attrs={"type": lambda t: t not in (
+                "submit", "button", "hidden", "search", "checkbox", "radio", "password")})
             or f.find("textarea")
         ]
         detected = bool(meaningful_forms)
@@ -1161,7 +1235,7 @@ class WebsiteAuditor:
 
         invalid_numbers = []
         for link in tel_links:
-            raw_number = link["href"].split(":", 1)[-1]
+            raw_number = unquote(link["href"].split(":", 1)[-1]).split("?")[0].strip()
             validation = validate_phone_number(raw_number, self.config.default_phone_region)
             if validation.get("checked") and not validation.get("valid"):
                 invalid_numbers.append(raw_number)
@@ -1182,7 +1256,7 @@ class WebsiteAuditor:
 
     def _detect_trust_signals(self, soup: BeautifulSoup, schema: dict[str, Any]) -> dict[str, Any]:
         body_text = soup.get_text(" ", strip=True).lower()
-        keyword_hit = any(keyword in body_text for keyword in TRUST_SIGNAL_KEYWORDS)
+        keyword_hit = bool(TRUST_SIGNAL_REGEX.search(body_text))
         has_rating_schema = schema.get("has_aggregate_rating", False)
         detected = keyword_hit or has_rating_schema
         if not detected:
@@ -1288,8 +1362,22 @@ class WebsiteAuditor:
 
         body_phone_match = None
         if not result["phone_found"]:
+            # 1) a tel: link is the most reliable phone on the page
+            for a in soup.find_all("a", href=re.compile(r"^tel:", re.IGNORECASE)):
+                raw = unquote(a["href"].split(":", 1)[-1]).split("?")[0].strip()
+                if raw:
+                    result["phone_found"] = True
+                    business_info["telephone"] = raw
+                    break
+        if not result["phone_found"]:
             body_text = soup.get_text(" ", strip=True)
             for candidate in PHONE_PATTERN.finditer(body_text):
+                # 2) otherwise take the first body match that libphonenumber
+                # accepts, not merely the first thing shaped like a phone
+                # (which produced merged junk like "55666 044-4743").
+                if PHONENUMBERS_AVAILABLE and not validate_phone_number(
+                        candidate.group(0), self.config.default_phone_region).get("valid"):
+                    continue
                 start, end = candidate.span()
                 # Reject matches that are really a fragment of a longer
                 # dot-separated digit chain — an IPv4 address (103.217.238.55)
@@ -1411,7 +1499,26 @@ class WebsiteAuditor:
         if not name and seo.get("title"):
             name = seo["title"].split("|")[0].split("-")[0].strip()
 
+        emails: list[str] = []
+        for a in soup.find_all("a", href=re.compile(r"^mailto:", re.IGNORECASE)):
+            emails.append(unquote(a["href"][7:]).split("?")[0].strip())
+        emails += EMAIL_PATTERN.findall(soup.get_text(" ", strip=True))
+        emails = list(dict.fromkeys(
+            e.lower() for e in emails
+            if e and not any(j in e.lower() for j in JUNK_EMAIL_FRAGMENTS)
+        ))[:5]
+        socials: list[str] = []
+        for a in soup.find_all("a", href=True):
+            href = a["href"].strip()
+            host = normalize_host(urlparse(href).netloc)
+            if any(host == d or host.endswith("." + d) for d in SOCIAL_DOMAINS) \
+                    and not any(x in href for x in ("sharer", "/share", "intent/tweet", "plugins/")):
+                socials.append(href.split("?")[0].rstrip("/"))
+        socials = list(dict.fromkeys(socials))[:6]
+
         return {
+            "emails": emails,
+            "social_links": socials,
             "name": name,
             "telephone": schema_business_info.get("telephone"),
             "telephone_valid": schema_business_info.get("telephone_valid"),
@@ -1515,6 +1622,14 @@ class WebsiteAuditor:
             "ignored_count": len(ignored),
         }
 
+    @staticmethod
+    def _empty_link_result() -> dict[str, Any]:
+        return {
+            "checked_count": 0, "broken": [], "broken_count": 0,
+            "forbidden": [], "forbidden_count": 0,
+            "rate_limited": [], "rate_limited_count": 0, "ignored_count": 0,
+        }
+
     def _collect_internal_links(self, soup: BeautifulSoup) -> list[str]:
         target_host = normalize_host(urlparse(self.config.url).netloc)
 
@@ -1598,7 +1713,10 @@ class WebsiteAuditor:
         ])
         manual_pct = (checks_passed / 6) * 100
 
-        combined_pct = (lighthouse_seo_pct * 0.5) + (manual_pct * 0.5)
+        # When Lighthouse didn't run there is no Lighthouse SEO score, so
+        # use the HTML checks alone. Previously a skipped Lighthouse counted
+        # as 0%, silently capping every site's SEO score at 50%.
+        combined_pct = manual_pct if lh_mobile is None else (lighthouse_seo_pct * 0.5) + (manual_pct * 0.5)
         return round((combined_pct / 100) * HEALTH_WEIGHTS["seo_technical"], 1)
 
     @staticmethod

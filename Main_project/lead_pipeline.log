@@ -1053,3 +1053,128 @@
 2026-10-06 14:23:45 [INFO]    -> QUALIFIED / WARM
 2026-10-06 14:23:45 [INFO] Done. Wrote 35 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row48_audited_qualified.csv
 2026-10-06 14:23:45 [INFO] Shortlisted 32 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
+2026-10-08 18:54:01 [ERROR] Groq rejected the API key gsk_...UMtT (HTTP 401). Create a new key at console.groq.com/keys and put it in a .env file next to this script as GROQ_API_KEY=gsk_... (no quotes/spaces).
+2026-10-08 20:01:57 [INFO] Groq key OK (gsk_...sRbo).
+2026-10-08 20:01:57 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row48_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row48_audited_qualified.csv ai=groq resume=False limit=None
+2026-10-08 20:01:58 [INFO] Loaded 46 rows -> 44 after dedupe
+2026-10-08 20:01:58 [INFO] Processing: Gym IT - Lifestyle & Fitness Studio
+2026-10-08 20:02:16 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:02:16 [INFO] Processing: Fitness Factory
+2026-10-08 20:02:29 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:02:29 [INFO] Processing: RD Fitness Unlimited
+2026-10-08 20:02:29 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:02:29 [INFO] Processing: Unique Sportz Lifestyle and Fitness Studio
+2026-10-08 20:02:38 [INFO]    -> REVIEW / COLD
+2026-10-08 20:02:38 [INFO] Processing: SLAM Lifestyle and Fitness Studio
+2026-10-08 20:02:38 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:02:38 [INFO] Processing: k2 fitness studio
+2026-10-08 20:02:38 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:02:38 [INFO] Processing: Rocky Fitness Studio
+2026-10-08 20:02:44 [WARNING]    retrying in 10.0s (attempt 1/5)
+2026-10-08 20:03:03 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:03:03 [INFO] Processing: GS HI-TECH FITNESS Mogappair - Best Gym in Mogappair
+2026-10-08 20:03:04 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-10-08 20:03:07 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-10-08 20:03:21 [WARNING]    retrying in 3.0s (attempt 2/5)
+2026-10-08 20:03:33 [INFO]    -> QUALIFIED / WARM
+2026-10-08 20:03:33 [INFO] Processing: FIT TREE FITNESS CENTRE
+2026-10-08 20:03:33 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:03:33 [INFO] Processing: Play Fitness
+2026-10-08 20:03:35 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-10-08 20:03:42 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-10-08 20:04:03 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:04:03 [INFO] Processing: SLAM Lifestyle and Fitness Studio - Chetpet
+2026-10-08 20:04:05 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-10-08 20:04:09 [WARNING]    retrying in 15.0s (attempt 1/5)
+2026-10-08 20:04:35 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:04:35 [INFO] Processing: Trak Fitness
+2026-10-08 20:04:35 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:04:35 [INFO] Processing: Skale Fitness - Chinmaya Nagar
+2026-10-08 20:04:42 [WARNING]    retrying in 5.0s (attempt 1/5)
+2026-10-08 20:04:56 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:04:56 [INFO] Processing: Reboot Lifestyle Fitness Studio
+2026-10-08 20:04:59 [WARNING]    retrying in 6.0s (attempt 1/5)
+2026-10-08 20:05:15 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:05:15 [INFO] Processing: Unique Fitness
+2026-10-08 20:05:15 [WARNING]    retrying in 7.0s (attempt 1/5)
+2026-10-08 20:05:30 [INFO]    -> REVIEW / COLD
+2026-10-08 20:05:30 [INFO] Processing: Fitness Paradise
+2026-10-08 20:05:31 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-10-08 20:05:37 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-10-08 20:05:51 [WARNING]    retrying in 1.0s (attempt 2/5)
+2026-10-08 20:06:01 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:06:01 [INFO] Processing: LEVELS Fitness Studio & H2o AQUATIC pool - Saligramam
+2026-10-08 20:06:02 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-10-08 20:06:09 [WARNING]    retrying in 16.0s (attempt 1/5)
+2026-10-08 20:06:33 [INFO]    -> QUALIFIED / WARM
+2026-10-08 20:06:33 [INFO] Processing: KPR GYM & FITNESS CENTRE
+2026-10-08 20:06:34 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-10-08 20:06:45 [INFO]    -> REVIEW / COLD
+2026-10-08 20:06:45 [INFO] Processing: Iron Stars Gym
+2026-10-08 20:06:45 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:06:45 [INFO] Processing: Soul Fitness Zone
+2026-10-08 20:06:45 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:06:45 [INFO] Processing: ORA FITNESS CENTER
+2026-10-08 20:06:45 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:06:45 [INFO] Processing: SLAM Lifestyle and Fitness Studio
+2026-10-08 20:06:45 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:06:45 [INFO] Processing: STRENGTH FACTORY GYM
+2026-10-08 20:06:45 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:06:45 [INFO] Processing: Monk Lifestyle & Fitness Studio
+2026-10-08 20:06:53 [INFO]    -> REVIEW / COLD
+2026-10-08 20:06:53 [INFO] Processing: The Supes Club
+2026-10-08 20:06:54 [WARNING]    retrying in 2.0s (attempt 1/5)
+2026-10-08 20:06:59 [WARNING]    retrying in 13.0s (attempt 1/5)
+2026-10-08 20:07:21 [INFO]    -> QUALIFIED / WARM
+2026-10-08 20:07:21 [INFO] Processing: MADRAS FITNESS
+2026-10-08 20:07:51 [DEBUG] fetch_url failed for https://madrasfitness.in: HTTPSConnectionPool(host='madrasfitness.in', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='madrasfitness.in', port=443) at 0x1836d6b5590>, 'Connection to madrasfitness.in timed out. (connect timeout=15)'))
+2026-10-08 20:08:21 [DEBUG] fetch_url failed for https://madrasfitness.in/contact: HTTPSConnectionPool(host='madrasfitness.in', port=443): Max retries exceeded with url: /contact (Caused by ConnectTimeoutError(<HTTPSConnection(host='madrasfitness.in', port=443) at 0x1836d6b5810>, 'Connection to madrasfitness.in timed out. (connect timeout=15)'))
+2026-10-08 20:08:33 [INFO]    -> QUALIFIED / WARM
+2026-10-08 20:08:33 [INFO] Processing: Flame Fitness Studio
+2026-10-08 20:08:44 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:08:44 [INFO] Processing: Santo Fitness Centre
+2026-10-08 20:08:44 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:08:44 [INFO] Processing: ZENERGY FITNESS CLUB - Saligramam
+2026-10-08 20:08:44 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:08:44 [INFO] Processing: SLAM Lifestyle and Fitness Studio, Pattabiram
+2026-10-08 20:08:47 [WARNING]    retrying in 14.0s (attempt 1/5)
+2026-10-08 20:09:11 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:09:11 [INFO] Processing: Fusion Fitness
+2026-10-08 20:09:11 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:09:11 [INFO] Processing: IRON HEAD FITNESS STUDIO 3.0
+2026-10-08 20:09:11 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:09:11 [INFO] Processing: Gravity Fitness Studio
+2026-10-08 20:09:11 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:09:11 [INFO] Processing: Lee Gym & Fitness
+2026-10-08 20:09:11 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:09:11 [INFO] Processing: MUSCLES AND FITNESS GYM
+2026-10-08 20:09:14 [WARNING]    retrying in 4.0s (attempt 1/5)
+2026-10-08 20:09:22 [WARNING]    retrying in 9.0s (attempt 1/5)
+2026-10-08 20:09:31 [WARNING]    retrying in 2.0s (attempt 2/5)
+2026-10-08 20:09:43 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:09:43 [INFO] Processing: Corpus Family Fitness Studio
+2026-10-08 20:09:43 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:09:43 [INFO] Processing: Light Weight Fitness Gym
+2026-10-08 20:09:54 [WARNING]    retrying in 12.0s (attempt 1/5)
+2026-10-08 20:10:14 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:10:14 [INFO] Processing: Fitness Square Lifestyle Fitness Noombal - Unisex Gym
+2026-10-08 20:10:14 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:10:14 [INFO] Processing: Sana Fitness Centre
+2026-10-08 20:10:21 [WARNING]    retrying in 18.0s (attempt 1/5)
+2026-10-08 20:10:48 [INFO]    -> QUALIFIED / WARM
+2026-10-08 20:10:48 [INFO] Processing: PAIN Fitness studio
+2026-10-08 20:10:50 [WARNING]    retrying in 3.0s (attempt 1/5)
+2026-10-08 20:10:56 [WARNING]    retrying in 16.0s (attempt 1/5)
+2026-10-08 20:11:21 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:11:21 [INFO] Processing: Levels fitness
+2026-10-08 20:11:21 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:11:21 [INFO] Processing: FITNESS DICTION
+2026-10-08 20:11:24 [WARNING]    retrying in 1.0s (attempt 1/5)
+2026-10-08 20:11:29 [WARNING]    retrying in 16.0s (attempt 1/5)
+2026-10-08 20:11:54 [INFO]    -> QUALIFIED / HOT
+2026-10-08 20:11:54 [INFO] Processing: Yakkai Thiran Women's Fitness Center
+2026-10-08 20:11:54 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:11:54 [INFO] Processing: APEX UNISEX GYM & FITNESS
+2026-10-08 20:11:54 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-08 20:11:54 [INFO] Done. Wrote 44 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row48_audited_qualified.csv
+2026-10-08 20:11:54 [INFO] Shortlisted 16 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
