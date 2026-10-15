@@ -43,7 +43,7 @@ import pandas as pd
 # =========================================================================
 
 CSV_PATH = r"F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\lead scaping data\fitness_ai_automation_leads_india.csv"
-ROW_NUMBER = 48
+ROW_NUMBER = 43
 # 1 = first row, 2 = second row, etc.
 BASE_DEPTH = 5          # gosom scroll depth baseline; scaled by `priority` per row
 EXIT_ON_INACTIVITY = "3m"
@@ -60,7 +60,7 @@ GOSOM_TIMEOUT_SECONDS = 2 * 60 * 60
 # Extra flags appended to the gosom command. email_required / the `emails`
 # column only work if gosom is told to extract emails -- check your gosom
 # version's -h output and add e.g. ["-email"] here.
-EXTRA_GOSOM_ARGS = []
+EXTRA_GOSOM_ARGS = ["-email"]   # needed or `emails` column stays empty; verify with `docker run --rm gosom/google-maps-scraper -h`
 CACHE_VOLUME = "gmaps-playwright-cache"             # named volume (browser cache only)
 
 # Persistent, NEVER wiped -- accumulates good leads across every row/run.
@@ -73,6 +73,35 @@ MASTER_EXCEL_PATH = os.path.join(BASE_DIR, "master_qualified_leads.xlsx")
 CONTACTED_LEADS_PATH = os.path.join(BASE_DIR, "contacted_leads.csv")
 
 PRIORITY_DEPTH_MAP = {"high": 7, "medium": 5, "low": 3}
+
+# Used when a row's `country` can't be mapped to an ISO code. Set "" to disable.
+DEFAULT_PHONE_REGION = "IN"
+
+# Columns ALWAYS kept in the per-row output, even when `output_columns` is
+# customised (that setting rebuilds the frame and used to drop these).
+ALWAYS_KEEP_COLUMNS = ["lead_score", "cid", "phone_region", "phone_e164", "area",
+                       "pincode", "chain_key", "chain_branches",
+                       "negative_reviews", "negative_review_count"]
+# Empty hand-filled columns. Added to per-row output and master; the master
+# upsert preserves whatever you type in them on re-runs.
+MANUAL_TRACKING_COLUMNS = ["status", "notes", "contacted_date"]
+
+# Built-in country -> ISO map, so phone_region works WITHOUT pycountry.
+COUNTRY_TO_ISO = {
+    "india": "IN", "united states": "US", "usa": "US", "united kingdom": "GB",
+    "uk": "GB", "singapore": "SG", "united arab emirates": "AE", "uae": "AE",
+    "saudi arabia": "SA", "qatar": "QA", "kuwait": "KW", "bahrain": "BH",
+    "oman": "OM", "south korea": "KR", "japan": "JP", "australia": "AU",
+    "canada": "CA", "malaysia": "MY", "sri lanka": "LK", "germany": "DE",
+    "france": "FR", "spain": "ES", "italy": "IT",
+}
+# Fallback calling codes (used only if `phonenumbers` isn't installed).
+CALLING_CODES = {
+    "IN": "91", "US": "1", "CA": "1", "GB": "44", "SG": "65", "AE": "971",
+    "SA": "966", "QA": "974", "KW": "965", "BH": "973", "OM": "968",
+    "KR": "82", "JP": "81", "AU": "61", "MY": "60", "LK": "94", "DE": "49",
+    "FR": "33", "ES": "34", "IT": "39",
+}
 
 # A handful of common informal country names that trip up pycountry's
 # fuzzy matcher (it handles most spellings/variants fine on its own --
@@ -140,6 +169,7 @@ REVIEW_AUTHOR_KEY_CANDIDATES = ["name", "author", "reviewer", "user", "username"
 
 
 MAX_NEGATIVE_REVIEWS_PER_LEAD = 5
+NEGATIVE_REVIEW_MAX_CHARS = 400   # per review; cut at sentence end when possible
 
 # review_quality_filter support: a business's "quality label" is derived
 # from its OVERALL average rating (not individual reviews -- that's what
@@ -267,7 +297,10 @@ def resolve_phone_region(country_raw):
         return _PHONE_REGION_CACHE[key]
 
     normalized = COUNTRY_NAME_ALIASES.get(key.lower(), key)
-    code = ""
+    code = COUNTRY_TO_ISO.get(normalized.lower(), "")
+    if code:
+        _PHONE_REGION_CACHE[key] = code
+        return code
     try:
         import pycountry
         try:
@@ -295,6 +328,113 @@ def resolve_phone_region(country_raw):
 
     _PHONE_REGION_CACHE[key] = code
     return code
+
+
+# =========================================================================
+# SEGMENT 2b: DERIVED COLUMNS (E.164 phone, area, pincode)
+# =========================================================================
+
+def to_e164(raw, region):
+    """'097906 66616' + 'IN' -> '+919790666616'. '' if it can't be made."""
+    if raw is None or pd.isna(raw) or not str(raw).strip():
+        return ""
+    text = str(raw).strip()
+    region = (region if isinstance(region, str) and region else DEFAULT_PHONE_REGION or "").upper()
+    try:
+        import phonenumbers
+        num = phonenumbers.parse(text, region or None)
+        if phonenumbers.is_possible_number(num):
+            return phonenumbers.format_number(num, phonenumbers.PhoneNumberFormat.E164)
+        return ""
+    except ImportError:
+        pass
+    except Exception:
+        return ""
+
+    digits = re.sub(r"\D", "", text)
+    if not digits:
+        return ""
+    if text.startswith("+"):
+        out = digits
+    elif digits.startswith("00"):
+        out = digits[2:]
+    else:
+        cc = CALLING_CODES.get(region)
+        if not cc:
+            return ""
+        if digits.startswith(cc) and len(digits) >= len(cc) + 8:
+            out = digits
+        else:
+            out = cc + (digits[1:] if digits.startswith("0") else digits)
+    return "+" + out if 8 <= len(out) <= 15 else ""
+
+
+def extract_area_and_pincode(address, city):
+    """Locality = last address part before the city / 'State PIN' tail."""
+    if not isinstance(address, str) or not address.strip():
+        return "", ""
+    pin_match = re.search(r"\b(\d{6})\b", address)
+    pincode = pin_match.group(1) if pin_match else ""
+    parts = [p.strip() for p in address.split(",") if p.strip()]
+    if parts and re.search(r"\d{5,6}\s*$", parts[-1]):
+        parts.pop()                       # "Tamil Nadu 600037"
+    if parts and isinstance(city, str) and parts[-1].lower() == city.strip().lower():
+        parts.pop()                       # "Chennai"
+    return (parts[-1] if parts else ""), pincode
+
+
+def make_chain_key(name):
+    """'Planet 1 Fitness Studio - Korattur' -> 'planet 1 fitness studio'.
+    Same key on several rows = same brand, pitch the owner once."""
+    if not isinstance(name, str) or not name.strip():
+        return ""
+    base = re.split(r"\s+[-\u2013\u2014|]\s+|\(", name.strip(), maxsplit=1)[0]
+    return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]", " ", base.lower())).strip()
+
+
+def add_lead_score(df):
+    """0-100. Higher = warmer lead (visible pain, small, not already perfect).
+      negative reviews: 20 pts each, max 3   (up to 60)
+      review_count    : <=50 -> 25, <=100 -> 15, <=200 -> 5
+      review_rating   : <4.5 -> 15, <4.8 -> 10
+    """
+    if df.empty:
+        df = df.copy()
+        df["lead_score"] = pd.Series(dtype=int)
+        return df
+    df = df.copy()
+    def num(col):
+        if col not in df.columns:
+            return pd.Series(0.0, index=df.index)
+        return pd.to_numeric(df[col], errors="coerce").fillna(0)
+    neg, reviews, rating = num("negative_review_count"), num("review_count"), num("review_rating")
+    score = neg.clip(upper=3) * 20
+    score += reviews.apply(lambda n: 25 if 0 < n <= 50 else 15 if 50 < n <= 100 else 5 if 100 < n <= 200 else 0)
+    score += rating.apply(lambda r: 15 if 0 < r < 4.5 else 10 if 0 < r < 4.8 else 0)
+    df["lead_score"] = score.astype(int)
+    return df
+
+
+def add_derived_columns(df, row):
+    if df.empty:
+        return df
+    df = df.copy()
+    phone_col = resolve_column(df, ["phone", "phone_number"])
+    if phone_col:
+        regions = df["phone_region"] if "phone_region" in df.columns else [""] * len(df)
+        df["phone_e164"] = [to_e164(p, r) for p, r in zip(df[phone_col], regions)]
+    name_col = resolve_column(df, ["title", "name", "business_name"])
+    if name_col:
+        df["chain_key"] = [make_chain_key(n) for n in df[name_col]]
+        counts = df["chain_key"].map(df["chain_key"].value_counts())
+        df["chain_branches"] = counts.where(df["chain_key"] != "", 0).astype(int)
+    addr_col = resolve_column(df, ["address", "complete_address", "full_address"])
+    if addr_col:
+        city = row.get("city_area")
+        pairs = [extract_area_and_pincode(a, city) for a in df[addr_col]]
+        df["area"] = [a for a, _ in pairs]
+        df["pincode"] = [p for _, p in pairs]
+    return df
 
 
 # =========================================================================
@@ -531,6 +671,19 @@ def _first_present_key(d, candidates):
     return None
 
 
+def _shorten_review(text, limit=NEGATIVE_REVIEW_MAX_CHARS):
+    """Cap at `limit` chars, preferring a sentence end, else a word end."""
+    if len(text) <= limit:
+        return text
+    cut = text[:limit]
+    ends = [cut.rfind(c) for c in ".!?"]
+    best = max(ends)
+    if best >= limit * 0.5:
+        return cut[:best + 1] + " ..."
+    space = cut.rfind(" ")
+    return (cut[:space] if space > 0 else cut).rstrip(" ,;:-") + " ..."
+
+
 def _extract_negative_from_reviews(reviews, threshold):
     negative_snippets = []
     for review in reviews:
@@ -545,10 +698,10 @@ def _extract_negative_from_reviews(reviews, threshold):
             continue
         if not review_text or not str(review_text).strip():
             continue
-        author = _first_present_key(review, REVIEW_AUTHOR_KEY_CANDIDATES)
-        cleaned_text = re.sub(r"\s+", " ", str(review_text).strip())
-        label = f"{author}: " if author else ""
-        negative_snippets.append(f"({rating:g}\u2605) {label}{cleaned_text}")
+        # Reviewer name deliberately NOT included (privacy; stops the AI
+        # message step from quoting a stranger's name back at the owner).
+        cleaned_text = _shorten_review(re.sub(r"\s+", " ", str(review_text).strip()))
+        negative_snippets.append(f"({rating:g}\u2605) {cleaned_text}")
 
     total_negative = len(negative_snippets)
     kept = negative_snippets[:MAX_NEGATIVE_REVIEWS_PER_LEAD]
@@ -1032,9 +1185,13 @@ def filter_leads(results_path, row, master_history, contacted):
         print(f"Note: toggle columns for this row (meaning not yet defined, "
               f"not applied): {toggle_values}")
 
-    sort_cols = [c for c in ("review_count", "review_rating") if c in filtered.columns]
-    if sort_cols:
-        filtered = filtered.sort_values(by=sort_cols, ascending=False)
+    # Hottest leads first so the max_leads cap keeps the best ones.
+    filtered = add_lead_score(filtered)
+    if not filtered.empty:
+        sort_cols, sort_asc = ["lead_score"], [False]
+        if "review_count" in filtered.columns:
+            sort_cols.append("review_count"); sort_asc.append(True)
+        filtered = filtered.sort_values(by=sort_cols, ascending=sort_asc, kind="stable")
 
     qualified_before_cap = len(filtered)
 
@@ -1248,6 +1405,9 @@ def upsert_master_csv(filtered, row, row_number, csv_path=MASTER_CSV_PATH):
     if "cid" in combined.columns:
         combined["cid"] = normalize_cid(combined["cid"])
     combined = dedupe_by_identity(combined, keep="last")
+    for col in MANUAL_TRACKING_COLUMNS:
+        if col not in combined.columns:
+            combined[col] = ""
 
     _atomic_write_csv(combined, csv_path)
     print(f"Master CSV now has {len(combined)} total accumulated leads: {csv_path}")
@@ -1292,19 +1452,22 @@ def run_one_row(row_number, export_master=True):
     # single-country batch.
     if not qualified.empty:
         qualified = qualified.copy()
-        qualified["phone_region"] = resolve_phone_region(row.get("country"))
+        qualified["phone_region"] = resolve_phone_region(row.get("country")) or DEFAULT_PHONE_REGION
+        qualified = add_derived_columns(qualified, row)
 
     # 1) Per-row outputs FIRST. The master update below is the step that makes
     #    "duplicates" exclusion hide these leads on a re-run, so it must only
     #    happen once this row's deliverables are safely on disk.
     display_df = reshape_output_columns(qualified, row)
-    if not display_df.empty and "phone_region" in qualified.columns:
+    if not display_df.empty:
         # reshape_output_columns rebuilds the frame from scratch when
-        # output_columns is customized, which would otherwise silently
-        # drop this column unless the user explicitly requests it --
-        # keep it always, since it's what makes the audit step work
-        # correctly for mixed-country batches.
-        display_df["phone_region"] = qualified["phone_region"]
+        # output_columns is customized, which would silently drop these.
+        for col in ALWAYS_KEEP_COLUMNS:
+            if col in qualified.columns and col not in display_df.columns:
+                display_df[col] = qualified[col]
+        for col in MANUAL_TRACKING_COLUMNS:
+            if col not in display_df.columns:
+                display_df[col] = ""
     row_csv_path = os.path.join(WORK_DIR, f"qualified_leads_row{row_number}.csv")
     row_xlsx_path = os.path.join(WORK_DIR, f"qualified_leads_row{row_number}.xlsx")
     display_df.to_csv(row_csv_path, index=False, encoding="utf-8-sig")
