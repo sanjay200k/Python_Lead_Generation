@@ -103,7 +103,7 @@ import sqlite3
 import sys
 import time
 from pathlib import Path
-from urllib.parse import unquote_plus
+from urllib.parse import quote, unquote_plus
 
 import pandas as pd
 import requests
@@ -136,7 +136,7 @@ except ImportError:
 # ----------------------------------------------------------------------
 # NOTE: Never hardcode API keys in the script. Set GROQ_API_KEY in a .env
 # file next to this script (or as an environment variable) instead.
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
 ZEROBOUNCE_API_KEY = os.environ.get("ZEROBOUNCE_API_KEY", "")
 
 GROQ_MODEL_PRIMARY = "openai/gpt-oss-120b"
@@ -168,14 +168,25 @@ SHORTLIST_FILENAME = "shortlisted_lead_details.csv"
 # shortlist CSV, in the exact column order requested.
 SHORTLIST_COLUMNS = [
     ("business_name", "Business Name"),
-    ("website", "Website"),
+    ("area", "Area"),
     ("phone", "Phone"),
+    ("phone_e164", "Phone (WhatsApp)"),
     ("extracted_email", "Email"),
     ("priority", "Priority"),
     ("primary_problem", "Top Problem"),
     ("evidence", "Evidence"),
     ("recommended_action", "Recommended Pitch"),
+    ("whatsapp_message", "WhatsApp Message"),
+    ("whatsapp_link", "WhatsApp Link"),
+    ("call_opener", "Call Opener"),
+    ("follow_up_message", "Follow-Up Message"),
     ("outreach_message", "Outreach Message"),
+    ("brand_duplicate", "Brand Note"),
+    ("website", "Website"),
+    ("tracker_status", "Status"),
+    ("tracker_contacted_on", "Contacted On"),
+    ("tracker_reply", "Reply"),
+    ("tracker_follow_up_on", "Follow-Up On"),
 ]
 
 DENY_EMAIL_DOMAINS = [
@@ -207,6 +218,15 @@ TRI_STATE_FLAGS = [
 # If True, a lead whose website fetch failed is not shortlisted and is routed
 # to MANUAL_REVIEW (verify the site by hand first).
 STRICT_FETCH_CHECK = True
+
+# Who the short WhatsApp / call messages are signed by (edit, or set env vars).
+SENDER_NAME = os.environ.get("SENDER_NAME", "Sanjay")
+SENDER_BUSINESS = os.environ.get("SENDER_BUSINESS", "Sanjay Digital Works")
+
+# When several leads look like branches of one brand, only the branch with the
+# most Google reviews goes in the shortlist (the rest stay in the main CSV,
+# marked "skip"). Set False to shortlist every branch.
+SKIP_BRAND_DUPLICATES = True
 
 # The ONLY problems this consultant sells a fix for (AI + WhatsApp systems).
 # A lead is only QUALIFIED when at least one of these is an explicit gap.
@@ -307,6 +327,8 @@ def normalize_row(row: dict) -> dict:
         "category": row.get("Category"),
         "complete_address": row.get("Address"),
         "phone": row.get("Phone"),
+        "phone_e164": to_e164_in(row.get("Phone")),
+        "area": area_from_address(row.get("Address")),
         "website": website if has_website else None,
         "email": row.get("Email") or None,
         "google_maps_url": row.get("Google Maps URL"),
@@ -360,6 +382,126 @@ def norm_phone(phone):
         return None
     digits = re.sub(r"\D", "", str(phone))
     return digits[-10:] if len(digits) >= 7 else None
+
+
+def to_e164_in(phone):
+    """Indian number -> +91XXXXXXXXXX (WhatsApp / wa.me ready). Handles a
+    leading trunk 0 ('091763 33399'), a 91 prefix and a +91 prefix.
+    Returns None if it does not look like a valid 10-digit mobile/landline."""
+    if not phone:
+        return None
+    digits = re.sub(r"\D", "", str(phone))
+    if len(digits) == 10:
+        core = digits
+    elif len(digits) == 11 and digits.startswith("0"):
+        core = digits[1:]
+    elif len(digits) == 12 and digits.startswith("91"):
+        core = digits[2:]
+    elif len(digits) == 13 and digits.startswith("091"):
+        core = digits[3:]
+    else:
+        return None
+    return "+91" + core
+
+
+_GENERIC_BRAND_WORDS = {
+    "fitness", "gym", "gyms", "studio", "studios", "centre", "center", "club", "unisex",
+    "and", "the", "&", "health", "crossfit", "wellness", "personal", "trainer", "hub",
+    "lifestyle", "strength", "conditioning", "functional", "science", "elite",
+}
+
+
+def brand_key(name):
+    """Rough brand key used to spot several branches of the same business.
+    Drops text in brackets and after ' - ', then keeps the first two
+    non-generic-or-brand tokens. Needs 2 tokens, otherwise no key."""
+    if not name:
+        return None
+    n = re.sub(r"\(.*?\)", " ", name.lower())
+    n = n.split(" - ")[0]
+    tokens = re.findall(r"[a-z0-9]+", n)
+    tokens = [t for t in tokens if t not in {"unisex", "gym", "studio", "centre", "center", "club", "and", "the"}]
+    return " ".join(tokens[:2]) if len(tokens) >= 2 else None
+
+
+_IN_STATES = {
+    "tamil nadu", "kerala", "karnataka", "andhra pradesh", "telangana", "maharashtra", "delhi",
+    "gujarat", "puducherry", "west bengal", "rajasthan", "uttar pradesh", "punjab", "haryana",
+    "madhya pradesh", "odisha", "bihar", "goa",
+}
+_BIG_CITIES = {
+    "chennai", "mumbai", "delhi", "new delhi", "bengaluru", "bangalore", "hyderabad", "kolkata",
+    "pune", "coimbatore", "madurai", "tiruchirappalli", "salem", "tiruppur", "ahmedabad",
+    "jaipur", "kochi",
+}
+
+
+def area_from_address(addr):
+    """Neighbourhood from a Google Maps address, e.g. '..., Korattur, Chennai,
+    Tamil Nadu 600050' -> 'Korattur'. Returns None if nothing sensible."""
+    if not addr:
+        return None
+    parts = [p.strip() for p in str(addr).split(",") if p.strip()]
+    while parts and (re.search(r"\b\d{6}\b", parts[-1])
+                     or re.sub(r"\s*\d{6}$", "", parts[-1]).strip().lower() in _IN_STATES):
+        parts.pop()
+    if parts and parts[-1].lower() in _BIG_CITIES:
+        parts.pop()
+    # walk back from the end to the first part that looks like a neighbourhood
+    # (skips "above SBI bank & near GRT", road names, floors, buildings, etc.)
+    skip = re.compile(r"\b(above|near|opp|opposite|behind|next|beside|road|rd|street|st|floor|"
+                      r"building|tower|towers|complex|plaza|mall|main|cross|lane|no)\b", re.I)
+    for cand in reversed(parts):
+        if re.search(r"\d", cand) or not (3 <= len(cand) <= 28) or skip.search(cand):
+            continue
+        return cand
+    return None
+
+
+def mark_brand_duplicates(rows):
+    """Finds branches of the same brand among the leads in this run. The branch
+    with the most Google reviews is the one to contact ('keep'); the others are
+    marked 'skip' and (if SKIP_BRAND_DUPLICATES) left out of the shortlist so
+    one owner is not messaged several times. Nothing is deleted."""
+    groups = {}
+    for r in rows:
+        r["brand_duplicate"] = ""
+        r["brand_skip"] = False
+        k = brand_key(r.get("business_name"))
+        if k:
+            groups.setdefault(k, []).append(r)
+    for members in groups.values():
+        if len(members) < 2:
+            continue
+        primary = max(members, key=lambda m: (m.get("review_count") or 0, m.get("review_rating") or 0))
+        for m in members:
+            if m is primary:
+                others = "; ".join(o["business_name"] for o in members if o is not m)
+                m["brand_duplicate"] = f"keep: main branch of same brand (also: {others})"
+            else:
+                m["brand_duplicate"] = f"skip: same brand as {primary['business_name']} (more reviews)"
+                m["brand_skip"] = SKIP_BRAND_DUPLICATES
+    return rows
+
+
+def display_name(name):
+    """Title-cases a business name only when it is mostly SHOUTING CAPS
+    (keeps short acronyms and words with digits, e.g. H24, RF, OG)."""
+    if not name:
+        return name
+    words = name.split()
+    alpha = [w for w in words if re.fullmatch(r"[A-Za-z]{2,}", re.sub(r"[()&,.\-]", "", w))]
+    upper = [w for w in alpha if w.isupper()]
+    if not alpha or len(upper) / len(alpha) < 0.5:
+        return name
+    out = []
+    for w in words:
+        core = re.sub(r"[()&,.\-]", "", w)
+        if re.fullmatch(r"[A-Z]{3,}", core):
+            out.append(w.capitalize() if not w.startswith("(") else "(" + w[1:].capitalize())
+        else:
+            out.append(w)
+    return " ".join(out)
 
 
 def dedupe(rows):
@@ -562,7 +704,9 @@ def extract_email_for_lead(r):
         "extracted_email": emails[0] if emails else None,
         "all_emails_found": emails,
         "fetch_status": status,
-        "fetch_ok": r.get("fetch_ok", True) and bool(status and 200 <= status < 300),
+        # keep the audit's verdict: our own plain requests.get() is often blocked (403/bot
+        # protection) on sites the audit fetched fine, which must not demote a good lead
+        "fetch_ok": r.get("fetch_ok", True),
     }
 
 
@@ -654,33 +798,154 @@ def align_primary_problem(ai_problem, r):
     return gaps[0]["problem"]
 
 
+def reviews_priority(r):
+    """Priority for leads with no audit data, from Google rating + review count."""
+    rating, count = r.get("review_rating"), r.get("review_count")
+    if rating is None or count is None:
+        return "COLD"
+    if count >= 50 and rating >= 4.3:
+        return "HOT"
+    if count >= 20 and rating >= 4.0:
+        return "WARM"
+    return "COLD"
+
+
+def no_website_outreach(r):
+    """Fixed default outreach for leads that have NO website. Same 6-beat shape
+    as the AI messages, but static (no AI call) and only pitches the in-scope
+    offer: a simple one-page site + AI/WhatsApp assistant. Uses only real data
+    (name, category, rating, review count, social presence)."""
+    name = display_name(r.get("business_name") or r.get("title") or "your business")
+
+    rating, count = r.get("review_rating"), r.get("review_count")
+    reviews = ""
+    if rating is not None and count is not None and count >= 20 and rating >= 4.0:
+        reviews = f", despite {int(count)} Google reviews at {rating:g} stars"
+
+    cat = (r.get("category") or "").strip().lower()
+    if cat:
+        noun = ("an " if cat[0] in "aeiou" else "a ") + cat
+    else:
+        noun = "what you offer"
+
+    has_social = bool((r.get("social_media_urls") or "").strip())
+    gap = ("there's no proper website for people to learn about you or reach you outside calling hours"
+           if has_social else
+           "there's no online place for people to learn about you or reach you outside calling hours")
+
+    subject = "No website on your Google listing"
+    message = (
+        f"Hi there,\n"
+        f"I came across {name} on Google Maps and noticed there's no website linked to the listing{reviews}.\n"
+        f"Picture someone searching nearby for {noun}. They find you, but want to check your "
+        f"services or ask a quick question before calling, and there's nowhere to do that.\n"
+        f"So they move on to a competitor that has the answers online.\n"
+        f"In short, {gap}.\n"
+        f"I build simple one-page sites with an AI + WhatsApp assistant that answers questions "
+        f"instantly and captures enquiries automatically.\n"
+        f"Would you like a 60-second example of how this could work for {name}?"
+    )
+    return subject, message
+
+
+def whatsapp_pack(r):
+    """Short first-contact material for phone-only leads: a call opener always,
+    and (for mobile numbers) a short WhatsApp message, click-to-chat link and a
+    follow-up. Three wording variants are rotated per lead so 50 chats are not
+    word-for-word identical."""
+    name = display_name(r.get("business_name") or r.get("title") or "your business")
+    e164, area = r.get("phone_e164"), r.get("area")
+    area_txt = area if area and area.lower() not in name.lower() else None
+
+    pack = {
+        "area": area,
+        "call_opener": (
+            f"Hi, is this {name}? I'm {SENDER_NAME} from {SENDER_BUSINESS}. I saw there's no website "
+            f"on your Google listing, so I wanted to ask: do you get enquiries after closing time? "
+            f"I help local businesses set up a simple page with a WhatsApp assistant that replies "
+            f"instantly. Can I send a short example on WhatsApp?"
+        ),
+        "whatsapp_message": None, "whatsapp_link": None, "follow_up_message": None,
+    }
+    # WhatsApp needs a mobile number (Indian mobiles start 6-9; landlines don't).
+    if not e164 or e164[3] not in "6789":
+        return pack
+
+    rating, count = r.get("review_rating"), r.get("review_count")
+    rev = (f" ({int(count)} reviews)"
+           if rating is not None and count is not None and count >= 20 and rating >= 4.0 else "")
+    where = f"in {area_txt}" if area_txt else "nearby"
+    sign = f"{SENDER_NAME} from {SENDER_BUSINESS}"
+    variants = [
+        (f"Hi, I'm {sign}. I found {name} on Google Maps{rev} but there's no website linked. "
+         f"I build simple one-page sites with a WhatsApp assistant that answers enquiries instantly. "
+         f"Want me to send a quick example for {name}?"),
+        (f"Hi, is this {name}? People searching {where} can't check your services online because "
+         f"the Google listing has no website. I'm {sign} - I set up a simple page plus WhatsApp "
+         f"assistant for local businesses. Can I send a short example?"),
+        (f"Hello, quick question: do you get enquiries from Google Maps for {name}? I noticed the "
+         f"listing has no website, so people who aren't ready to call have nowhere to ask. I'm {sign}, "
+         f"and I can show a simple fix in 60 seconds. Interested?"),
+    ]
+    idx = int(hashlib.md5(str(r.get("input_id")).encode("utf-8")).hexdigest(), 16) % len(variants)
+    msg = variants[idx]
+    pack["whatsapp_message"] = msg
+    pack["whatsapp_link"] = "https://wa.me/" + e164[1:] + "?text=" + quote(msg, safe="")
+    pack["follow_up_message"] = (
+        f"Hi, following up on my earlier message about a website for {name}. Happy to send the "
+        f"60-second example whenever suits. If it's not relevant, just tell me and I won't message "
+        f"again. - {SENDER_NAME}"
+    )
+    return pack
+
+
 def review_no_website(r):
-    """Leads with no website: not part of the AI/WhatsApp offer - park for a
-    human decision instead of generating a website-pitch message."""
+    """Leads with no website. If they have a phone or email they get the
+    default no-website message and are shortlisted; with no contact route at
+    all they stay in REVIEW with no message."""
     has_contact = bool(r.get("phone") or r.get("email"))
-    return {
+    base = {
         **r,
         "primary_problem": "No website",
         "secondary_problems": [],
-        "evidence": "No website listed - outside the AI/WhatsApp automation offer; needs a custom pitch",
         "confidence": "High",
-        "priority": (r.get("lead_tier") or "Cold").upper(),
+        "priority": reviews_priority(r),
         "commercial_opportunity_score": r.get("opportunity_score"),
-        "qualification_status": "REVIEW",
         "contactability_status": "PARTIALLY_CONTACTABLE" if has_contact else "NOT_CONTACTABLE",
         "contact_channels": {
             "email": bool(r.get("email")), "phone": bool(r.get("phone")),
             "website": False, "contact_form": False, "other": False,
         },
-        "recommended_action": "MANUAL_REVIEW",
-        "review_reason": "no website - not shortlisted; decide manually if a website pitch is worth it",
-        "passed_quality_gate": 0,
-        "outreach_subject": None,
-        "outreach_message": None,
         "audit_summary": r.get("mistakes_text"),
-        "email_verified": "not_checked",
         "extracted_email": r.get("email"),
         "fetch_ok": None,
+    }
+    if not has_contact:
+        return {
+            **base,
+            "evidence": "No website listed and no phone/email to reach them",
+            "qualification_status": "REVIEW",
+            "recommended_action": "MANUAL_REVIEW",
+            "review_reason": "no website and no contact details",
+            "passed_quality_gate": 0,
+            "outreach_subject": None,
+            "outreach_message": None,
+            "email_verified": "not_checked",
+        }
+
+    subject, message = no_website_outreach(r)
+    email = r.get("email")
+    return {
+        **base,
+        **whatsapp_pack(r),
+        "evidence": "No website listed on the Google Maps listing",
+        "qualification_status": "QUALIFIED",
+        "recommended_action": "EMAIL_OUTREACH" if email else "PHONE_OUTREACH",
+        "review_reason": None,
+        "passed_quality_gate": 1,
+        "outreach_subject": subject,
+        "outreach_message": message,
+        "email_verified": verify_email(email) if email else "not_checked",
     }
 
 
@@ -1394,7 +1659,8 @@ OUTPUT_COLUMNS = [
     "qualification_status", "contactability_status", "recommended_action",
     "commercial_opportunity_score", "secondary_problems", "review_reason",
     "passed_quality_gate", "outreach_subject", "outreach_message",
-    "audit_summary", "email_verified",
+    "audit_summary", "email_verified", "phone_e164", "brand_duplicate",
+    "area", "whatsapp_message", "whatsapp_link", "call_opener", "follow_up_message",
 ]
 
 
@@ -1448,7 +1714,7 @@ def process_lead(r: dict, use_ai: bool, sleep_between_ai_calls: float) -> dict:
     r["scope_gap_labels"] = [g["label"] for g in SCOPE_GAPS if r.get(g["flag"]) is False]
 
     if not r["website"]:
-        logger.info("   -> REVIEW (no website - outside the automation offer)")
+        logger.info("   -> no website - using default no-website message")
         return review_no_website(r)
 
     if r["website"] and not r.get("email"):
@@ -1505,6 +1771,12 @@ def run_pipeline(input_csv: str, output_csv: str, use_ai: bool = True,
 
     normalized = [normalize_row(r) for r in raw_rows]
     normalized = dedupe(normalized)
+    mark_brand_duplicates(normalized)
+    n_brand = sum(1 for r in normalized if r.get("brand_duplicate"))
+    n_skip = sum(1 for r in normalized if r.get("brand_skip"))
+    if n_brand:
+        logger.info(f"{n_brand} leads look like branches of the same brand; "
+                    f"{n_skip} will be left out of the shortlist (see brand_duplicate column)")
     logger.info(f"Loaded {len(raw_rows)} rows -> {len(normalized)} after dedupe")
 
     if resume:
@@ -1530,6 +1802,17 @@ def run_pipeline(input_csv: str, output_csv: str, use_ai: bool = True,
     shortlist_write_header = not (resume and os.path.exists(shortlist_csv) and os.path.getsize(shortlist_csv) > 0)
     shortlist_mode = "a" if (resume and os.path.exists(shortlist_csv)) else "w"
     shortlist_headers = [label for _, label in SHORTLIST_COLUMNS]
+
+    if resume:
+        for path_, expected in ((output_csv, OUTPUT_COLUMNS), (shortlist_csv, shortlist_headers)):
+            if os.path.exists(path_) and os.path.getsize(path_) > 0:
+                with open(path_, encoding="utf-8", newline="") as fh:
+                    existing_header = next(csv.reader(fh), [])
+                if existing_header != expected:
+                    raise ValueError(
+                        f"'{path_}' was written by an older version of this script (different "
+                        f"columns), so --resume would misalign it. Use a new output file name."
+                    )
 
     sqlite_conn = init_sqlite(sqlite_path) if sqlite_path else None
 
@@ -1576,7 +1859,8 @@ def run_pipeline(input_csv: str, output_csv: str, use_ai: bool = True,
             # Only leads that actually cleared the quality gate AND got an
             # outreach message written are worth putting in front of you -
             # that's the whole point of the shortlist CSV.
-            if result.get("outreach_message") and result.get("passed_quality_gate") == 1:
+            if (result.get("outreach_message") and result.get("passed_quality_gate") == 1
+                    and not result.get("brand_skip")):
                 shortlist_row = {}
                 for key, label in SHORTLIST_COLUMNS:
                     val = result.get(key)
@@ -1589,6 +1873,17 @@ def run_pipeline(input_csv: str, output_csv: str, use_ai: bool = True,
 
     if sqlite_conn:
         sqlite_conn.close()
+
+    # Put the best leads at the top of the shortlist (HOT, then WARM, then COLD).
+    try:
+        sdf = pd.read_csv(shortlist_csv, dtype=str, keep_default_na=False)
+        if len(sdf) and "Priority" in sdf.columns:
+            order = {"HOT": 0, "WARM": 1, "COLD": 2}
+            sdf["_o"] = sdf["Priority"].str.upper().map(order).fillna(3)
+            sdf = sdf.sort_values("_o", kind="stable").drop(columns="_o")
+            sdf.to_csv(shortlist_csv, index=False, encoding="utf-8")
+    except Exception as e:
+        logger.warning(f"Could not sort shortlist by priority: {e}")
 
     logger.info(f"Done. Wrote {len(normalized)} rows to {output_csv}"
                 + (f" and upserted into {sqlite_path}" if sqlite_path else ""))

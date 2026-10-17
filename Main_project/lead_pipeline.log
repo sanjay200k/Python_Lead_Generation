@@ -1178,3 +1178,744 @@
 2026-10-08 20:11:54 [INFO]    -> REVIEW (no website - outside the automation offer)
 2026-10-08 20:11:54 [INFO] Done. Wrote 44 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row48_audited_qualified.csv
 2026-10-08 20:11:54 [INFO] Shortlisted 16 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
+2026-10-16 09:23:14 [ERROR] Groq rejected the API key gsk_...sRbo (HTTP 401). Create a new key at console.groq.com/keys and put it in a .env file next to this script as GROQ_API_KEY=gsk_... (no quotes/spaces).
+2026-10-16 09:31:29 [INFO] Groq key OK (gsk_...xzqp).
+2026-10-16 09:31:29 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row43_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv ai=groq resume=False limit=None
+2026-10-16 09:31:30 [INFO] Loaded 50 rows -> 50 after dedupe
+2026-10-16 09:31:30 [INFO] Processing: SLAM Lifestyle and Fitness Studio
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Planet 1 Fitness Studio - Korattur
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Stay Strong Fitness Factory Gym
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Inshapez crossfit
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Stretch Fitness Club
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: C3 Fitness Science (Kilpauk)
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Hi-Transform Fitness Hub
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Glow fitness
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Devils Circuiit
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: ELEVATE CROSSFIT GYM (personal trainer)
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Crucible Barbell
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: XS7 Strength and Conditioning
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: SALT Functional Fitness
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Tiger Fitness Gym
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Flex & Flow Unisex Fitness
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Spotter Fitness
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: HUSTLE HUB Gym
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: RF Gym & Crossfit
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Health D6 GYM
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Santo Fitness Centre
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: GYM BEAN Fitness Studio
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Transform 365 CrossFit & Fitness Studio
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Muscle hacking
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Fitness Square Lifestyle Fitness Noombal - Unisex Gym
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Life Health Fitness
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Fit 2 Fight unisex gym
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Forever Fitness
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Geez Squad
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Target fitness center
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Gravity Fitness Studio
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: TUFF FITNESS CENTRE
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: H24 FITNESS STUDIO UNISEX
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: C3 Fitness Science Elite
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Pro Fitness
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Muscle Factory Gym
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Life Fitness Studio
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Slam Lifestyle and Fitness Studio - Saligramam
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Fitness Religion Crossfit & Wellness
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Smash Hiit fitness studio (Unisex)
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Titan Fitness Club
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Armor strength & fitness centre
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Planet 1 Fitness Studio - Kolathur
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Fitness Essentials (T.Nagar)
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: OG fitness and health studio
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Beast Fitness Studio (Unisex)
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Icon CrossFit Fitness studio
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Kisi fitness club
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: IRON HEAD FITNESS STUDIO 3.0
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: Storm Fitness Gym
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Processing: The Yard Fitness Studio
+2026-10-16 09:31:30 [INFO]    -> REVIEW (no website - outside the automation offer)
+2026-10-16 09:31:30 [INFO] Done. Wrote 50 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv
+2026-10-16 09:31:30 [INFO] Shortlisted 0 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
+2026-10-16 09:39:52 [INFO] Groq key OK (gsk_...xzqp).
+2026-10-16 09:39:52 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row43_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv ai=groq resume=False limit=None
+2026-10-16 09:39:52 [INFO] Loaded 50 rows -> 50 after dedupe
+2026-10-16 09:39:52 [INFO] Processing: SLAM Lifestyle and Fitness Studio
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Planet 1 Fitness Studio - Korattur
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Stay Strong Fitness Factory Gym
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Inshapez crossfit
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Stretch Fitness Club
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: C3 Fitness Science (Kilpauk)
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Hi-Transform Fitness Hub
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Glow fitness
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Devils Circuiit
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: ELEVATE CROSSFIT GYM (personal trainer)
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Crucible Barbell
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: XS7 Strength and Conditioning
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: SALT Functional Fitness
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Tiger Fitness Gym
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Flex & Flow Unisex Fitness
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Spotter Fitness
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: HUSTLE HUB Gym
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: RF Gym & Crossfit
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Health D6 GYM
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Santo Fitness Centre
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: GYM BEAN Fitness Studio
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Transform 365 CrossFit & Fitness Studio
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Muscle hacking
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Fitness Square Lifestyle Fitness Noombal - Unisex Gym
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Life Health Fitness
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Fit 2 Fight unisex gym
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Forever Fitness
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Geez Squad
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Target fitness center
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Gravity Fitness Studio
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: TUFF FITNESS CENTRE
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: H24 FITNESS STUDIO UNISEX
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: C3 Fitness Science Elite
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Pro Fitness
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Muscle Factory Gym
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Life Fitness Studio
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Slam Lifestyle and Fitness Studio - Saligramam
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Fitness Religion Crossfit & Wellness
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Smash Hiit fitness studio (Unisex)
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Titan Fitness Club
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Armor strength & fitness centre
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Planet 1 Fitness Studio - Kolathur
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Fitness Essentials (T.Nagar)
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: OG fitness and health studio
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Beast Fitness Studio (Unisex)
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Icon CrossFit Fitness studio
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Kisi fitness club
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: IRON HEAD FITNESS STUDIO 3.0
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: Storm Fitness Gym
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Processing: The Yard Fitness Studio
+2026-10-16 09:39:52 [INFO]    -> no website - using default no-website message
+2026-10-16 09:39:52 [INFO] Done. Wrote 50 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv
+2026-10-16 09:39:52 [INFO] Shortlisted 50 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
+2026-10-16 09:48:53 [INFO] Groq key OK (gsk_...xzqp).
+2026-10-16 09:48:53 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row43_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv ai=groq resume=False limit=None
+2026-10-16 09:48:53 [INFO] 6 leads look like branches of the same brand (see brand_duplicate column)
+2026-10-16 09:48:53 [INFO] Loaded 50 rows -> 50 after dedupe
+2026-10-16 09:48:53 [INFO] Processing: SLAM Lifestyle and Fitness Studio
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Planet 1 Fitness Studio - Korattur
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Stay Strong Fitness Factory Gym
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Inshapez crossfit
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Stretch Fitness Club
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: C3 Fitness Science (Kilpauk)
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Hi-Transform Fitness Hub
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Glow fitness
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Devils Circuiit
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: ELEVATE CROSSFIT GYM (personal trainer)
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Crucible Barbell
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: XS7 Strength and Conditioning
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: SALT Functional Fitness
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Tiger Fitness Gym
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Flex & Flow Unisex Fitness
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Spotter Fitness
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: HUSTLE HUB Gym
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: RF Gym & Crossfit
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Health D6 GYM
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Santo Fitness Centre
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: GYM BEAN Fitness Studio
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Transform 365 CrossFit & Fitness Studio
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Muscle hacking
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Fitness Square Lifestyle Fitness Noombal - Unisex Gym
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Life Health Fitness
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Fit 2 Fight unisex gym
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Forever Fitness
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Geez Squad
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Target fitness center
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Gravity Fitness Studio
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: TUFF FITNESS CENTRE
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: H24 FITNESS STUDIO UNISEX
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: C3 Fitness Science Elite
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Pro Fitness
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Muscle Factory Gym
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Life Fitness Studio
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Slam Lifestyle and Fitness Studio - Saligramam
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Fitness Religion Crossfit & Wellness
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Smash Hiit fitness studio (Unisex)
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Titan Fitness Club
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Armor strength & fitness centre
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Planet 1 Fitness Studio - Kolathur
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Fitness Essentials (T.Nagar)
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: OG fitness and health studio
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Beast Fitness Studio (Unisex)
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Icon CrossFit Fitness studio
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Kisi fitness club
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: IRON HEAD FITNESS STUDIO 3.0
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: Storm Fitness Gym
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:53 [INFO] Processing: The Yard Fitness Studio
+2026-10-16 09:48:53 [INFO]    -> no website - using default no-website message
+2026-10-16 09:48:54 [INFO] Done. Wrote 50 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv
+2026-10-16 09:48:54 [INFO] Shortlisted 50 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
+2026-10-16 10:07:20 [INFO] Groq key OK (gsk_...xzqp).
+2026-10-16 10:07:20 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row43_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv ai=groq resume=False limit=None
+2026-10-16 10:07:20 [INFO] 6 leads look like branches of the same brand (see brand_duplicate column)
+2026-10-16 10:07:20 [INFO] Loaded 50 rows -> 50 after dedupe
+2026-10-16 10:07:20 [INFO] Processing: SLAM Lifestyle and Fitness Studio
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Planet 1 Fitness Studio - Korattur
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Stay Strong Fitness Factory Gym
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Inshapez crossfit
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Stretch Fitness Club
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: C3 Fitness Science (Kilpauk)
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Hi-Transform Fitness Hub
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Glow fitness
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Devils Circuiit
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: ELEVATE CROSSFIT GYM (personal trainer)
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Crucible Barbell
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: XS7 Strength and Conditioning
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: SALT Functional Fitness
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Tiger Fitness Gym
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Flex & Flow Unisex Fitness
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Spotter Fitness
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: HUSTLE HUB Gym
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: RF Gym & Crossfit
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Health D6 GYM
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Santo Fitness Centre
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: GYM BEAN Fitness Studio
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Transform 365 CrossFit & Fitness Studio
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Muscle hacking
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Fitness Square Lifestyle Fitness Noombal - Unisex Gym
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Life Health Fitness
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Fit 2 Fight unisex gym
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Forever Fitness
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Geez Squad
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Target fitness center
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Gravity Fitness Studio
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: TUFF FITNESS CENTRE
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: H24 FITNESS STUDIO UNISEX
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: C3 Fitness Science Elite
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Pro Fitness
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Muscle Factory Gym
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Life Fitness Studio
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Slam Lifestyle and Fitness Studio - Saligramam
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Fitness Religion Crossfit & Wellness
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Smash Hiit fitness studio (Unisex)
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Titan Fitness Club
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Armor strength & fitness centre
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Planet 1 Fitness Studio - Kolathur
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Fitness Essentials (T.Nagar)
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: OG fitness and health studio
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Beast Fitness Studio (Unisex)
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Icon CrossFit Fitness studio
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Kisi fitness club
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: IRON HEAD FITNESS STUDIO 3.0
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: Storm Fitness Gym
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Processing: The Yard Fitness Studio
+2026-10-16 10:07:20 [INFO]    -> no website - using default no-website message
+2026-10-16 10:07:20 [INFO] Done. Wrote 50 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv
+2026-10-16 10:07:20 [INFO] Shortlisted 50 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
+2026-10-16 10:13:42 [INFO] Groq key OK (gsk_...xzqp).
+2026-10-16 10:13:42 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row43_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv ai=groq resume=False limit=None
+2026-10-16 10:13:42 [INFO] 6 leads look like branches of the same brand (see brand_duplicate column)
+2026-10-16 10:13:42 [INFO] Loaded 50 rows -> 50 after dedupe
+2026-10-16 10:13:42 [INFO] Processing: SLAM Lifestyle and Fitness Studio
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Planet 1 Fitness Studio - Korattur
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Stay Strong Fitness Factory Gym
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Inshapez crossfit
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Stretch Fitness Club
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: C3 Fitness Science (Kilpauk)
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Hi-Transform Fitness Hub
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Glow fitness
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Devils Circuiit
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: ELEVATE CROSSFIT GYM (personal trainer)
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Crucible Barbell
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: XS7 Strength and Conditioning
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: SALT Functional Fitness
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Tiger Fitness Gym
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Flex & Flow Unisex Fitness
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Spotter Fitness
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: HUSTLE HUB Gym
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: RF Gym & Crossfit
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Health D6 GYM
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Santo Fitness Centre
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: GYM BEAN Fitness Studio
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Transform 365 CrossFit & Fitness Studio
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Muscle hacking
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Fitness Square Lifestyle Fitness Noombal - Unisex Gym
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Life Health Fitness
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Fit 2 Fight unisex gym
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Forever Fitness
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Geez Squad
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Target fitness center
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Gravity Fitness Studio
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: TUFF FITNESS CENTRE
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: H24 FITNESS STUDIO UNISEX
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: C3 Fitness Science Elite
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Pro Fitness
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Muscle Factory Gym
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Life Fitness Studio
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Slam Lifestyle and Fitness Studio - Saligramam
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Fitness Religion Crossfit & Wellness
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Smash Hiit fitness studio (Unisex)
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Titan Fitness Club
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Armor strength & fitness centre
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Planet 1 Fitness Studio - Kolathur
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Fitness Essentials (T.Nagar)
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: OG fitness and health studio
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Beast Fitness Studio (Unisex)
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Icon CrossFit Fitness studio
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Kisi fitness club
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: IRON HEAD FITNESS STUDIO 3.0
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: Storm Fitness Gym
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Processing: The Yard Fitness Studio
+2026-10-16 10:13:42 [INFO]    -> no website - using default no-website message
+2026-10-16 10:13:42 [INFO] Done. Wrote 50 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv
+2026-10-16 10:13:42 [INFO] Shortlisted 50 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
+2026-10-16 10:21:15 [INFO] Groq key OK (gsk_...xzqp).
+2026-10-16 10:21:15 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row43_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv ai=groq resume=False limit=None
+2026-10-16 10:21:15 [INFO] 6 leads look like branches of the same brand; 3 will be left out of the shortlist (see brand_duplicate column)
+2026-10-16 10:21:15 [INFO] Loaded 50 rows -> 50 after dedupe
+2026-10-16 10:21:15 [INFO] Processing: SLAM Lifestyle and Fitness Studio
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Planet 1 Fitness Studio - Korattur
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Stay Strong Fitness Factory Gym
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Inshapez crossfit
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Stretch Fitness Club
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: C3 Fitness Science (Kilpauk)
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Hi-Transform Fitness Hub
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Glow fitness
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Devils Circuiit
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: ELEVATE CROSSFIT GYM (personal trainer)
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Crucible Barbell
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: XS7 Strength and Conditioning
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: SALT Functional Fitness
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Tiger Fitness Gym
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Flex & Flow Unisex Fitness
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Spotter Fitness
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: HUSTLE HUB Gym
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: RF Gym & Crossfit
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Health D6 GYM
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Santo Fitness Centre
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: GYM BEAN Fitness Studio
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Transform 365 CrossFit & Fitness Studio
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Muscle hacking
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Fitness Square Lifestyle Fitness Noombal - Unisex Gym
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Life Health Fitness
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Fit 2 Fight unisex gym
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Forever Fitness
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Geez Squad
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Target fitness center
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Gravity Fitness Studio
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: TUFF FITNESS CENTRE
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: H24 FITNESS STUDIO UNISEX
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: C3 Fitness Science Elite
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Pro Fitness
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Muscle Factory Gym
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Life Fitness Studio
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Slam Lifestyle and Fitness Studio - Saligramam
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Fitness Religion Crossfit & Wellness
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Smash Hiit fitness studio (Unisex)
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Titan Fitness Club
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Armor strength & fitness centre
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Planet 1 Fitness Studio - Kolathur
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Fitness Essentials (T.Nagar)
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: OG fitness and health studio
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Beast Fitness Studio (Unisex)
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Icon CrossFit Fitness studio
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Kisi fitness club
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: IRON HEAD FITNESS STUDIO 3.0
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: Storm Fitness Gym
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Processing: The Yard Fitness Studio
+2026-10-16 10:21:15 [INFO]    -> no website - using default no-website message
+2026-10-16 10:21:15 [INFO] Done. Wrote 50 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv
+2026-10-16 10:21:15 [INFO] Shortlisted 47 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
+2026-10-16 10:25:18 [INFO] Groq key OK (gsk_...xzqp).
+2026-10-16 10:25:18 [INFO] Starting pipeline: input=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\gosom_run\qualified_leads_row43_audited.csv output=F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv ai=groq resume=False limit=None
+2026-10-16 10:25:18 [INFO] 6 leads look like branches of the same brand; 3 will be left out of the shortlist (see brand_duplicate column)
+2026-10-16 10:25:18 [INFO] Loaded 50 rows -> 50 after dedupe
+2026-10-16 10:25:18 [INFO] Processing: SLAM Lifestyle and Fitness Studio
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Planet 1 Fitness Studio - Korattur
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Stay Strong Fitness Factory Gym
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Inshapez crossfit
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Stretch Fitness Club
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: C3 Fitness Science (Kilpauk)
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Hi-Transform Fitness Hub
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Glow fitness
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Devils Circuiit
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: ELEVATE CROSSFIT GYM (personal trainer)
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Crucible Barbell
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: XS7 Strength and Conditioning
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: SALT Functional Fitness
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Tiger Fitness Gym
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Flex & Flow Unisex Fitness
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Spotter Fitness
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: HUSTLE HUB Gym
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: RF Gym & Crossfit
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Health D6 GYM
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Santo Fitness Centre
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: GYM BEAN Fitness Studio
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Transform 365 CrossFit & Fitness Studio
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Muscle hacking
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Fitness Square Lifestyle Fitness Noombal - Unisex Gym
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Life Health Fitness
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Fit 2 Fight unisex gym
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Forever Fitness
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Geez Squad
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Target fitness center
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Gravity Fitness Studio
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: TUFF FITNESS CENTRE
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: H24 FITNESS STUDIO UNISEX
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: C3 Fitness Science Elite
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Pro Fitness
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Muscle Factory Gym
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Life Fitness Studio
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Slam Lifestyle and Fitness Studio - Saligramam
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Fitness Religion Crossfit & Wellness
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Smash Hiit fitness studio (Unisex)
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Titan Fitness Club
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Armor strength & fitness centre
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Planet 1 Fitness Studio - Kolathur
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Fitness Essentials (T.Nagar)
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: OG fitness and health studio
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Beast Fitness Studio (Unisex)
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Icon CrossFit Fitness studio
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Kisi fitness club
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: IRON HEAD FITNESS STUDIO 3.0
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: Storm Fitness Gym
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Processing: The Yard Fitness Studio
+2026-10-16 10:25:18 [INFO]    -> no website - using default no-website message
+2026-10-16 10:25:18 [INFO] Done. Wrote 50 rows to F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\qualified_leads_row43_audited_qualified.csv
+2026-10-16 10:25:18 [INFO] Shortlisted 47 leads with outreach messages -> F:\AI automation\AI automation\Python_Lead_Generation - Copy\Python_Lead_Generation\Main_project\Final_Scraped_Data\shortlisted_lead_details.csv
